@@ -2,7 +2,7 @@
 
 # Step 1: Tải và cài đặt pipenv
 
-pip install pipenv
+pip install pipenv <br>
 pipenv shell
 
 # Step 2: Ngay tại thư mục supersport ngoài cùng, chạy và cài đặt các dependencies

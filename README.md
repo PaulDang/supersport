@@ -38,3 +38,7 @@ python manage.py migrate
 python manage.py runserver
 
 # Step 8: Truy cập vào trang admin localhost:8000/admin và nhập user, pass như Step 6
+
+# Mỗi khi mọi người cài 1 thư viện mới thì mọi người chạy lệnh dưới để cài, ở dự án này mình sẽ ko xài pip, vì pip ko đồng bộ với pipfile được
+
+pipenv <tên thư viện cần cài>

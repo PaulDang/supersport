@@ -5,6 +5,7 @@
   <head>
     <title>{% block title %} {% endblock %}</title>
     {% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
+    <link rel="stylesheet" href="{% static '/css/sign.css' %}">
   </head>
   <body>
     {% if request.path == '/signin/' or request.path == '/signup/' %} 

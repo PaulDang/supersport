@@ -1,43 +1,55 @@
-{% extends 'page.html' %} {% load static %} 
+{% extends 'page.html' %} 
+{% load static %} 
 {% block title %} Signin {% endblock %} 
 {% block sign %}
 
 <div class='container-fluid'>
-    <div class="d-flex">
-      <div class="flex-grow-1">
-        <form>
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input
+    <div class="d-flex justify-content-center align-items-center ml-auto mr-auto" style='height: 100vh;'>
+      <div style='margin: 100px; width: 600px;'>
+        <div style='padding-bottom: 45px;'>
+          <h2>Welcome back!</h2>
+          <h5>Enter your Credentials to access your account</h5>
+        </div>
+        <form class='needs-validation'>
+          <div class="mb-4">
+            <label for="email" class="form-label">Email address</label>
+            <input 
+              required
               type="email"
               class="form-control"
-              id="exampleInputEmail1"
+              id="email"
               aria-describedby="emailHelp"
             />
-            <div id="emailHelp" class="form-text">
-              We'll never share your email with anyone else.
-            </div>
           </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
+          <div class="mb-4">
+            <label for="password" class="form-label">Password</label>
             <input
+              required
               type="password"
               class="form-control"
-              id="exampleInputPassword1"
+              id="password"
             />
           </div>
-          <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-          </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-      </div>
-      <div class="flex-grow-1">
-        <div>
 
-          <img src='{% static "/img/sign.jpg" %}' alt="signin" />
+          <button type="submit" class="btn btn-primary w-100" style='margin-top: 40px;'>Login</button>
+        </form>
+
+        <div class='d-flex justify-content-center align-items-center mt-4 mb-4'>
+          <div class='w-100'>
+            <hr class="hr">
+          </div>
+          <div style='font-size: 10px;'>&nbsp;Or&nbsp;</div>
+          <div class='w-100'>
+            <hr class="hr">
+          </div>
         </div>
+
+        <p class='text-center'>Don’t have an account?  
+          <a href="/signup" class="link-primary">Sign up</a>
+        </p>
+      </div>
+      <div style='max-width:900px;'>
+          <img src='{% static "/img/sign.jpg" %}' class="img-fluid" alt="signin" />
       </div>
     </div>
 </div>

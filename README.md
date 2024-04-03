@@ -5,6 +5,8 @@
 pip install pipenv <br>
 pipenv shell
 
+- Lưu ý: Mỗi khi chạy dự án, vui lòng chạy `pipenv shell` đầu tiên để khởi tạo môi trường ảo
+
 # Step 2: Ngay tại thư mục supersport ngoài cùng, chạy và cài đặt các dependencies
 
 pipenv install
@@ -42,3 +44,9 @@ python manage.py runserver
 # Mỗi khi mọi người cài 1 thư viện mới thì mọi người chạy lệnh dưới để cài, ở dự án này mình sẽ ko xài pip, vì pip ko đồng bộ với pipfile được
 
 pipenv <tên thư viện cần cài>
+
+# Để chạy hot reload mỗi khi Ctrl + S
+
+python manage.py livereload
+
+- Lưu ý: Mở 2 terminal, 1 để chạy python manage.py livereload, 1 để chạy python manage.py runserver

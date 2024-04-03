@@ -13,11 +13,11 @@ def main(request):
     return HttpResponse(template.render())
 
 
-def signin(request):
+def get_signin(request):
     template = loader.get_template("signin.html")
     return TemplateResponse(request, template)
 
 
-def signup(request):
+def get_signup(request):
     template = loader.get_template("signup.html")
     return TemplateResponse(request, template)

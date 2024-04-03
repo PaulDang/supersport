@@ -11,13 +11,14 @@
           <h5>Create your new account</h5>
         </div>
         <form method="POST" class='needs-validation'>    
+          {% csrf_token %}
           <div class="mb-4">
-            <label for="name" class="form-label">Name</label>
+            <label for="username" class="form-label">Name</label>
             <input 
               required
               type="text"
               class="form-control"
-              id="name"
+              id="username"
               aria-describedby="nameHelp"
             />
           </div>

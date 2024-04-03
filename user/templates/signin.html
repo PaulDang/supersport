@@ -1,56 +1,63 @@
-{% extends 'page.html' %} 
-{% load static %} 
-{% block title %} Signin {% endblock %} 
+{% extends 'page.html' %} {% load static %} 
+
+{% block title %} Signin {% endblock%} 
+
 {% block sign %}
 
-<div class='container-fluid'>
-    <div class="d-flex justify-content-center align-items-center ml-auto mr-auto" style='height: 100vh;'>
-      <div style='margin: 100px; width: 600px;'>
-        <div style='padding-bottom: 45px;'>
-          <h2>Welcome back!</h2>
-          <h5>Enter your Credentials to access your account</h5>
+<div class="container-fluid">
+  <div
+    class="d-flex justify-content-center align-items-center ml-auto mr-auto"
+    style="height: 100vh"
+  >
+    <div style="margin: 100px; width: 600px">
+      <div style="padding-bottom: 45px">
+        <h2>Welcome back!</h2>
+        <h5>Enter your Credentials to access your account</h5>
+      </div>
+      <form method="POST" action="{% url 'signin' %}" class="needs-validation form-group">
+        {% csrf_token %}
+        <div class="mb-4">
+          <label for="username" class="form-label">Email address</label>
+          <input
+            required
+            type="text"
+            class="form-control"
+            id="username"
+            aria-describedby="emailHelp"
+          />
         </div>
-        <form method="POST" class='needs-validation'>
-          <div class="mb-4">
-            <label for="email" class="form-label">Email address</label>
-            <input 
-              required
-              type="email"
-              class="form-control"
-              id="email"
-              aria-describedby="emailHelp"
-            />
-          </div>
-          <div class="mb-4">
-            <label for="password" class="form-label">Password</label>
-            <input
-              required
-              type="password"
-              class="form-control"
-              id="password"
-            />
-          </div>
-
-          <button type="submit" class="btn btn-primary w-100" style='margin-top: 40px;'>Login</button>
-        </form>
-
-        <div class='d-flex justify-content-center align-items-center mt-4 mb-4'>
-          <div class='w-100'>
-            <hr class="hr">
-          </div>
-          <div style='font-size: 10px;'>&nbsp;Or&nbsp;</div>
-          <div class='w-100'>
-            <hr class="hr">
-          </div>
+        <div class="mb-4">
+          <label for="password" class="form-label">Password</label>
+          <input required type="password" class="form-control" id="password" />
         </div>
 
-        <p class='text-center'>Don’t have an account?  
-          <a href="/signup" class="link-primary">Sign up</a>
-        </p>
+        <button
+          type="submit"
+          class="btn btn-primary w-100"
+          style="margin-top: 40px"
+        >
+          Login
+        </button>
+      </form>
+
+      <div class="d-flex justify-content-center align-items-center mt-4 mb-4">
+        <div class="w-100">
+          <hr class="hr" />
+        </div>
+        <div style="font-size: 10px">&nbsp;Or&nbsp;</div>
+        <div class="w-100">
+          <hr class="hr" />
+        </div>
       </div>
-      <div style='max-width:900px;'>
-          <img src='{% static "/img/sign.jpg" %}' class="img-fluid" alt="signin" />
-      </div>
+
+      <p class="text-center">
+        Don’t have an account?
+        <a href="/signup" class="link-primary">Sign up</a>
+      </p>
     </div>
+    <div style="max-width: 900px">
+      <img src='{% static "/img/sign.jpg" %}' class="img-fluid" alt="signin" />
+    </div>
+  </div>
 </div>
 {% endblock %}

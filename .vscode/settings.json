@@ -1,8 +1,0 @@
-{
-  "autoimport.doubleQuotes": false,
-  "html.completion.attributeDefaultValue": "singlequotes",
-  "prettier.jsxSingleQuote": true,
-  "prettier.singleQuote": true,
-  "xml.preferences.quoteStyle": "single",
-  "yaml.format.singleQuote": true
-}

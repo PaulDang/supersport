@@ -1,3 +1,7 @@
 supersport/__pycache__/
 user/__pycache__/
 user/migrations/__pycache__/
+Pipfile.lock
+.prettierignore
+.prettierrc
+.vscode

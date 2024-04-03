@@ -1,23 +1,56 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
-<head>
-    <title>{% block title %}{% endblock %}</title>
-    {% load bootstrap5 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
-</head>
-<body>
+  <head>
+    <title>{% block title %} {% endblock %}</title>
+    {% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
+  </head>
+  <body>
+    {% if request.path == '/signin/' or request.path == '/signup/' %} 
+    {% else %}
     <div class="container">
-        <ul class="nav bg-white">
-            <li class="nav-item">
-                <a class="nav-link link-light text-black text-decoration-underline" href="/">HOME</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link link-light text-black text-decoration-underline" href="/cart">CART</a>
-            </li>
-        </ul>
-        {% block content %}
-        {% endblock %}
+      <ul class="nav bg-white">
+        <li class="nav-item">
+          <a
+            class="nav-link link-light text-black text-decoration-underline"
+            href="/"
+            >HOME</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link link-light text-black text-decoration-underline"
+            href="/cart"
+            >CART</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link link-light text-black text-decoration-underline text-uppercase"
+            href="/signin"
+            >Signin</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link link-light text-black text-decoration-underline text-uppercase"
+            href="/signup"
+            >Signup</a
+          >
+        </li>
+      </ul>
+
+      {% block content %} {% endblock %}
+
+      <footer
+        class="container--fluid bg-primary fixed-bottom text-center text-white p-2"
+      >
+        Copyright 2024
+      </footer>
     </div>
-</body>
+    {% endif %} 
+    
+    {% block sign %} {% endblock %}
+  </body>
 </html>

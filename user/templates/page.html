@@ -5,10 +5,10 @@
   <head>
     <title>{% block title %} {% endblock %}</title>
     {% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
+    <link rel="stylesheet" href="{% static 'CSS/Datstyles.css' %}" />
   </head>
   <body>
-    {% if request.path == '/signin/' or request.path == '/signup/' %} 
-    {% else %}
+    {% if request.path == '/signin/' or request.path == '/signup/' %} {% else %}
     <div class="container">
       <ul class="nav bg-white">
         <li class="nav-item">
@@ -40,17 +40,17 @@
           >
         </li>
       </ul>
+    </div>
 
-      {% block content %} {% endblock %}
+    {% block content %} {% endblock %}
 
+    <div class="container">
       <footer
         class="container--fluid bg-primary fixed-bottom text-center text-white p-2"
       >
         Copyright 2024
       </footer>
     </div>
-    {% endif %} 
-    
-    {% block sign %} {% endblock %}
+    {% endif %} {% block sign %} {% endblock %}
   </body>
 </html>

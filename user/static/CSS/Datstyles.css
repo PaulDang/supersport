@@ -1,0 +1,110 @@
+:root {
+  --django-primary: #1b3633;
+  --django-secondary: #cad3e5;
+  --django-light: #fff;
+  --django-dark: #e6e6e6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.header {
+  background: url("../img/Rectangle\ 1.png") center center no-repeat;
+  background-size: cover;
+  height: 300px;
+}
+
+.xl-text {
+  font-size: 3rem;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  font-weight: bold !important;
+  color: var(--bs-dark);
+}
+
+.cart-section {
+  margin: 100px 0;
+}
+
+.cart-section .cart-header,
+.cart-section hr {
+  background-color: var(--django-dark);
+}
+
+.cart-section hr {
+  height: 3px;
+}
+
+.product {
+  margin: 48px 0;
+}
+
+.product-image {
+  height: 79px;
+  width: 73px;
+}
+
+.cart-total-product .card-body {
+  background-color: var(--django-dark);
+}
+
+.btn {
+  border-radius: 13px !important;
+}
+
+.btn-primary,
+.btn-primary:visited {
+  border-radius: 13px !important;
+  background-color: var(--django-primary);
+}
+
+.btn-primary:hover,
+.btn-primary:active {
+  background-color: #29524d;
+}
+
+.section-summary {
+  margin-bottom: 50px;
+  padding: 54px 40px;
+  background-color: var(--django-dark);
+}
+
+/* .section-summary .row {
+  --bs-gutter-x: 10rem !important;
+} */
+
+.section-summary .summary-header {
+  font-size: 32px;
+}
+
+@media (min-width: 1200px) {
+  .section-summary .summary-header {
+    font-size: 24px;
+  }
+
+  .section-summary .summary-header ~ div {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 992px) {
+  .xl-text {
+    font-size: 2.8rem;
+  }
+
+  .breadcrumb-item a {
+    font-size: 1.9;
+  }
+}
+
+@media (min-width: 576px) {
+  .section-summary .summary-header {
+    font-size: 32px;
+  }
+
+  .section-summary .summary-header ~ div {
+    font-size: 16px;
+  }
+}

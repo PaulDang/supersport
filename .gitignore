@@ -1,5 +1,6 @@
 supersport/__pycache__/
 user/__pycache__/
+user/.prettierrc
 user/migrations/__pycache__/
 Pipfile.lock
 .prettierignore

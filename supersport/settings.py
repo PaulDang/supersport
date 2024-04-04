@@ -38,9 +38,15 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "livereload",
     "django.contrib.staticfiles",
+    "crispy_forms",
+    "crispy_bootstrap5",
     "bootstrap5",
     "user",
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -82,7 +88,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "supersportdb",
         "USER": "root",
-        "PASSWORD": "admin",
+        "PASSWORD": "Ngocquach97",
         "HOST": "localhost",
         "PORT": "3306",
     }

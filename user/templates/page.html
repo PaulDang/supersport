@@ -5,8 +5,11 @@
   <head>
     <title>{% block title %} {% endblock %}</title>
     {% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
+    <link rel="stylesheet" href="{% static '/css/sign.css' %}">
   </head>
   <body>
+    {% load crispy_forms_tags %}  
+
     {% if request.path == '/signin/' or request.path == '/signup/' %} 
     {% else %}
     <div class="container">
@@ -25,6 +28,21 @@
             >CART</a
           >
         </li>
+
+        {% if request.user.is_authenticated %}
+        {{request.user.is_authenticated}}
+        <li class="nav-item">
+          <a
+            class="nav-link link-light text-black text-decoration-underline text-uppercase"
+            href="/signout"
+            >Signout</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Welcome, {{request.user.username}}</a>
+        </li>
+        {% else %}
+  
         <li class="nav-item">
           <a
             class="nav-link link-light text-black text-decoration-underline text-uppercase"
@@ -32,6 +50,7 @@
             >Signin</a
           >
         </li>
+
         <li class="nav-item">
           <a
             class="nav-link link-light text-black text-decoration-underline text-uppercase"
@@ -39,6 +58,8 @@
             >Signup</a
           >
         </li>
+  
+        {% endif %}
       </ul>
 
       {% block content %} {% endblock %}

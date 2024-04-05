@@ -29,8 +29,8 @@
           >
         </li>
 
-        {% if user.is_authenticated %}
-        {{user.is_authenticated}}
+        {% if request.user.is_authenticated %}
+        {{request.user.is_authenticated}}
         <li class="nav-item">
           <a
             class="nav-link link-light text-black text-decoration-underline text-uppercase"
@@ -39,9 +39,8 @@
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Welcome, {{user.username}}</a>
+          <a class="nav-link" href="#">Welcome, {{request.user.username}}</a>
         </li>
-  
         {% else %}
   
         <li class="nav-item">

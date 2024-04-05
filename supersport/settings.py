@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -85,12 +89,12 @@ WSGI_APPLICATION = "supersport.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "supersportdb",
-        "USER": "root",
-        "PASSWORD": "Ngocquach97",
-        "HOST": "localhost",
-        "PORT": "3306",
+        "ENGINE": os.getenv("ENGINE_MYSQL"),
+        "NAME": os.getenv("DB_NAME_MYSQL"),
+        "USER": os.getenv("USER_MYSQL"),
+        "PASSWORD": os.getenv("PASS_MYSQL"),
+        "HOST": os.getenv("HOST"),
+        "PORT": os.getenv("PORT_MYSQL"),
     }
 }
 

@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib import messages
 from .forms import RegisterForm
 from django.contrib.auth.forms import AuthenticationForm
-from .models import User 
+from .models import User
 
 User = get_user_model()
 
@@ -24,9 +24,9 @@ def get_signup(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():
-            username = form .cleaned_data["username"]
-            password = form .cleaned_data["password"]
-            email = form .cleaned_data["email"]
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+            email = form.cleaned_data["email"]
 
             user = User.objects.create_user(
                 username=username, email=email, password=password
@@ -55,7 +55,7 @@ def get_signin(request):
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
                 return redirect("main")
-            
+
         messages.error(request, "Invalid username or password.")
     form = AuthenticationForm()
     return render(

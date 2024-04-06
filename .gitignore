@@ -6,3 +6,4 @@ Pipfile.lock
 .prettierignore
 .prettierrc
 .vscode
+.env

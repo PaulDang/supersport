@@ -5,10 +5,12 @@
   <head>
     <title>{% block title %} {% endblock %}</title>
     {% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
+    <link rel="stylesheet" href="{% static '/css/sign.css' %}" />
     <link rel="stylesheet" href="{% static 'CSS/Datstyles.css' %}" />
   </head>
   <body>
-    {% if request.path == '/signin/' or request.path == '/signup/' %} {% else %}
+    {% load crispy_forms_tags %} {% if request.path == '/signin/' or
+    request.path == '/signup/' %} {% else %}
     <div class="container">
       <ul class="nav bg-white">
         <li class="nav-item">
@@ -25,6 +27,20 @@
             >CART</a
           >
         </li>
+
+        {% if request.user.is_authenticated %} {{request.user.is_authenticated}}
+        <li class="nav-item">
+          <a
+            class="nav-link link-light text-black text-decoration-underline text-uppercase"
+            href="/signout"
+            >Signout</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Welcome, {{request.user.username}}</a>
+        </li>
+        {% else %}
+
         <li class="nav-item">
           <a
             class="nav-link link-light text-black text-decoration-underline text-uppercase"
@@ -32,6 +48,7 @@
             >Signin</a
           >
         </li>
+
         <li class="nav-item">
           <a
             class="nav-link link-light text-black text-decoration-underline text-uppercase"
@@ -39,6 +56,8 @@
             >Signup</a
           >
         </li>
+
+        {% endif %}
       </ul>
     </div>
     {% endif %} {% block content %} {% endblock %}

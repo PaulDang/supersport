@@ -3,10 +3,17 @@
   --django-secondary: #cad3e5;
   --django-light: #fff;
   --django-dark: #e6e6e6;
+
+  --django-primary--hover: #29524d;
 }
 
 * {
   box-sizing: border-box;
+}
+
+.logo img {
+  width: 90px;
+  height: 90px;
 }
 
 .header {
@@ -54,7 +61,7 @@
   border-radius: 13px !important;
 }
 
-.btn-primary,
+.btn-primary:link,
 .btn-primary:visited {
   border-radius: 13px !important;
   background-color: var(--django-primary);
@@ -62,7 +69,7 @@
 
 .btn-primary:hover,
 .btn-primary:active {
-  background-color: #29524d;
+  background-color: var(--django-primary--hover);
 }
 
 .section-summary {
@@ -77,6 +84,36 @@
 
 .section-summary .summary-header {
   font-size: 32px;
+}
+
+.footer-link:link,
+.footer-link:visited {
+  color: var(--django-primary);
+}
+
+.footer-link:hover,
+.footer-link:active {
+  color: var(--django-primary);
+}
+
+.footer-link:link,
+.footer-link:visited {
+  color: var(--django-primary--hover);
+}
+
+.footer .footer-signup--button,
+.footer .footer-signup--input {
+  border-bottom: 2px solid black !important;
+  border-radius: 0px !important;
+}
+
+.footer .footer .footer-signup--button:link,
+.footer .footer-signup--button:visited {
+  background-color: var(--django-dark);
+}
+
+.footer .footer-signup--button:hover,
+.footer .footer-signup--button:active {
 }
 
 @media (min-width: 1200px) {

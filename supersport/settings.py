@@ -82,7 +82,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "supersportdb",
         "USER": "root",
-        "PASSWORD": "Ngocquach1997",
+        "PASSWORD": "Ngocquach97",
         "HOST": "localhost",
         "PORT": "3306",
     }

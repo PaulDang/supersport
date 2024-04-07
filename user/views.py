@@ -24,13 +24,7 @@ def get_signup(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data["username"]
-            password = form.cleaned_data["password"]
-            email = form.cleaned_data["email"]
-
-            user = User.objects.create_user(
-                username=username, email=email, password=password
-            )
+            user = form.save()
 
             if user is not None:
                 login(request, user)
@@ -40,7 +34,9 @@ def get_signup(request):
         messages.error(request, "Unsuccessful registration. Invalid information.")
     form = RegisterForm()
     return render(
-        request=request, template_name="signup.html", context={"register_form": form}
+        request=request,
+        template_name="signup.html",
+        context={"register_form": form},
     )
 
 
@@ -54,6 +50,7 @@ def get_signin(request):
             if user is not None:
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
+                print("Current request:", request)
                 return redirect("main")
 
         messages.error(request, "Invalid username or password.")
@@ -65,7 +62,7 @@ def get_signin(request):
 
 def get_signout(request):
     logout(request)
-    messages.info(request, "You have successfully logged out.")
+    messages.success(request, "You have successfully logged out.")
     return redirect("signin")
 
 def checkout(request):

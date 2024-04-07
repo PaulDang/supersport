@@ -1,15 +1,18 @@
 import re
 import uuid
-
+from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from django.db import models
 
 
 # Create your models here.
-class User(models.Model):
+class User(AbstractUser):
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = []
+
     userId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    username = models.CharField(max_length=200, null=False, blank=False)
+    username = models.CharField(max_length=200, null=False, blank=False, unique=True)
     password = models.CharField(max_length=200, null=False, blank=False)
     email = models.EmailField(max_length=254, null=True, blank=True)
     firstName = models.CharField(max_length=200, null=True, blank=True)

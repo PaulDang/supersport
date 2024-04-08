@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     "bootstrap5",
     "user",
+    'django_bootstrap_icons'
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -92,7 +93,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "supersportdb",
         "USER": "root",
-        "PASSWORD": "sh1n1ch1",
+        "PASSWORD": "root",
         "HOST": "localhost",
         "PORT": "3306", }
 }

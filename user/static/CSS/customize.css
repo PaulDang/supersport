@@ -1,0 +1,49 @@
+:root {
+  --django-primary: #12283E;
+  --django-primary-hover: #2F4C68;
+  --django-secondary: #cad3e5;
+  --django-secondary-hover: #5B7792;
+  --django-light: #fff;
+  --django-dark: #e6e6e6;
+  --bs-blue: #12283E;
+  --bs-primary: #12283E;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+    color: black;
+}
+
+a:hover,
+a:focus,
+a:visited {
+    color: var(--django-primary-hover);
+}
+
+
+.form-check-input:checked {
+    background-color: var(--django-primary);
+    border-color: var(--django-primary);
+}
+
+
+.btn {
+    border-radius: 13px !important;
+    border-color: var(--django-primary);
+}
+
+.btn-primary,
+.btn-primary:visited {
+    border-radius: 13px !important;
+    background-color: var(--django-primary);
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus {
+    background-color: var(--django-primary-hover);
+    border-color: var(--django-primary-hover);
+}

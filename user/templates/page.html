@@ -4,68 +4,88 @@
 <html>
   <head>
     <title>{% block title %} {% endblock %}</title>
-    {% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
+    {% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %} {% load bootstrap_icons %}
+    <link rel="stylesheet" href="{% static '/css/global.css' %}" />
     <link rel="stylesheet" href="{% static '/css/sign.css' %}" />
     <link rel="stylesheet" href="{% static 'CSS/Datstyles.css' %}" />
   </head>
   <body>
-    {% load crispy_forms_tags %} {% if request.path == '/signin/' or
-    request.path == '/signup/' %} {% else %}
-    <div class="container">
-      <ul class="nav bg-white">
-        <li class="nav-item">
-          <a
-            class="nav-link link-light text-black text-decoration-underline"
-            href="/"
-            >HOME</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link link-light text-black text-decoration-underline"
-            href="/cart"
-            >CART</a
-          >
-        </li>
+    {% load crispy_forms_tags %}
+    {% if request.path == '/signin/' or request.path == '/signup/' %} {% else %}
+    <div class="container-fluid p-0 sticky-top bg-white">
+      <nav class="navbar navbar-expand-lg navbar-light mx-5">
+        <a class="navbar-brand" href="/">
+          <img src="{% static 'img/logo-3.png' %}" alt="logo" width="60px">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMobile" aria-controls="navbarMobile" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarMobile">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 justify-content-center">
+            <li class="nav-item mx-2">
+              <a
+                class="nav-link link-light text-black text-uppercase"
+                href="/"
+                >Trang chủ</a
+              >
+            </li>
+            <li class="nav-item mx-2">
+              <a
+                class="nav-link link-light text-black text-uppercase"
+                href="/cart"
+                >Sản phẩm</a
+              >
+            </li>
+            <li class="nav-item mx-2">
+              <a
+                class="nav-link link-light text-black text-uppercase"
+                href="/"
+                >Chúng tôi</a
+              >
+            </li>
+            <li class="nav-item mx-2">
+              <a
+                class="nav-link link-light text-black text-uppercase"
+                href="/"
+                >Liên hệ</a
+              >
+            </li>
+          </ul>
+          <div class="d-flex align-items-center">
+            <form class="mx-3">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            </form>
+            {% if request.user.is_authenticated %} {{request.user.is_authenticated}}
+            <span class="mx-1">
+              <a
+                href="/signout"
+                class="text-decoration-none"
+                >{% bs_icon 'person-dash' size='1.2em' %}</a
+              >
+            </span>
+            <span class="mx-1">
+              <a class="text-decoration-none" href="#">Welcome, {{request.user.username}}</a>
+            </span>
+            {% else %}
 
-        {% if request.user.is_authenticated %} {{request.user.is_authenticated}}
-        <li class="nav-item">
-          <a
-            class="nav-link link-light text-black text-decoration-underline text-uppercase"
-            href="/signout"
-            >Signout</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Welcome, {{request.user.username}}</a>
-        </li>
-        {% else %}
+            <span class="px-2 mx-1">
+              <a href="/signin" class="text-decoration-none">{% bs_icon 'person-add' size='1.3em' color='black'%}</a>
+            </span>
 
-        <li class="nav-item">
-          <a
-            class="nav-link link-light text-black text-decoration-underline text-uppercase"
-            href="/signin"
-            >Signin</a
-          >
-        </li>
+            {% endif %}
 
-        <li class="nav-item">
-          <a
-            class="nav-link link-light text-black text-decoration-underline text-uppercase"
-            href="/signup"
-            >Signup</a
-          >
-        </li>
-
-        {% endif %}
-      </ul>
+            <button class="btn border-0 px-2 mx-1">{% bs_icon 'suit-heart' size='1.1em' color='black'%}</button>
+            <button class="btn border-0 px-2 mx-1">{% bs_icon 'cart' size='1.1em' color='black'%}</button>
+          </div>
+        </div>
+      </nav>
     </div>
 
     {% block content %} {% endblock %}
 
-    <div class="container">
+    <div class="container-fluid p-0">
       <footer
-        class="container--fluid bg-primary fixed-bottom text-center text-white p-2"
+        class="container--fluid bg-primary text-center text-white p-2"
       >
         Copyright 2024
       </footer>

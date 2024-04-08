@@ -1,0 +1,16 @@
+.checkout-page .checkout-banner {
+    background-image: url("/static/img/bg-checkout.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 300px;
+    overflow: hidden;
+}
+
+.checkout-page .total-price {
+    color: #F98E6E;
+}
+
+.checkout-page .payment-subdescription {
+    font-size: 14px;
+}

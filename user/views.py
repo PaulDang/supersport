@@ -67,3 +67,7 @@ def get_signout(request):
     logout(request)
     messages.info(request, "You have successfully logged out.")
     return redirect("signin")
+
+def checkout(request):
+    template = loader.get_template("checkout.html")
+    return HttpResponse(template.render())

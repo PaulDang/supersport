@@ -1,13 +1,3 @@
-:root {
-  --django-primary: #1b3633;
-  --django-secondary: #cad3e5;
-  --django-light: #fff;
-  --django-dark: #e6e6e6;
-}
-
-* {
-  box-sizing: border-box;
-}
 
 .header {
   background: url("../img/Rectangle\ 1.png") center center no-repeat;
@@ -48,21 +38,6 @@
 
 .cart-total-product .card-body {
   background-color: var(--django-dark);
-}
-
-.btn {
-  border-radius: 13px !important;
-}
-
-.btn-primary,
-.btn-primary:visited {
-  border-radius: 13px !important;
-  background-color: var(--django-primary);
-}
-
-.btn-primary:hover,
-.btn-primary:active {
-  background-color: #29524d;
 }
 
 .section-summary {

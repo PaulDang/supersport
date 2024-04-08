@@ -1,9 +1,15 @@
 {% extends "page.html" %}
-{% block title %}
-Thanh toán
-{% endblock %}
-{% block content %}
 {% load static %}
+
+{% block title %}
+    Thanh toán
+{% endblock %}
+
+{% block link %}
+    <link rel="stylesheet" href="{% static '/css/checkout.css' %}" />
+{% endblock %}
+
+{% block content %}
 <section class="checkout-page">
     <div class="container-fluid p-0 d-flex justify-content-center align-items-center checkout-banner">
         <div class="row">

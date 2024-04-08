@@ -16,7 +16,21 @@
         </div>
         <form method="post">
           {% csrf_token %}
-          {{register_form|crispy}}
+          <div class="row w-full">
+            <div class="form-group col-md-6 mb-0">
+              {{ register_form.firstName|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-6 mb-0">
+              {{ register_form.lastName|as_crispy_field }}
+            </div>
+            {{ register_form.username|as_crispy_field }}
+            {{ register_form.password|as_crispy_field }}
+            {{ register_form.email|as_crispy_field }}
+            {{ register_form.phone|as_crispy_field }}
+            {{ register_form.address|as_crispy_field }}
+          </div>
+
+          {% comment %} {{register_form|crispy}} {% endcomment %}
           <button type="submit" class="btn btn-primary w-100" style='margin-top: 40px;'>Sign up</button>
         </form>
 

@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     "bootstrap5",
     "user",
-    'django_bootstrap_icons'
+    "django_bootstrap_icons",
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -90,12 +90,13 @@ WSGI_APPLICATION = "supersport.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "supersportdb",
-        "USER": "root",
-        "PASSWORD": "root",
-        "HOST": "localhost",
-        "PORT": "3306", }
+        "ENGINE": os.getenv("ENGINE_MYSQL"),
+        "NAME": os.getenv("DB_NAME_MYSQL"),
+        "USER": os.getenv("USER_MYSQL"),
+        "PASSWORD": os.getenv("PASS_MYSQL"),
+        "HOST": os.getenv("HOST"),
+        "PORT": os.getenv("PORT_MYSQL"),
+    }
 }
 
 
@@ -139,3 +140,5 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL = "user.User"

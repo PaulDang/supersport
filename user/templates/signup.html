@@ -30,7 +30,6 @@
             {{ register_form.address|as_crispy_field }}
           </div>
 
-          {% comment %} {{register_form|crispy}} {% endcomment %}
           <button type="submit" class="btn btn-primary w-100" style='margin-top: 40px;'>Sign up</button>
         </form>
 
@@ -47,6 +46,15 @@
         <p class='text-center'>Have an account?  
           <a href="/signin" class="link-primary">Sign in</a>
         </p>
+
+        {% if messages %} 
+          {% for message in messages%} 
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div> 
+          {% endfor %} 
+        {% endif %}
       </div>
       <div style='max-width:900px;'>
           <img src='{% static "/img/sign.jpg" %}' class="img-fluid" alt="signin" />

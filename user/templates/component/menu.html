@@ -45,21 +45,21 @@
                 <form class="mx-3">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 </form>
-                {% if request.user.is_authenticated %} {{request.user.is_authenticated}}
+                {% if user.is_authenticated %}
                 <span class="mx-1">
                     <a
-                    href="/signout"
+                    href={% url "signout" %}
                     class="text-decoration-none"
                     >{% bs_icon 'person-dash' size='1.2em' %}</a
                     >
                 </span>
                 <span class="mx-1">
-                    <a class="text-decoration-none" href="#">Welcome, {{request.user.username}}</a>
+                    <a class="text-decoration-none" href="#">Welcome, {{user.username}}</a>
                 </span>
                 {% else %}
 
                 <span class="px-2 mx-1">
-                    <a href="/signin" class="text-decoration-none">{% bs_icon 'person-add' size='1.4em' color='black'%}</a>
+                    <a href={% url "signin" %} class="text-decoration-none">{% bs_icon 'person-add' size='1.4em' color='black'%}</a>
                 </span>
 
                 {% endif %}

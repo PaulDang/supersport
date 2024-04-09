@@ -11,13 +11,17 @@ User = get_user_model()
 
 
 def cart(request):
-    template = loader.get_template("cart.html")
-    return HttpResponse(template.render())
+    return render(
+        request=request,
+        template_name="cart.html",
+    )
 
 
 def main(request):
-    template = loader.get_template("index.html")
-    return HttpResponse(template.render())
+    return render(
+        request=request,
+        template_name="index.html",
+    )
 
 
 def get_signup(request):
@@ -56,7 +60,9 @@ def get_signin(request):
         messages.error(request, "Invalid username or password.")
     form = AuthenticationForm()
     return render(
-        request=request, template_name="signin.html", context={"login_form": form}
+        request=request,
+        template_name="signin.html",
+        context={"login_form": form},
     )
 
 
@@ -64,6 +70,7 @@ def get_signout(request):
     logout(request)
     messages.success(request, "You have successfully logged out.")
     return redirect("signin")
+
 
 def checkout(request):
     template = loader.get_template("checkout.html")

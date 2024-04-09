@@ -31,5 +31,13 @@ class RegisterForm(forms.ModelForm):
         user.phone = self.cleaned_data["phone"]
         user.address = self.cleaned_data["address"]
         if commit:
-            user.save()
+            user = User.objects.create_user(
+                username=user.username,
+                email=user.email,
+                password=user.password,
+                firstName=user.firstName,
+                lastName=user.lastName,
+                phone=user.phone,
+                address=user.address,
+            )
         return user

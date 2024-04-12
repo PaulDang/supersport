@@ -12,6 +12,7 @@ crispy-bootstrap5 = "*"
 django-crispy-forms = "*"
 python-dotenv = "*"
 django-bootstrap-icons = "*"
+pillow = "*"
 
 [dev-packages]
 

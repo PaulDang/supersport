@@ -1,0 +1,97 @@
+{% extends "page.html" %} {% load static %} {% block title %} Thông tin người
+dùng {% endblock %} {% block content %}
+<div class="container">
+  <h1>Thông tin người dùng</h1>
+  <form>
+    <div class="d-flex gap-2">
+      <div class="mb-3 flex-fill">
+        <label for="firstname" class="form-label">Firstname</label>
+        <input
+          value="{{user.firstName}}"
+          type="text"
+          class="form-control"
+          id="firstname"
+          aria-describedby="emailHelp"
+        />
+      </div>
+      <div class="mb-3 flex-fill">
+        <label for="lastname" class="form-label">Lastname</label>
+        <input
+          value="{{user.lastName}}"
+          type="text"
+          class="form-control"
+          id="lastname"
+          aria-describedby="emailHelp"
+        />
+      </div>
+    </div>
+    <div class="d-flex gap-2">
+      <div class="mb-3 flex-fill">
+        <label for="phone" class="form-label">Phone</label>
+        <input
+          value="{{user.phone}}"
+          type="text"
+          class="form-control"
+          id="phone"
+          aria-describedby="emailHelp"
+        />
+      </div>
+      <div class="mb-3 flex-fill">
+        <label for="address" class="form-label">Address</label>
+        <input
+          value="{{user.address}}"
+          type="text"
+          class="form-control"
+          id="address"
+          aria-describedby="emailHelp"
+        />
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="username" class="form-label">Username</label>
+      <input
+        disabled
+        value="{{user.username}}"
+        type="text"
+        class="form-control"
+        id="username"
+        aria-describedby="emailHelp"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input
+        value="{{user.email}}"
+        type="email"
+        class="form-control"
+        id="email"
+        aria-describedby="emailHelp"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input
+        disabled
+        value="{{user.password}}"
+        type="password"
+        class="form-control"
+        id="password"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">Cập nhật</button>
+    
+    {% if messages %} {% for message in messages%}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    {% endfor %} {% endif %}
+  </form>
+</div>
+
+{% endblock %}

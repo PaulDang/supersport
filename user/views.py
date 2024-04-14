@@ -18,10 +18,7 @@ def cart(request):
 
 
 def main(request):
-    return render(
-        request=request,
-        template_name="index.html",
-    )
+    return render(request=request, template_name="index.html")
 
 
 def get_signup(request):
@@ -35,8 +32,7 @@ def get_signup(request):
                 messages.success(request, "Registration successful.")
                 return redirect("main")
 
-        messages.error(
-            request, "Unsuccessful registration. Invalid information.")
+        messages.error(request, "Unsuccessful registration. Invalid information.")
     form = RegisterForm()
     return render(
         request=request,
@@ -55,7 +51,7 @@ def get_signin(request):
             if user is not None:
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
-                print("Current request:", request)
+
                 return redirect("main")
 
         messages.error(request, "Invalid username or password.")
@@ -76,3 +72,17 @@ def get_signout(request):
 def checkout(request):
     template = loader.get_template("checkout.html")
     return HttpResponse(template.render())
+
+
+def user_info(request):
+    return render(
+        request=request,
+        template_name="userInfo.html",
+    )
+
+
+# def update_user_info(req):
+#     if request.method == "POST":
+#         form = AuthenticationForm(request, data=request.POST)
+
+#     pass

@@ -5,9 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dbd154fe-d2f3-455a-807d-8f69bb11479a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/product/templates/product/product-info.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product/templatetags/price_format.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/css/main.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/price_format.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/product/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/product/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/component/menu.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/component/menu.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/templates/product/store.html" beforeDir="false" afterPath="$PROJECT_DIR$/product/templates/product/store.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/product/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/product/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +27,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Python Script" />
+        <option value="CSS File" />
         <option value="HTML File" />
       </list>
     </option>
@@ -78,6 +87,7 @@
     &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR&quot;,
     &quot;git-widget-placeholder&quot;: &quot;vantien__product&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/Hoc/UIT/HK3/PYTHON/project/FinalCourse/templates&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -93,6 +103,7 @@
       <recent name="D:\Hoc\UIT\HK3\PYTHON\project\FinalCourse" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Hoc\UIT\HK3\PYTHON\project\FinalCourse\templates" />
       <recent name="D:\Hoc\UIT\HK3\PYTHON\project\FinalCourse" />
       <recent name="D:\Hoc\UIT\HK3\PYTHON\project\FinalCourse\user" />
     </key>
@@ -158,7 +169,11 @@
       <workItem from="1712762741765" duration="40000" />
       <workItem from="1712924674825" duration="374000" />
       <workItem from="1712926915553" duration="3659000" />
-      <workItem from="1712977590424" duration="2027000" />
+      <workItem from="1712977590424" duration="2690000" />
+      <workItem from="1713064429605" duration="3441000" />
+      <workItem from="1713080617252" duration="1683000" />
+      <workItem from="1713085122150" duration="2273000" />
+      <workItem from="1713087434042" duration="6440000" />
     </task>
     <servers />
   </component>

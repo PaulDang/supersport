@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,500;0,600;0,800;1,600&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Montserrat, sans-serif
+}
+
+html {
+    line-height: 1.5rem;
+}
+
+body {
+    background-color: whitesmoke !important;
+}
+
+/*img {*/
+/*    height: 200px;*/
+/*    max-width: 100%;*/
+/*    margin: auto;*/
+/*    border-radius: 5%;*/
+/*}*/
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+
+a:hover {
+    color: #a54fa8;
+}
+
+.product_name {
+    height: 40px;
+    font-weight: 600;
+    overflow: hidden; /* Hide overflow */
+    text-overflow: ellipsis;
+    font-size: 0.9rem
+}
+
+.brand_name{
+    color: #5B7792;
+    /*font-size: 0.9rem;*/
+    font-size: 0.9rem
+}
+
+.price {
+    margin-bottom: 0
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    padding: 0px 5px;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.buttons .btn-detail {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 5px;
+    border-radius: 20px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+}
+
+.btn-detail i, .btn-cart i{
+    margin-right: 5px;
+}
+
+.btn-detail p, .btn-cart p{
+    margin-bottom: 3px;
+}
+
+.buttons .btn-cart {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 5px;
+    border-radius: 20px;
+    background-color: #eaa718;
+    border: none;
+    color: white;
+}
+
+.btn-cart:hover{
+    background-color: #007bff;
+}
+
+.btn-detail:hover{
+    background-color: #eaa718;
+}
+
+.description {
+    padding: 0px 10px;
+}

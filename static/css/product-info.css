@@ -1,0 +1,97 @@
+img {
+    border-radius: 10%;
+}
+
+.main-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+.thumbnails {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.size-option {
+        display: inline-block;
+        padding: 5px 10px;
+        margin: 5px;
+        border: 1px solid #000; /* Đường viền 1px màu đen */
+        border-radius: 5px; /* Bo tròn góc */
+        cursor: pointer; /* Con trỏ biểu tượng tay khi di chuột qua */
+        font-weight: 600;
+}
+
+.size-option.selected {
+    color: #ffffff;
+    border-color: white; /* Màu viền khi kích thước được chọn */
+    background-color: black; /* Màu nền khi kích thước được chọn */
+}
+
+
+/**/
+
+/* Container của thumbnails và nút điều hướng */
+.thumbnails-container {
+    position: relative; /* Xác định vị trí tương đối */
+}
+
+/* Nút điều hướng */
+.slick-prev,
+.slick-next, .slick-arrow {
+    position: absolute; /* Xác định vị trí tuyệt đối */
+    top: 50%; /* Canh chỉnh theo chiều dọc */
+    transform: translateY(-50%); /* Dịch chuyển lên trên 50% chiều cao của nút */
+    width: 40px; /* Độ rộng của nút */
+    height: 100%; /* Chiều cao của nút */
+    background-color: rgba(0, 0, 0, 0); /* Màu nền của nút */
+    border-radius: 5%; /* Bo tròn các góc của nút */
+    border: none; /* Loại bỏ đường viền */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1; /* Đảm bảo nút điều hướng hiển thị trên hình ảnh */
+    cursor: pointer; /* Biểu tượng con trỏ khi di chuột qua */
+    color: transparent; /* Màu của văn bản */
+    font-size: 10px; /* Kích thước của văn bản */
+    padding: 5%;
+    fill: transparent
+}
+
+.previous, .next{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    border: none;
+    font-size: 15px;
+    color: #5B7792;
+    font-weight: 600;
+}
+
+/* Nút prev */
+.slick-prev {
+    left: -5%; /* Đẩy nút prev ra ngoài về bên trái */
+}
+
+.previous{
+     left: -5%;
+}
+
+/* Nút next */
+.slick-next {
+    right: -5%; /* Đẩy nút next ra ngoài về bên phải */
+}
+
+.next {
+    right: -5%; /* Đẩy nút next ra ngoài về bên phải */
+}
+
+.slick-slide{
+    margin-left: 5px;
+}
+
+
+

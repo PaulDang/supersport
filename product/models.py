@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
+from django.utils.safestring import mark_safe
 
 
 # Create your models here.
@@ -48,6 +49,9 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.product_name)
         super().save(*args, **kwargs)
+
+    def formatted_description(self):
+        return mark_safe(self.description.replace('\n', '<br/>'))
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')

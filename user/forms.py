@@ -21,6 +21,18 @@ class RegisterForm(forms.ModelForm):
             "address",
         ]
 
+    def __init__(self, *args, **kwargs):
+        super(RegisterForm, self).__init__(*args, **kwargs)
+        if self.instance.pk:
+            user = super(RegisterForm, self).save(commit=False)
+            if user.is_authenticated:
+                print(self.instance.firstName)
+                print(user.phone)
+                print(user.lastName)
+                self.fields["firstName"].initial = self.instance.firstName
+                self.fields["lastName"].initial = "hello"
+                self.fields["phone"].initial = user.phone
+
     def save(self, commit=True):
         user = super(RegisterForm, self).save(commit=False)
         user.username = self.cleaned_data["username"]

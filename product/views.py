@@ -20,3 +20,8 @@ def product_info(request, slug):
         'product': product
     }
     return render(request, 'product/product-info.html',context)
+
+def list_categories(request,slug = None):
+    category = get_object_or_404(Category, slug=slug)
+    products = category.product_set.all()
+    return render(request, 'product/list-category.html',{'category':category, 'products':products})

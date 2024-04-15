@@ -12,12 +12,12 @@
     <div class="album py-5 bg-white">
         <div class="container">
 
-            <div class="h5 text-center"> SẢN PHẨM MỚI</div>
+            <div class="h5 text-center"> {{ category.category_name|upper }}</div>
             <hr>
             <br>
 
             <div class="row products mt-1">
-                {% for product in all_products %}
+                {% for product in products %}
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 mb-4 ml-4 bg-white">
                         <div class="nd-sp rounded">
                             <div class="nd-sp">

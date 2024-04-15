@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load price_format %}
+
+{% block link %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+{% endblock %}
+{% block content %}
+
+    <!-- All products section -->
+
+    <div class="album py-5 bg-white">
+        <div class="container">
+
+            <div class="h5 text-center"> SẢN PHẨM MỚI</div>
+            <hr>
+            <br>
+
+            <div class="row products mt-1">
+                {% for product in all_products %}
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 mb-4 ml-4 bg-white">
+                        <div class="nd-sp rounded">
+                            <div class="nd-sp">
+                                <a href="#">
+                                    <div class="card">
+                                        <img class="card-img-top" src="{{ product.images.first.image.url }}" alt="product-image">
+                                        <div class="card-body">
+                                            <h5 class="card-title brand_name">{{ product.brand.brand_name }}</h5>
+                                            <p class="card-text product_name text-left mb-2">{{ product.product_name }}</p>
+                                            <p class="price text-left mb-0">{{ product.price | price_format }}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

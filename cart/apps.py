@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 
 
-class CartAppConfig(AppConfig):
+class CartConfig(AppConfig):
     name = 'cart'
 
     def ready(self):

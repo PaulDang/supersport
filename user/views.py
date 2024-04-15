@@ -35,7 +35,8 @@ def get_signup(request):
                 messages.success(request, "Registration successful.")
                 return redirect("main")
 
-        messages.error(request, "Unsuccessful registration. Invalid information.")
+        messages.error(
+            request, "Unsuccessful registration. Invalid information.")
     form = RegisterForm()
     return render(
         request=request,

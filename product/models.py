@@ -16,6 +16,7 @@ class Brand(models.Model):
     def __str__(self):
         return self.brand_name
 
+
 class Category(models.Model):
     category_name = models.CharField(max_length=250, db_index=True)
     slug = models.SlugField(max_length=250, unique=True)
@@ -29,7 +30,6 @@ class Category(models.Model):
 
     def __str__(self):
         return self.category_name
-
 
 
 class Product(models.Model):
@@ -49,8 +49,10 @@ class Product(models.Model):
         self.slug = slugify(self.product_name)
         super().save(*args, **kwargs)
 
+
 class ProductImage(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='images/')
     thumbnail = ImageSpecField(source='image',
                                processors=[ResizeToFill(100, 50)],
@@ -59,6 +61,7 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return 'image ' + str(self.pk)
+
 
 class ProductDetail(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)

@@ -10,13 +10,6 @@ from .models import User
 User = get_user_model()
 
 
-def cart(request):
-    return render(
-        request=request,
-        template_name="cart.html",
-    )
-
-
 def main(request):
     return render(
         request=request,

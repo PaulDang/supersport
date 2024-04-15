@@ -36,7 +36,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'product',
-    'cart',
     'order',
     "django.contrib.admin",
     "django.contrib.auth",
@@ -49,6 +48,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     "bootstrap5",
     "user",
+    "cart",
     "django_bootstrap_icons",
     'imagekit'
 ]

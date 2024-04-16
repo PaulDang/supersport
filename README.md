@@ -2,8 +2,10 @@
 
 ### Step 1: Tải và cài đặt pipenv
 
-pip install pipenv <br>
+```shell
+pip install pipenv
 pipenv shell
+```
 
 - Lưu ý: Mỗi khi chạy dự án, vui lòng chạy `pipenv shell` đầu tiên để khởi tạo môi trường ảo
 

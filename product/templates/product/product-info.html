@@ -64,16 +64,6 @@
 
                     <br>
 
-                    {% if product.productdetail_set.all %}
-                        <div class="size-info">
-                            <div class="sizes-container">
-                                {% for detail in product.productdetail_set.all %}
-                                    <span class="size-option {{ detail.size }}"
-                                          data-size="{{ detail.size }}">{{ detail.size }}</span>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    {% endif %}
                     <div class="border mt-5">
 
                         <div class="col border-bottom">
@@ -95,31 +85,24 @@
 
                                 <div class="col-6">
 
-
-                                    <label for="select">Qty</label>
-
-                                    &nbsp;
-
-                                    <select id="select">
-
-                                        <option value="1">1</option>
-
-                                        <option value="2">2</option>
-
-                                        <option value="3">3</option>
-
-                                        <option value="4">4</option>
-
-                                    </select>
-
+                                    {% if product.productdetail_set.all %}
+                                        <div class="size-info">
+                                            <div class="sizes-container">
+                                                {% for detail in product.productdetail_set.all %}
+                                                    <span class="size-option"
+                                                          data-id= "{{ detail.id }}" data-size="{{ detail.size }}">{{ detail.size }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    {% endif %}
                                 </div>
 
                                 <div class="col-6 text-end">
 
-                                    <button type="button" id="add-button" value=""
+                                    <button type="button" id="add-button" value="{{ product.id }}"
                                             class="btn btn-secondary btn-sm">
 
-                                        Add to cart
+                                        Thêm vào giỏ hàng
 
                                     </button>
 
@@ -138,5 +121,39 @@
         </main>
     </div>
 
+
     <script type="text/javascript" src="{% static 'js/product-info.js' %}"></script>
+
+    <script>
+        $(document).on('click','#add-button', function(e){
+            e.preventDefault();
+            // Check if a size is selected
+            if ($('.size-option.selected').length === 0) {
+                alert('Vui lòng chọn size'); // Display the alert message
+                return; // Stop further execution
+            }
+            var selectedSize = $('.size-option.selected').data('size');
+            var detail_id = $('.size-option.selected').data('id')
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'cart-add' %}',
+                data:{
+                    product_id: $('#add-button').val(),
+                    size:selectedSize,
+                    product_detail_id: detail_id,
+                    product_quantity : 1,
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                    action: 'post'
+                },
+                success: function(json){
+                    console.log(json)
+                    document.getElementById("cart-qty").textContent = json.qty
+                },
+                error: function (xhr, errmsg,err){
+
+                }
+            });
+        })
+    </script>
+
 {% endblock %}

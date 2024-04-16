@@ -65,7 +65,9 @@
                 {% endif %}
 
                 <button class="btn border-0 px-2 mx-1">{% bs_icon 'suit-heart' size='1.2em' color='black'%}</button>
-                <button class="btn border-0 px-2 mx-1">{% bs_icon 'cart' size='1.2em' color='black'%}</button>
+              
+              
+                <a type="button" class="btn border-0 px-2 mx-1 fa fa-shopping-cart" href="{% url 'cart-summary' %}">{% bs_icon 'cart' size='1.2em' color='black'%}</a>
             </div>
         </div>
     </nav>

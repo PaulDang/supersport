@@ -101,3 +101,50 @@ a:hover {
 .description {
     padding: 0px 10px;
 }
+
+.nav_color {
+    background-color: #12283E;
+}
+
+.logo_image {
+    background-color: wheat;
+    border-radius: 5px;
+    padding: 5px 5px;
+}
+
+.user-name {
+    font-size: 12px;
+    margin: 0;
+}
+
+
+
+.btn-user {
+     border-radius: 10px;
+    padding: 3px 5px;
+    border: 0;
+    background-color: #ffecec4a;
+}
+
+.cart-button{
+    position: relative;
+}
+
+.number_cart{
+    background-color: wheat;
+    border-radius: 50%;
+    height: 18px;
+    width: 18px;
+    margin: auto;
+    text-align: center;
+    line-height: 18px;
+    color: black;
+    font-weight: 600;
+}
+
+.number_cart {
+    position: absolute;
+    top: 1px; /* Điều chỉnh vị trí top để số lượng nằm trên biểu tượng giỏ hàng */
+    right: 20px; /* Điều chỉnh vị trí right để số lượng nằm bên phải của biểu tượng giỏ hàng */
+    font-size: 12px; /* Điều chỉnh kích thước của chữ */
+}

@@ -38,7 +38,7 @@ class Category(models.Model):
 class Product(models.Model):
     product_name = models.CharField(max_length=250, db_index=True)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, null=True)
-    categories = models.ManyToManyField(Category)
+    categories = models.ManyToManyField(Category,blank=True,  null=True)
     description = models.TextField(blank=True)
     slug = models.SlugField(max_length=250, unique=True)
     price = models.DecimalField(max_digits=10, decimal_places=0)

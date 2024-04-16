@@ -8,12 +8,15 @@ from user.models import User
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
 
+    def __str__(self):
+        return f"{self.user.username}'s Cart"
+
 
 class CartDetail(models.Model):
-    cart = models.OneToOneField(Cart, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product_detail = models.OneToOneField(
         ProductDetail, on_delete=models.CASCADE, null=True)
     quantity = models.IntegerField(default=0)
 
     class Meta:
-        unique_together = ('cart', 'product_detail')
+        verbose_name_plural = "Cart Details"

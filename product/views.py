@@ -20,3 +20,5 @@ def product_info(request, slug):
         'product': product
     }
     return render(request, 'product/product-info.html',context)
+
+    return render(request, 'product/store.html')

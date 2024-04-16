@@ -55,8 +55,8 @@
                     >
                 </span>
                     <span class="mx-1">
-                    <a class="text-decoration-none" href="#">Welcome, {{ user.username }}</a>
-                </span>
+                        <a class="text-decoration-none" href={% url "userInfo" %}>Welcome, {{user.username}}</a>
+                    </span>
                 {% else %}
 
                     <span class="px-2 mx-1">

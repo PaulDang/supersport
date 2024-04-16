@@ -1,0 +1,141 @@
+{% extends "page.html" %}
+{% load static %}
+{% load price_format %}
+{% block title %}
+Cart
+{% endblock %}
+{% block script %}
+<script defer src="{% static 'cart/js/Modify_Total_Price.js' %}"></script>
+{% endblock %}
+
+{% block link %}
+<link rel="stylesheet" href="{% static 'cart/css/CartStyles.css' %}" />
+{% endblock %}
+
+{% block content %}
+<section class="cart-section">
+  <div class="container p-0">
+    <div class="row mb-5 g-5">
+      <div class="col-lg-8">
+        <div class="row cart-header py-4">
+          <div class="d-none d-md-block col-md-2"></div>
+          <div
+            class="col-4 offset-4 text-center text-md-start offset-md-0 col-md-2"
+          >
+            <span class="fw-bold">Sản phẩm</span>
+          </div>
+          <div class="col-md-3 d-none d-md-block">
+            <span class="fw-bold">Giá tiền</span>
+          </div>
+          <div class="col-md-2 d-none d-md-block">
+            <span class="fw-bold">Số lượng</span>
+          </div>
+          <div class="col-md-3 d-none d-md-block">
+            <span class="fw-bold">Tổng tiền</span>
+          </div>
+        </div>
+        <div class="row products d-flex flex-column gap-4">
+          {% for product in user_products %}
+          <div class="product row align-items-center">
+            <div class="col-2 col-md-2 mb-3 mb-md-0">
+              <img
+                src="{% static 'media/' %}{{ product.product_detail.product.images.all.0.image }}"
+                alt="{{ product.product_detail.product.product_name }}'s image"
+                class="product-image"
+              />
+            </div>
+            <div class="col-4 offset-1 offset-md-0 col-md-2 mb-3 mb-md-0">
+              <span class="product-type fw-bold">{{ product.product_detail.product.product_name }}</span>
+            </div>
+            <div class="col-md-3 mb-4 mb-md-0">
+              <span class="d-md-none fw-bold">Giá tiền: </span>
+              <span class="product-price">{{ product.product_detail.product.price|price_format }}</span>
+            </div>
+            <div class="col-md-2 px-0 mb-4 mb-md-0">
+              <div class="product-quantity input-group">
+                <button class="btn border-0" type="button" id="btnMinus">
+                  -
+                </button>
+                <input
+                  class="form-control text-center border border-dark rounded-3"
+                  type="text"
+                  value="{{ product.quantity }}"
+                  aria-label="Quantity"
+                  aria-describedby="btnMinus btnPlus"
+                />
+                <button class="btn border-0" type="button" id="btnPlus">
+                  +
+                </button>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex align-items-center">
+                  <span class="d-md-none fw-bold">Tổng tiền: </span>
+                  <span class="product-total-price">250.000 VNĐ</span>
+                </div>
+                <button class="btn delete-from-cart">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    fill="currentColor"
+                    class="bi bi-trash"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"
+                    />
+                    <path
+                      d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <hr />
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="cart-total-product h-100">
+          <div class="card border-0 align-items-center text-center">
+            <div class="card-body p-5">
+              <h5 class="card-title mb-5">Giỏ hàng</h5>
+              <div class="d-flex justify-content-around gap-5 mb-4">
+                <div class="">Tổng tiền</div>
+                <div class="ms-auto me-0 products-sum-price">250.000 VNĐ</div>
+              </div>
+              <div class="d-flex justify-content-around gap-5 mb-4">
+                <div class="">Thành tiền</div>
+                <div class="ms-auto me-0 products-total-price">250.000 VNĐ</div>
+              </div>
+              <a class="btn btn-lg btn-primary px-5" href="#pay">Thanh toán</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-summary">
+  <div class="row text-center text-lg-start">
+    <div class="col-md-4 my-5 mb-md-0">
+      <div class="summary-header fw-bold">Miễn phí vận chuyển</div>
+      <div>Cho tất cả đơn hàng trên 200,000 đồng</div>
+    </div>
+    <div class="col-md-4 my-5 mb-md-0">
+      <div class="summary-header fw-bold">Hoàn tiền trong 90 ngày</div>
+      <div>Cho bất kì sản phẩm lỗi</div>
+    </div>
+    <div class="col-md-4 my-5 mb-md-0">
+      <div class="summary-header fw-bold">Thanh toán bảo mật</div>
+      <div>Bảo mật thanh toán 100%</div>
+    </div>
+  </div>
+</section>
+
+
+{% endblock %}

@@ -9,13 +9,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RenameModel(
-            old_name="Categgory",
-            new_name="Category",
-        ),
-        migrations.RenameField(
-            model_name="category",
-            old_name="categgory_name",
-            new_name="category_name",
-        ),
     ]

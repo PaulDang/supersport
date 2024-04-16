@@ -3,7 +3,7 @@ from django.template import loader
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib import messages
-from .forms import RegisterForm
+from .forms import RegisterForm, UpdatedForm
 from django.contrib.auth.forms import AuthenticationForm
 from .models import User
 
@@ -79,14 +79,13 @@ def checkout(request):
 def update_user_info(request):
     if request.user.is_authenticated:
         current_user = User.objects.get(userId=request.user.userId)
-
+        
         if request.method == "POST":
-            form = RegisterForm(request.POST or None, instance=current_user)
-            print(form.is_valid())
+            form = UpdatedForm(request.POST or None, instance=current_user)
             if form.is_valid():
                 user = request.user
 
-                # Update user information using cleaned data (consider validation)
+                # Update user information using cleaned data
                 user.firstName = form.cleaned_data.get("firstName")
                 user.lastName = form.cleaned_data.get("lastName")
                 user.email = form.cleaned_data.get("email")
@@ -99,7 +98,7 @@ def update_user_info(request):
                 messages.success(
                     request, "Thông tin người dùng đã được cập nhật thành công!"
                 )
-        form = RegisterForm()
+        form = UpdatedForm(instance=current_user)
         return render(
             request=request,
             template_name="userInfo.html",

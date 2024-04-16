@@ -2,7 +2,7 @@
 dùng {% endblock %} {% block content %}
 <div class="container">
   <h1>Thông tin người dùng</h1>
-  <form method="post">
+  <form method="post" action="{% url 'userInfo' %}">
     {% csrf_token %}
     <div class="row w-full">
       <div class="form-group col-md-6 mb-0">
@@ -17,82 +17,7 @@ dùng {% endblock %} {% block content %}
       {{ user_info_form.phone|as_crispy_field }}
       {{ user_info_form.address|as_crispy_field }}
     </div>
-    {% comment %} <div class="d-flex gap-2">
-      <div class="mb-3 flex-fill">
-        <label for="firstname" class="form-label">Firstname</label>
-        <input
-          value="{{user.firstName}}"
-          type="text"
-          class="form-control"
-          id="firstname"
-          aria-describedby="emailHelp"
-        />
-      </div>
-      <div class="mb-3 flex-fill">
-        <label for="lastname" class="form-label">Lastname</label>
-        <input
-          value="{{user.lastName}}"
-          type="text"
-          class="form-control"
-          id="lastname"
-          aria-describedby="emailHelp"
-        />
-      </div>
-    </div>
-    <div class="d-flex gap-2">
-      <div class="mb-3 flex-fill">
-        <label for="phone" class="form-label">Phone</label>
-        <input
-          value="{{user.phone}}"
-          type="text"
-          class="form-control"
-          id="phone"
-          aria-describedby="emailHelp"
-        />
-      </div>
-      <div class="mb-3 flex-fill">
-        <label for="address" class="form-label">Address</label>
-        <input
-          value="{{user.address}}"
-          type="text"
-          class="form-control"
-          id="address"
-          aria-describedby="emailHelp"
-        />
-      </div>
-    </div>
-    <div class="mb-3">
-      <label for="username" class="form-label">Username</label>
-      <input
-        disabled
-        value="{{user.username}}"
-        type="text"
-        class="form-control"
-        id="username"
-        aria-describedby="emailHelp"
-      />
-    </div>
-    <div class="mb-3">
-      <label for="email" class="form-label">Email</label>
-      <input
-        value="{{user.email}}"
-        type="email"
-        class="form-control"
-        id="email"
-        aria-describedby="emailHelp"
-      />
-    </div>
-    <div class="mb-3">
-      <label for="password" class="form-label">Password</label>
-      <input
-        disabled
-        value="{{user.password}}"
-        type="password"
-        class="form-control"
-        id="password"
-      />
-    </div>
-    {% endcomment %}
+
     <button type="submit" class="btn btn-primary">Cập nhật</button> 
     
     {% if messages %} {% for message in messages%}

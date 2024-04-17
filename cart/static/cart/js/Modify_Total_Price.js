@@ -6,7 +6,8 @@ const formatToVND = function (price) {
       style: "currency",
       currency: "VND",
     })
-    .replace("₫", "VNĐ");
+    .replace("₫", "VNĐ")
+    .replace(/\./g, ",");
 };
 
 const calculateTotalProductPrice = function (acc, productPriceElement, idx) {

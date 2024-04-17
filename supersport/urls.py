@@ -19,13 +19,15 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf.urls.static import static
 from django.conf import settings
+from cart.views import cart_view
 
 urlpatterns = [
     path("", include("user.urls")),
     path("", include("django.contrib.auth.urls")),
     path("admin/", admin.site.urls),
     path('main/', include('product.urls')),
-    path('cart/', include('cart.urls'))
+    path('cart/', include('cart.urls')),
+    path('<str:username>/cart/', cart_view, name="user_cart")
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

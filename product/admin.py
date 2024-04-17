@@ -22,15 +22,19 @@ class ProductAdmin(admin.ModelAdmin):
         form.save()
         if request.FILES.get('images'):
             for image_file in request.FILES.getlist('images'):
-                product_image = ProductImage.objects.create(image=image_file, product=instance)
+                product_image = ProductImage.objects.create(
+                    image=image_file, product=instance)
+
 
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('brand_name',)}
 
+
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('category_name',)}
+
 
 admin.site.register(ProductDetail)
 admin.site.register(ProductImage)

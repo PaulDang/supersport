@@ -57,7 +57,7 @@ class CartDetailInline(admin.TabularInline):
 class CartAdmin(admin.ModelAdmin):
     inlines = [CartDetailInline]
     form = CartAdminForm
-    change_form_template = "admin/change_cart_detail_form_with_dynamic_quantity.html"
+    change_form_template = "cart/admin/change_cart_detail_form_with_dynamic_quantity.html"
 
 
 class CartDetailAdminForm(forms.ModelForm):
@@ -75,7 +75,7 @@ class CartDetailAdmin(admin.ModelAdmin):
     list_filter = ("cart", "product_detail")
     list_display = ("cart", "product_detail")
     form = CartDetailAdminForm
-    change_form_template = "admin/change_cart_detail_form_with_dynamic_quantity.html"
+    change_form_template = "cart/admin/change_cart_detail_form_with_dynamic_quantity.html"
 
 
 admin.site.register(Cart, CartAdmin)

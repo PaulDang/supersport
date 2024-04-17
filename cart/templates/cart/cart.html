@@ -6,6 +6,7 @@ Cart
 {% endblock %}
 {% block script %}
 <script defer src="{% static 'cart/js/Modify_Total_Price.js' %}"></script>
+<script defer src="{% static 'cart/js/Button_trigger.js' %}"></script>
 {% endblock %}
 
 {% block link %}
@@ -53,7 +54,7 @@ Cart
             </div>
             <div class="col-md-2 px-0 mb-4 mb-md-0">
               <div class="product-quantity input-group">
-                <button class="btn border-0" type="button" id="btnMinus">
+                <button class="btn border-0 btnMinus" type="button">
                   -
                 </button>
                 <input
@@ -63,7 +64,7 @@ Cart
                   aria-label="Quantity"
                   aria-describedby="btnMinus btnPlus"
                 />
-                <button class="btn border-0" type="button" id="btnPlus">
+                <button class="btn border-0 btnPlus" type="button">
                   +
                 </button>
               </div>
@@ -74,7 +75,7 @@ Cart
                   <span class="d-md-none fw-bold">Tổng tiền: </span>
                   <span class="product-total-price">250.000 VNĐ</span>
                 </div>
-                <button class="btn delete-from-cart">
+                <button class="btn btn-delete-from-cart">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="32"

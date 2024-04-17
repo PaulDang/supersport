@@ -20,7 +20,6 @@ body {
 }
 
 img {
-    max-height: 150px;
     max-width: 100%;
     margin: auto;
 }
@@ -42,10 +41,15 @@ img {
     font-size: 12px;
     margin: 0;
 }
-
+.name-title{
+    text-align: left;}
 .btn {
     border-radius: 10px;
     padding: 3px 5px;
+}
+
+.cart-count{
+    margin: 3px;
 }
 
 .btn-user {
@@ -69,7 +73,7 @@ th {
 .total-price {
     font-weight: 500;
     font-size: 1rem;
-    margin-top: 25%; /* Set top margin */
+    /*margin-top: 25%; !* Set top margin *!*/
     transform: translateY(-50%); /* Vertically center */
 }
 
@@ -83,7 +87,7 @@ th {
 }
 
 .btn-delete-item {
-    margin-bottom: 12px;
+    padding-bottom:10px;
     cursor: pointer
 }
 
@@ -95,12 +99,12 @@ th {
 
 .bottom {
     height: 130px;
-    weight: 100%;
+    width: 100%;
 }
 
 .box-bottom {
     background: #fff;
-    max-width: 670px;
+    max-width: 100%;
     border-radius: 15px;
     box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .1), 0 2px 6px 2px rgba(60, 64, 67, .15);
     padding: 10px;
@@ -110,20 +114,56 @@ th {
     padding: 6px 12px
 }
 
-.product-image {
-     display: flex; /* Enable flexbox */
-  align-items: center; /* Align vertically */
-  justify-content: center; /* Align horizontally */
+.image {
+    display: flex; /* Enable flexbox */
+    align-items: center; /* Align vertically */
+    justify-content: center; /* Align horizontally */
+    width: 90%;
+    border-radius: 5%;
 }
 
-td.text-btn-count div {
+/*td.text-btn-count div {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    margin-top: 10px;*/
+/*    transform: translateY(-50%); !* Vertically center *!*/
+/*}*/
+
+.quantity{
     display: flex;
-    justify-content: center;
+    flex-direction: row;
     align-items: center;
-    margin-top: 50%; /* Set top margin */
-    transform: translateY(-50%); /* Vertically center */
 }
 
-td.text-btn-count div button {
-    align-self: center; /* Center each button vertically */
+table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+    }
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+td {
+  vertical-align: middle; /* Căn giữa theo chiều dọc */
+}
+
+/* Áp dụng border radius cho góc của bảng */
+table {
+    border-radius: 10px; /* Điều chỉnh giá trị này để thay đổi độ cong của góc */
+    overflow: hidden; /* Đảm bảo phần còn lại của bảng không bị ảnh hưởng bởi border-radius */
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .1), 0 2px 6px 2px rgba(60, 64, 67, .15);
+}
+
+.btn-dathang{
+    color: white;
+    background-color: #12283E;
+}
+
+.btn-dathang:hover{
+    color: #12283E;
+    background-color: navajowhite;
 }

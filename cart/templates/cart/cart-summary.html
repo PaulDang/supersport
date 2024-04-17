@@ -1,18 +1,20 @@
 {% extends 'base.html' %}
 {% load price_format %}
 {% load static %}
+{% load mathfilters %}
+
+
 {% block link %}
-    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
 {% endblock %}
 {% block content %}
-    <main class="pt-5">
+    <div class="pt-5">
 
         <div class="container">
-            <h1 class="h5 text-center"> GIỎ HÀNG </h1>
+            <h1 class="h5 text-center"><strong> GIỎ HÀNG </strong></h1>
             <hr>
             <br>
-
         </div>
 
         <div class="container">
@@ -20,50 +22,74 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-8 info-sp">
                         <table class="table">
+                            <thead class="table-show show-cart-1 text-center">
+                            <td></td>
+                            <td><strong>SẢN PHẨM</strong></td>
+                            <td><strong>SỐ LƯỢNG</strong></td>
+                            <td><strong>THÀNH TIỀN</strong></td>
+                            </thead>
                             <tbody class="table-show show-cart-1">
                             {% for item in cart %}
                                 <tr>
-                                    <td class=" product-image"><img
-                                            src='{{ item.product_detail.product.images.first.image.url }}'></td>
+                                    <td style="width: 25%">
+                                        <img class='image'
+                                             src='{{ item.product_detail.product.images.first.image.url }}'>
+                                    </td>
                                     <td class='text name-title' style="width: 35%">
-                                        <p><strong>{{ item.product_detail.product.product_name }}</strong></p>
+                                        <p>
+                                            <a href="{{ item.product_detail.product.get_absolute_url }}"><strong>{{ item.product_detail.product.product_name }}</strong></a>
+                                        </p>
                                         <p>Size : {{ item.product_detail.size }}</p>
                                         <span class="sale-price">{{ item.product_detail.product.price | price_format }}</span>
-
-                                        <span class="regular-price">{{ item.product_detail.product.price | price_format }}</span>
+                                        <span class="regular-price">{{ item.product_detail.product.discount_price | price_format }}</span>
                                     </td>
-                                    <td class='text-btn-count' style="width: 20%">
-                                        <div>
-                                            <button class='minus-item cart-count input-group-addon btn btn-outline-danger '
-                                                    id="minusButton">-
-                                            </button>
-                                            <button class='btn cart-count product-quantity'>{{ item.qty }}</button>
-                                            <button class='plus-item cart-count  input-group-addon btn btn-outline-success'
-                                                    id="plusButton">+
+                                    <td style="width: 20%">
+                                        <div class="col-12 d-flex justify-content-center m-2">
+                                            <select id="select{{ item.product_detail.id }}">
+                                                <option selected>
+
+                                                    {{ item.qty }}
+
+                                                </option>
+
+                                                <option value="">1</option>
+
+                                                <option value="">2</option>
+
+                                                <option value="">3</option>
+
+                                                <option value="">4</option>
+
+                                            </select>
+
+                                        </div>
+                                        <div class="col-12 d-flex justify-content-center m-2">
+                                            <button type="button" id="update-button"
+                                                    class="btn btn-primary btn-sm update-button mx-1" data-index = "{{ item.product_detail.id }}">
+                                                Update
+
                                             </button>
                                         </div>
-
                                     </td>
                                     <td class='text-btn' style="width: 20%">
-
-
-                                        <div class="d-flex flex-row-reverse">
-                                            <div class="btn-delete-item">
-                                                <svg aria-hidden="true" class="svg-inline--fa fa-trash-alt"
-                                                     data-icon="trash-alt" data-prefix="fas" focusable="false"
-                                                     role="img"
-                                                     style="height:28px; width: 18px; color:#ccc" viewBox="0 0 448 512"
-                                                     xmlns="http://www.w3.org/2000/svg">
-                                                    <path class=""
-                                                          d="M32 464a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V128H32zm272-256a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zM432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16z"
-                                                          fill="currentColor"></path>
-                                                </svg>
+                                        <div class="col12">
+                                                <span class="total-price">{{ item.total | price_format }}</span>
+                                                <a type="button" class="d-flex flex-row-reverse" id="delete-button"
+                                                   data-index="{{ item.product_detail.id }}">
+                                                    <div class="btn-delete-item">
+                                                        <svg aria-hidden="true" class="svg-inline--fa fa-trash-alt"
+                                                             data-icon="trash-alt"
+                                                             data-prefix="fas" focusable="false" role="img"
+                                                             style="height:28px; width: 18px; color:#ccc"
+                                                             viewBox="0 0 448 512"
+                                                             xmlns="http://www.w3.org/2000/svg">
+                                                            <path class=""
+                                                                  d="M32 464a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V128H32zm272-256a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zM432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16z"
+                                                                  fill="currentColor"></path>
+                                                        </svg>
+                                                    </div>
+                                                </a>
                                             </div>
-                                        </div>
-
-                                        <div class="d-flex flex-row-reverse">
-                                            <span class="total-price">{{ item.total | price_format }}</span class="total-price">
-                                        </div>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -73,110 +99,110 @@
                 </div>
             </div>
         </div>
-
-        <!-- pROJECT -->
-        <div class="container">
-            <div class="row mb-4 border product-item">
-
-                <div class="col-md-3 col-lg-2 order-md-first bg-light">
-
-                    <img class="img-fluid mx-auto d-block" width="200px" alt="Responsive image" src="">
-                    <!-- Product image -->
-
-                </div>
-
-
-                <div class="col-md-9 col-lg-10 ps-md-3 ps-lg-10">
-
-                    <a href="" class="text-decoration-none text-reset"> <!-- Product get absolute url -->
-
-                        <h1 class="h5 pt-2"> <!-- Product title --> </h1>
-
-                    </a>
-
-                    <div class="border">
-
-                        <div class="col border-bottom">
-
-                            <div class="row p-3">
-
-                                <div class="col-6"> SẢN PHẨM</div>
-
-                                <div class="col-6 text-end"><span class="h6 fw-bold">VNĐ <!-- Product price --> </span>
+        <br>
+        <br>
+        <div class="container bottom">
+            <div class="cart mt-4 fixed-bottom" id="cart">
+                <div class="container fixed-bottom">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8 info-sp">
+                            <div class="box-bottom">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <p>Tổng tiền tạm tính:</p>
+                                    <div class="d-flex flex-column align-items-end">
+                                        <div>
+                                            <strong class="total-cart-price"
+                                                    id="total">{{ cart.get_total | price_format }}</strong>
+                                        </div>
+                                    </div>
                                 </div>
-
-                            </div>
-
+                                <button class="btn d-flex flex-column justify-content-center align-items-center w-100 mb-2 btn-dathang"
+                                        id="btn-check-out">Tiến
+                                    hành đặt hàng
+                                </button>
+                                <a class="btn btn-outline-danger d-flex flex-column justify-content-center align-items-center w-100"
+                                   href="https://cellphones.com.vn/"
+                                   id="btn-return">Chọn
+                                    thêm sản phẩm khác</a>
                         </div>
-
-                        <div class="col">
-
-                            <div class="row p-3">
-
-                                <div class="col-12">
-
-                                    <label for="select">Số lượng</label>
-
-                                    &nbsp;
-
-                                    <select id="">
-
-                                        <option selected>
-
-                                            {{ item.qty }}
-
-                                        </option>
-
-                                        <option value="">1</option>
-
-                                        <option value="">2</option>
-
-                                        <option value="">3</option>
-
-                                        <option value="">4</option>
-
-                                    </select>
-
-                                    <br> <br>
-
-                                    <button type="button" id="update-button"
-                                            class="btn btn-primary btn-sm update-button">
-                                        Cập nhật
-
-                                    </button>
-
-                                    &nbsp;
-
-                                    <button type="button" id="delete-button"
-                                            class="btn btn-danger btn-sm delete-button">
-                                        Xóa
-
-                                    </button>
-
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
                     </div>
-
                 </div>
-
             </div>
-
-
-            <div class="col-12 text-end">
-
-                <div class="h6 fw-bold"> TỔNG CỘNG: VNĐ
-                    <div id="total" class="d-inline-flex"> <!-- cart.get_total --> </div>
-                </div>
-
             </div>
-
-
         </div>
-    </main>
-{% endblock %}
+        <script>
+            function decreaseQuantity() {
+                var quantityDisplay = document.getElementById("quantityDisplay");
+                var currentQty = parseInt(quantityDisplay.innerHTML);
+                if (currentQty > 1) { // Đảm bảo số lượng không âm
+                    quantityDisplay.innerHTML = currentQty - 1;
+                }
+            }
 
+            function increaseQuantity() {
+                var quantityDisplay = document.getElementById("quantityDisplay");
+                var currentQty = parseInt(quantityDisplay.innerHTML);
+                if (currentQty < 5) { // Giới hạn số lượng tối đa là 5
+                    quantityDisplay.innerHTML = currentQty + 1;
+                } else {
+                    // Hiển thị cửa sổ thông báo khi số lượng vượt quá giới hạn
+                    alert("Bạn chỉ có thể chọn tối đa 5 sản phẩm.");
+                }
+            }
+
+            //delet button
+            $(document).on('click', '#delete-button', function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url 'cart-delete' %}',
+                    data: {
+                        product_detail_id: $(this).data('index'),
+                        csrfmiddlewaretoken: "{{ csrf_token }}",
+                        action: 'post'
+                    },
+                    success: function (json) {
+                        //console.log(json)
+                        location.reload();
+                        document.getElementById("cart-qty").textContent = json.qty
+
+                        document.getElementById("total").textContent = json.total
+                    },
+                    error: function (xhr, errmsg, err) {
+
+                    }
+                });
+            })
+
+            //update button
+            $(document).on('click', '.update-button', function (e) {
+                e.preventDefault();
+                console.log('test');
+                var product_index = $(this).data('index');
+                console.log(product_index);
+                var quantity = $('#select' + product_index + ' option:selected' ).text();
+                console.log(quantity);
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url 'cart-update' %}',
+                    data: {
+                        product_detail_id: $(this).data('index'),
+                        product_quantity: $('#select' + product_index + ' option:selected' ).text(),
+                        csrfmiddlewaretoken: "{{ csrf_token }}",
+                        action: 'post'
+                    },
+                    success: function (json) {
+                        //console.log(json)
+                        location.reload(true);
+                        document.getElementById("cart-qty").textContent = json.qty
+
+                        document.getElementById("total").textContent = json.total
+                    },
+                    error: function (xhr, errmsg, err) {
+
+                    }
+                });
+            })
+        </script>
+{% endblock %}

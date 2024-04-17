@@ -1,7 +1,20 @@
 <div class="container-fluid p-0">
-    <footer
-        class="container--fluid bg-primary text-center text-white p-2"
-    >
-        Copyright 2024
-    </footer>
+   <footer class="container-fluid bg-primary text-center text-white p-2 fixed-bottom">
+    Copyright 2024
+</footer>
+
+    <script>
+    window.addEventListener('DOMContentLoaded', function() {
+        var footer = document.querySelector('footer');
+        var bodyHeight = document.body.clientHeight;
+        var windowHeight = window.innerHeight;
+
+        if (bodyHeight > windowHeight) {
+            footer.classList.remove('fixed-bottom');
+        } else {
+            footer.classList.add('fixed-bottom');
+        }
+    });
+</script>
+
 </div>

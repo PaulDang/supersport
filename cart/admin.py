@@ -1,5 +1,7 @@
+from typing import Any
 from django.contrib import admin
 from django import forms
+from django.http import HttpRequest
 from imagekit.admin import AdminThumbnail
 from django.db import models
 from .models import CartDetail, Cart
@@ -27,31 +29,22 @@ class CartAdminForm(forms.ModelForm):
 
         self.fields['user'].queryset = current_user_and_user_with_out_cart
 
-    #     CartDetailInlineFormSet = inlineformset_factory(
-    #         Cart, CartDetail, fields=('product_detail', 'quantity'), extra=0)
-
-    #     if self.instance:
-    #         self.cartdetail_formset = CartDetailInlineFormSet(
-    #             instance=self.instance, queryset=CartDetail.objects.all())
-    #     # else:
-    #     #     self.cartdetail_formset = CartDetailInlineFormSet(
-    #     #         instance=self.instance, queryset=CartDetail.objects.filter())
-
-    # def save(self, commit=True):
-    #     instance = super().save(commit=False)
-    #     if commit:
-    #         instance.save()
-
-    #     if hasattr(self, 'cartdetail_formset'):
-    #         self.cartdetail_formset.instance = instance
-    #         self.cartdetail_formset.save()
-
-    #     return instance
-
 
 class CartDetailInline(admin.TabularInline):
     model = CartDetail
     extra = 0
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'product_detail':
+            cart_id = request.resolver_match.kwargs.get('object_id', None)
+            kwargs['queryset'] = ProductDetail.objects.filter(
+                cartdetail__isnull=True)
+            if cart_id:
+                current_cart_queryset = ProductDetail.objects.filter(
+                    cartdetail__cart__id=cart_id)
+                merged_queryset = (kwargs['queryset'] | current_cart_queryset)
+                kwargs['queryset'] = merged_queryset
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 class CartAdmin(admin.ModelAdmin):
@@ -67,6 +60,9 @@ class CartDetailAdminForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        cartless_product_detail = ProductDetail.objects.filter(
+            cartdetail__isnull=True)
+        self.fields['product_detail'].queryset = cartless_product_detail
 
 # Register your models here.
 

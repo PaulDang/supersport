@@ -1,7 +1,68 @@
-<div class="container-fluid p-0">
-    <footer
-        class="container--fluid bg-primary text-center text-white p-2"
-    >
+{% load static %}
+<footer class="footer bg-white py-5 mt-auto">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 my-3">
+        <a class="logo" href="/">
+          <img src="{% static 'media/images/logo.png' %}" alt="Page Logo" />
+        </a>
+      </div>
+      <div class="col-md-2 my-3">
+        <h6>Liên kết</h6>
+        <ul class="list-unstyled mt-4">
+          <li>
+            <a class="text-decoration-none footer-link" href="/">Trang Chủ</a>
+          </li>
+          <li>
+            <a class="text-decoration-none footer-link" href="#">Sản phẩm</a>
+          </li>
+          <li>
+            <a class="text-decoration-none footer-link" href="#"
+              >Về chúng tôi</a
+            >
+          </li>
+          <li>
+            <a class="text-decoration-none footer-link" href="#">Liên hệ</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-2 my-3">
+        <h6>Hỗ trợ</h6>
+        <ul class="list-unstyled mt-4">
+          <li>
+            <a class="text-decoration-none footer-link" href="/">Thanh toán</a>
+          </li>
+          <li>
+            <a class="text-decoration-none footer-link" href="#">Hoàn tiền</a>
+          </li>
+          <li>
+            <a class="text-decoration-none footer-link" href="#">Chính sách</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-4 my-3">
+        <h6>Nhận thông tin</h6>
+        <div class="input-group mb-3 footer-signup mt-4">
+          <input
+            name="email"
+            type="email"
+            class="form-control footer-signup--input border-0 border-bottom"
+            placeholder="Email"
+          />
+          <button
+            class="btn border-0 rounded-0 bg-white footer-signup--button mx-3"
+          >
+            Đăng ký
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div
+        class="container-fluid bg-primary text-center text-white p-2 fixed-bottom"
+      >
         Copyright 2024
-    </footer>
-</div>
+      </div>
+    </div>
+  </div>
+</footer>

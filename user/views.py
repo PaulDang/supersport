@@ -63,12 +63,6 @@ def get_signout(request):
     messages.success(request, "Bạn đã đăng xuất thành công.")
     return redirect("signin")
 
-
-def checkout(request):
-    template = loader.get_template("checkout.html")
-    return HttpResponse(template.render())
-
-
 def update_user_info(request):
     if request.user.is_authenticated:
         current_user = User.objects.get(userId=request.user.userId)

@@ -1,6 +1,6 @@
 :root {
-  --django-primary: #15293b;
-  --django-primary-hover: #12283E;
+  --django-primary: #12283b;
+  --django-primary-hover: #304C65;
   --django-secondary: #cad3e5;
   --django-secondary-hover: #5B7792;
   --django-light: #fff;
@@ -13,12 +13,12 @@
   box-sizing: border-box;
 }
 
-body {
-    font-family: Montserrat, sans-serif
-}
-
 a {
     color: black;
+}
+
+nav .dropdown-menu {
+    min-width: 120px;
 }
 
 a:hover,
@@ -56,4 +56,76 @@ a:visited {
 .dropdown-item:active {
     color: #212529;
     background-color: #e9ecef;
+}
+
+.about-us .wrapper {
+    position: relative;
+    background-color: #fff;
+    background-position: 50%;
+    background-size: cover;
+    background-image: linear-gradient(180deg, #e9f0f6 0%, rgba(233, 240, 246, 0.2) 100%), url("/static/media/images/header-bg-2-2.jpg");
+}
+
+.about-us .wrapper .main-content {
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+    padding: 18% 0;
+}
+
+.about-us .wrapper .main-content h1 {
+    font-weight: 700;
+    font-size: 65px;
+    line-height: 1.4em;
+}
+
+.about-us .wrapper .main-content p {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1.8em;
+}
+
+.about-us h2 {
+    font-weight: 700;
+    font-size: 50px;
+    line-height: 1.4em;
+    text-align: center;
+    padding-top: 100px;
+    padding-bottom: 20px;
+    background: -webkit-linear-gradient(45deg, #12283b, #000 80%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.about-us .member-list {
+    max-width: 1000px;
+    margin: auto;
+    margin-bottom: 100px;
+    justify-content: center;
+}
+
+.about-us .member-list img {
+    max-height: 150px;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0.5;
+}
+
+.about-us .member-list .card-body {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    text-align: center;
+}
+
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+ 
+.fade-in {
+   opacity:0;
+   animation:fadeIn ease-in 1;
+   animation-fill-mode:forwards;
+   animation-duration:1.4s;
+  }
+ 
+.fade-in.delayed {
+  animation-delay: 1.4s;
 }

@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     "user",
     "cart",
     "django_bootstrap_icons",
-    'imagekit'
+    'imagekit',
+    'mathfilters',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -84,7 +85,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                'product.views.categories'
+                'product.views.categories',
+                'cart_session.context_processors.cart'
             ],
         },
     },

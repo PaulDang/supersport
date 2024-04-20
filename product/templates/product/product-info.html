@@ -1,10 +1,152 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load price_format %}
+{% load static %}
+{% block link %}
+    <!-- CSS của Slick Carousel -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <!-- Thêm CSS cho trượt của bạn (tuỳ chọn) -->
+    <link rel="stylesheet" type="text/css" href="path/to/your/custom/slick-styles.css"/>
 
-</body>
-</html>
+    <!-- jQuery (cần thiết cho Slick Carousel) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Slick Carousel JavaScript -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+
+
+    <link rel="stylesheet" href="{% static 'css/product-info.css' %}">
+
+{% endblock %}
+{% block content %}
+
+    <div class="container">
+        <main class="pt-5">
+            <div class="row g-3">
+
+                <div class="col-md-6 col-lg-6 order-md-first">
+                    <div class="product-images">
+                        <div class="row main-image-row">
+                            <div class="col-md-12"> <!-- Sử dụng col-md-12 để hình ảnh chính chiếm toàn bộ cột -->
+                                <div class="main-image mb-2">
+                                    <img src="{{ product.images.first.image.url }}" alt="Main Image" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="thumbnails-container" id="thumbnails-container">
+                            <button class="previous">
+                                <<
+                            </button>
+                            <div class="slick-carousel col-12 mx-auto">
+                                {% for image in product.images.all %}
+                                    <div>
+                                        <img class="thumbnail img-fluid" src="{{ image.image.url }}" alt="Thumbnail">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <button class="next">
+                                >>
+                            </button>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 ps-md-3 ps-lg-5">
+
+                    <p class="mb-0 h4 font-weight-bold"> {{ product.product_name }} </p>
+
+                    <strong> {{ product.brand.brand_name }} </strong>
+
+
+                    <hr>
+
+                    <br>
+
+                    <div class="border mt-5">
+
+                        <div class="col border-bottom">
+
+                            <div class="row p-3">
+
+                                <div class="col-4"> Giá</div>
+
+                                <div class="col-8 text-end"><span
+                                        class="h4 fw-bold">{{ product.price | price_format }} </span></div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col">
+
+                            <div class="row p-3">
+                                <div class="col-6">
+                                    {% if product.productdetail_set.all %}
+                                        <div class="size-info">
+                                            <div class="sizes-container">
+                                                {% for detail in product.productdetail_set.all %}
+                                                    <span class="size-option"
+                                                          data-id= "{{ detail.id }}" data-size="{{ detail.size }}">{{ detail.size }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-6 text-end">
+                                    <button type="button" id="add-button" value="{{ product.id }}"
+                                            class="btn btn-secondary btn-sm">
+                                        Thêm vào giỏ hàng
+                                    </button>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <br>
+            <div class="row">
+                <p> {{ product.formatted_description }} </p>
+            </div>
+        </main>
+    </div>
+
+
+    <script type="text/javascript" src="{% static 'js/product-info.js' %}"></script>
+
+    <script>
+        $(document).on('click','#add-button', function(e){
+            e.preventDefault();
+            // Check if a size is selected
+            if ($('.size-option.selected').length === 0) {
+                alert('Vui lòng chọn size'); // Display the alert message
+                return; // Stop further execution
+            }
+            var selectedSize = $('.size-option.selected').data('size');
+            var detail_id = $('.size-option.selected').data('id')
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'cart-add' %}',
+                data:{
+                    product_id: $('#add-button').val(),
+                    size:selectedSize,
+                    product_detail_id: detail_id,
+                    product_quantity : 1,
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                    action: 'post'
+                },
+                success: function(json){
+                    location.reload(true);
+                },
+                error: function (xhr, errmsg,err){
+
+                }
+            });
+        })
+    </script>
+
+{% endblock %}

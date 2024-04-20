@@ -1,38 +1,52 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
 from .models import Order, OrderItem
 from .forms import CheckoutForm
+from product.models import Product, ProductDetail
+from django.urls import resolve
+
+
+def generate_product_details_object(product_detail: ProductDetail):
+    return {
+        'id': product_detail.pk,
+        'product_name': product_detail.product.product_name,
+        'image_url': product_detail.product.images.all()[0].image,
+        'price': product_detail.product.price,
+        'quantity': product_detail.quantity
+    }
+
+
+def generate_data(request):
+    product_details = ProductDetail.objects.filter(
+        cartdetail__cart__user=request.user)
+    return list(map(generate_product_details_object, product_details))
+
 
 @login_required(login_url='signin')
 def checkout(request):
-    data = [{'id': 1, 'product_name': 'Ao thun xanh', 'image_url': 'images/cart-item-image1.png', 'price': 250_000, 'quantity': 1},
-          {'id': 2, 'product_name': 'Ao thun den', 'image_url': 'images/cart-item-image1.png', 'price': 150_000, 'quantity': 2},
-          {'id': 3, 'product_name': 'Ao thun trang', 'image_url': 'images/cart-item-image1.png', 'price': 200_000, 'quantity': 1},
-          {'id': 4, 'product_name': 'Ao thun', 'image_url': 'images/cart-item-image1.png', 'price': 200_000, 'quantity': 1
-          }]
-    total_price = 0
-    for item in data:
-        item_total = item['price'] * item['quantity']
-        item['item_total'] = item_total
-        total_price = total_price + item_total
-    
-    template = loader.get_template('checkout.html')
-    context = {
-        'data': data,
-        'total_price': total_price
-    }
+    if request.method == "POST":
+        data = generate_data(request)
+        total_price = 0
+        for item in data:
+            item_total = item['price'] * item['quantity']
+            item['item_total'] = item_total
+            total_price = total_price + item_total
 
-    return HttpResponse(template.render(context, request))
+        template = 'checkout.html'
+        context = {
+            'data': data,
+            'total_price': total_price
+        }
+        return render(request=request,
+                      template_name=template,
+                      context=context)
+
 
 @login_required(login_url='signin')
 def placeorder(request):
-    data = [{'id': 1, 'product_name': 'Ao thun xanh', 'image_url': 'images/cart-item-image1.png', 'price': 250_000, 'quantity': 1},
-          {'id': 2, 'product_name': 'Ao thun den', 'image_url': 'images/cart-item-image1.png', 'price': 150_000, 'quantity': 2},
-          {'id': 3, 'product_name': 'Ao thun trang', 'image_url': 'images/cart-item-image1.png', 'price': 200_000, 'quantity': 1},
-          {'id': 4, 'product_name': 'Ao thun', 'image_url': 'images/cart-item-image1.png', 'price': 200_000, 'quantity': 1
-          }]
+    data = generate_data(request)
 
     if request.method == 'POST':
         form = CheckoutForm(request.POST)
@@ -66,6 +80,7 @@ def placeorder(request):
     else:
         form = CheckoutForm(None)
         return render(request, 'checkout.html', {'form': form})
+
 
 def ordersummary(request):
     template = loader.get_template('ordersummary.html')

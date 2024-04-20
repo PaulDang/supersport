@@ -1,5 +1,7 @@
 "use strict";
 
+const toTitleCase = (action) => action[0].toUpperCase() + action.slice(1);
+
 const getCSRFToken = function () {
   const cookie = document.cookie;
   const csrfToken = cookie.replace("csrftoken=", "");
@@ -7,8 +9,19 @@ const getCSRFToken = function () {
   return csrfToken;
 };
 
-const submitButtonClicked = async function () {
-  let formData;
+const sendPostToBackEnd = async function ({ url, body }) {
+  const csrfToken = getCSRFToken();
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": `${csrfToken}`,
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (response.status != 200) throw Error();
+  return response;
 };
 
 const updateDatabase = async function (
@@ -16,30 +29,21 @@ const updateDatabase = async function (
   { action = "update", quantity = 0 }
 ) {
   const productDetailId = data.dataset.productDetailId;
-  const csrfToken = getCSRFToken();
   try {
     if (action !== "delete" && action !== "update") return;
 
-    const response = await fetch("/cart/submit_data", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": `${csrfToken}`,
-      },
-      body: JSON.stringify({
+    await sendPostToBackEnd({
+      url: "/cart/submit_data",
+      body: {
         productDetailId,
         action,
         quantity,
-      }),
+      },
     });
 
-    if (response.status != 200) throw Error();
-
-    console.log(
-      `${action[0].toUpperCase() + action.slice(1)} request sent successfully`
-    );
+    console.log(`${toTitleCase(action)} request sent successfully`);
   } catch (error) {
-    console.error("Error sending delete request:");
+    console.error(`Error sending ${toTitleCase(action)} request:`);
   }
 };
 
@@ -97,16 +101,18 @@ const buttonTrigger = function (e) {
     clickedButton.classList.contains("btnPlus") ||
     clickedButton.classList.contains("btnMinus")
   )
-    onQuantityChanged(clickedButton);
+    return onQuantityChanged(clickedButton);
 
   if (clickedButton.classList.contains("btn-delete-from-cart"))
-    deleteProduct(clickedButton);
+    return deleteProduct(clickedButton);
 };
 
 const addButtonDelegateEvent = function () {
   const productsElement = document.querySelector(".products");
+  const btnSubmitPayElement = document.querySelector(".btn-submit-pay");
   productsElement.addEventListener("click", buttonTrigger);
   productsElement.addEventListener("change", onQuantityChanged);
+  btnSubmitPayElement.addEventListener("", submitButtonClicked);
 };
 
 document.addEventListener("DOMContentLoaded", addButtonDelegateEvent);

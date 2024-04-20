@@ -1,0 +1,72 @@
+{% load static %}
+{% load crispy_forms_tags %}
+{% load bootstrap_icons %}
+
+<div class="container-fluid p-0 sticky-top bg-white">
+  <nav class="navbar navbar-expand-lg navbar-light mx-5">
+    <a class="navbar-brand" href="/">
+      <img src="{% static 'img/logo-2.png' %}" alt="logo" width="150px">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMobile" aria-controls="navbarMobile" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMobile">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 justify-content-center">
+        <li class="nav-item mx-2">
+          <a
+            class="nav-link link-light text-black text-uppercase"
+            href="/"
+          >Trang chủ</a
+            >
+          </li>
+          <li class="nav-item mx-2">
+            <a
+              class="nav-link link-light text-black text-uppercase"
+              href="/cart"
+            >Sản phẩm</a
+              >
+            </li>
+            <li class="nav-item mx-2">
+              <a
+                class="nav-link link-light text-black text-uppercase"
+                href="/"
+              >Chúng tôi</a
+                >
+              </li>
+              <li class="nav-item mx-2">
+                <a
+                  class="nav-link link-light text-black text-uppercase"
+                  href="/"
+                >Liên hệ</a
+                  >
+                </li>
+              </ul>
+              <div class="d-flex align-items-center">
+                <form class="mx-3">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                </form>
+                {% if user.is_authenticated %}
+                  <span class="mx-1">
+                    <a
+                      href={% url "signout" %}
+                      class="text-decoration-none"
+                    >{% bs_icon 'person-dash' size='1.2em' %}</a
+                      >
+                    </span>
+                    <span class="mx-1">
+                      <a class="text-decoration-none" href={% url "userInfo" %}>Welcome, {{user.username}}</a>
+                    </span>
+                {% else %}
+
+                  <span class="px-2 mx-1">
+                    <a href={% url "signin" %} class="text-decoration-none">{% bs_icon 'person-add' size='1.4em' color='black'%}</a>
+                  </span>
+
+                {% endif %}
+
+                <button class="btn border-0 px-2 mx-1">{% bs_icon 'suit-heart' size='1.2em' color='black'%}</button>
+                <button class="btn border-0 px-2 mx-1">{% bs_icon 'cart' size='1.2em' color='black'%}</button>
+              </div>
+            </div>
+          </nav>
+        </div>

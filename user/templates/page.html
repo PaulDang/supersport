@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %} {% endblock %}</title>
+        {% load static %}
+        {% load bootstrap5 %}
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+        {% load bootstrap_icons %}
+        <link rel="stylesheet" href="{% static '/css/global.css' %}" />
+        <link rel="stylesheet" href="{% static '/css/sign.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/CartStyles.css' %}" />
+        {% block link %} {% endblock %}
+    </head>
+    <body>
+        {% if request.path == '/signin/' or request.path == '/signup/' %}
+            {% block sign %} {% endblock %}
+        {% else %}
+            {% include "./component/menu.html" %}
+
+            {% block content %} {% endblock %}
+
+            {% include "./component/footer.html" %}
+        {% endif %}
+    </body>
+</html>

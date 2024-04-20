@@ -1,10 +1,10 @@
 :root {
-  --django-primary: #1b3633;
+  --django-primary: #15293b;
   --django-secondary: #cad3e5;
   --django-light: #fff;
   --django-dark: #e6e6e6;
 
-  --django-primary--hover: #29524d;
+  --django-primary--hover: #354F65;
 }
 
 * {

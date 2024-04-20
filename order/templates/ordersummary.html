@@ -1,0 +1,16 @@
+{% extends "page.html" %}
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block title %}
+    Xác nhận đơn hàng
+{% endblock %}
+
+{% block content %}
+
+<section class="order-summary py-5 my-5 text-center">
+    <p class="text-center">{% bs_icon 'balloon-heart-fill' size='3em' color="#15293b" %}</p>
+    <h2 class="text-uppercase">Cảm ơn</h2>
+    <h5 class="mt-2">Bạn đã đặt hàng thành công</h5>
+</section>
+{% endblock %}

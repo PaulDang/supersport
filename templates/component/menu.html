@@ -47,16 +47,16 @@
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 </form>
                 {% if user.is_authenticated %}
-                    <span class="mx-1">
-                    <a
-                            href={% url "signout" %}
-                                    class="text-decoration-none"
-                    >{% bs_icon 'person-dash' size='1.2em' %}</a
-                    >
-                </span>
-                    <span class="mx-1">
-                        <a class="text-decoration-none" href={% url "userInfo" %}>Welcome, {{user.username}}</a>
-                    </span>
+                    <div class="dropdown">
+                         <button class="btn dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {% bs_icon 'person-dash' size='1.2em' %} Welcome, {{user.username}}
+                        </button>
+                        <ul class="dropdown-menu w-100 mt-1">
+                            <li><a class="dropdown-item" href={% url "userInfo" %}>Tài khoản của tôi</a></li>
+                            <li><a class="dropdown-item" href={% url "signout" %}>Đăng xuất</a></li>
+                         </ul>
+                    </div>
+
                 {% else %}
 
                     <span class="px-2 mx-1">

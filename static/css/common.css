@@ -1,6 +1,6 @@
 :root {
-  --django-primary: #12283E;
-  --django-primary-hover: #2F4C68;
+  --django-primary: #15293b;
+  --django-primary-hover: #12283E;
   --django-secondary: #cad3e5;
   --django-secondary-hover: #5B7792;
   --django-light: #fff;
@@ -50,4 +50,10 @@ a:visited {
 .btn-primary:focus {
     background-color: var(--django-primary-hover);
     border-color: var(--django-primary-hover);
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+    color: #212529;
+    background-color: #e9ecef;
 }

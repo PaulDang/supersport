@@ -3,7 +3,7 @@ from django.template import loader
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib import messages
-from .forms import RegisterForm, ChangePasswordForm, UpdateUserForm
+from .forms import RegisterForm, ChangePasswordForm, UpdateUserForm, UpdatedForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .models import User

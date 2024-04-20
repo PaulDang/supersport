@@ -5,7 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("product", "0004_alter_productdetail_options_remove_product_image_and_more"),
+        ("product", "0004_alter_productdetail_options"),
     ]
 
     operations = [

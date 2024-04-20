@@ -54,3 +54,7 @@ def submit_data(request):
         except (JSONDecodeError, ValueError) as e:
             return JsonResponse({'message': f"{str(e) if e else 'Invalid JSON data'}"}, status=400)
     return JsonResponse({'error': "Method not allowed"}, 405)
+
+
+def redirect_to_checkout(request):
+    return redirect("checkout")

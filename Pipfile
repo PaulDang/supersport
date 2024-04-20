@@ -14,7 +14,7 @@ python-dotenv = "*"
 django-bootstrap-icons = "*"
 pillow = "*"
 django-imagekit = "*"
-djhtml = "*"
+django-mathfilters = "*"
 
 [dev-packages]
 

@@ -10,14 +10,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %} {% endblock %}</title>
-    {% load static %}
-    {% load bootstrap5 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
-    {% load bootstrap_icons %}
-    <link rel="stylesheet" href="{% static '/css/global.css' %}" />
-    <link rel="stylesheet" href="{% static '/css/sign.css' %}" />
-    {% block link %} {% endblock %}
+        {% load static %}
+        {% load bootstrap5 %}
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+        {% load bootstrap_icons %}
+
 
     <!-- CSS -->
 
@@ -37,19 +35,24 @@
     <!-- Bootstrap Max CDN -->
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static '/css/global.css' %}" />
+    <link rel="stylesheet" href="{% static '/css/sign.css' %}" />
+    <link rel="stylesheet" href="{% static '/css/main.css' %}" />
+{#        <link rel="stylesheet" href="{% static 'CSS/Datstyles.css' %}" />#}
     {% block link %} {% endblock %}
 
   </head>
   <body>
     {% if request.path == '/signin/' or request.path == '/signup/' %}
-      {% block sign %} {% endblock %}
-    {% else %}
-      {% include "./component/menu.html" %}
+            {% block sign %} {% endblock %}
+        {% else %}
+            {% include "./component/menu_base.html" %}
 
       {% block content %} {% endblock %}
 
-      {% include "./component/footer.html" %}
+{#            {% include "./component/footer.html" %}#}
     {% endif %}
   </body>
 

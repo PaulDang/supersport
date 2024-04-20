@@ -1,0 +1,111 @@
+{% extends "page.html" %}
+{% load static %}
+
+{% block title %}
+    Thanh toán
+{% endblock %}
+
+{% block link %}
+    <link rel="stylesheet" href="{% static '/css/checkout.css' %}" />
+{% endblock %}
+
+{% block content %}
+<section class="checkout-page">
+    <div class="container-fluid p-0 d-flex justify-content-center align-items-center checkout-banner">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="text-center text-uppercase">Thanh toán</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center">
+                      <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">Thanh toán</li>
+                    </ol>
+                  </nav>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <h1 class="col-12 mt-5 mb-4">Địa chỉ giao hàng</h1>
+            <div class="col-12 col-md-6">
+                <form>
+                    <div class="row mb-3">
+                        <div class="col-12 col-md-6">
+                            <label for="firstname" class="form-label">Họ</label>
+                            <input type="text" class="form-control" id="firstname" placeholder="Họ người nhận" required>
+                            <div class="invalid-feedback">
+                                Vui lòng nhập họ
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="lastname" class="form-label">Tên</label>
+                            <input type="text" class="form-control" id="lastname" placeholder="Tên người nhận" required>
+                            <div class="invalid-feedback">
+                                Vui lòng nhập tên
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email" required>
+                        <div id="emailHelp" class="form-text">Chúng tôi không chia sẻ email với bất kỳ ai</div>
+                        <div class="invalid-feedback">
+                            Vui lòng nhập địa chỉ email
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Địa chỉ giao hàng</label>
+                        <input type="text" class="form-control" id="address" placeholder="Địa chỉ nhận hàng (Số nhà, đường phố, hẻm, Căn hộ...)" required>
+                        <div class="invalid-feedback">
+                            Vui lòng nhập địa chỉ giao hàng
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mobile-phone" class="form-label">Số điện thoại</label>
+                        <input type="text" class="form-control" id="mobile-phone" placeholder="Điện thoại">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary border-0 d-none">Thanh toán</button>
+                  </form>
+            </div>
+            <div class="col-12 col-md-6 ps-md-5">
+                <ol class="ps-0">
+                    <li class="d-flex align-items-center py-1">
+                        <img src="{% static 'img/cart_session-item-image1.png' %}" alt="ao thun" width="70px" class="p-1 me-2">
+                        <span>Áo thun x 1</span>
+                        <span class="ms-auto">250,000 đồng</span>
+                    </li>
+                    <li class="d-flex align-items-center py-1">
+                        <img src="{% static 'img/cart_session-item-image1.png' %}" alt="ao thun" width="70px" class="p-1 me-2">
+                        <span>Áo thun x 1</span>
+                        <span class="ms-auto">250,000 đồng</span>
+                    </li>
+                </ol>
+                <div class="py-4 border-top border-bottom my-3">
+                    <div class="d-flex">
+                        <span>Tổng tiền hàng</span>
+                        <span class="ms-auto">250,000 đồng</span>
+                    </div>
+                    <div class="d-flex mt-1">
+                        <span>Thành tiền</span>
+                        <span class="ms-auto fs-4 total-price"><strong>250,000 đồng</strong></span>
+                    </div>
+                </div>
+                <div>
+                    <p>Thanh toán</p>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="payment" id="payment" checked>
+                        <label class="form-check-label" for="payment">
+                            Tiền mặt khi giao hàng
+                        </label>
+                    </div>
+                    <p class="fst-italic fw-light mt-2 payment-subdescription">
+                        Dữ liệu cá nhân của bạn sẽ được sử dụng để hỗ trợ trải nghiệm của bạn trên toàn bộ trang web này, để quản lý quyền truy cập vào tài khoản của bạn và cho các mục đích khác được mô tả trong chính sách bảo mật của chúng tôi.
+                    </p>
+                </div>
+                <p class="text-center"><button class="btn btn-primary col-5 p-2 my-3">Đặt hàng</button></p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

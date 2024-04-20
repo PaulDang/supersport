@@ -7,3 +7,6 @@ Pipfile.lock
 .prettierrc
 .vscode
 .env
+
+.idea/
+

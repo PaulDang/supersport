@@ -1,0 +1,118 @@
+{% extends "page.html" %}
+{% load static %}
+
+{% block title %}
+Chúng tôi
+{% endblock %}
+
+{% block link %}
+<link rel="stylesheet" href="{% static '/css/component/card.css' %}" />
+{% endblock %}
+
+{% block content %}
+
+<section class="about-us">
+    <div class="wrapper">
+        <div class="main-content">
+            <h1 class="fade-in">Chào mừng đến với <br/>"Hội học Python"<br/></h1>
+            <p class="fade-in delayed">Chúng tôi là một nhóm năng động gồm những người đam mê Python, những người tin rằng<br/>
+                viết mã không chỉ là cú pháp—đó là một hành trình khám phá, cộng tác và phát triển.</p>
+        </div>
+    </div>
+
+    <h2 class="center">Thành Viên</h2>
+
+    <ul class="cards">
+        <li>
+            <a href="" class="card">
+                <img src="{% static 'media/images/aboutus/pexels-chiara-ripamonti-3678315-5595147.jpg' %}" class="card__image" alt="" />
+                <div class="card__overlay">
+                    <div class="card__header">
+                        <svg class="card__arc" xmlns="http://www.w3.org/2000/svg">
+                            <path />
+                        </svg>
+                        <img class="card__thumb" src="{% static 'media/images/thanh.png' %}" alt="" />
+                        <div class="card__header-text">
+                            <h3 class="card__title">Thành Đặng</h3>
+                            <span class="card__status">Trưởng nhóm</span>
+                        </div>
+                    </div>
+                    <p class="card__description">Nhiệm vụ: Xây dựng trang danh sách sản phẩm, và chi tiết sản phẩm</p>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="" class="card">
+                <img src="{% static 'media/images/aboutus/pexels-gaulle-62949736-8118777.jpg' %}" class="card__image" alt="" />
+                <div class="card__overlay">
+                    <div class="card__header">
+                        <svg class="card__arc" xmlns="http://www.w3.org/2000/svg">
+                            <path />
+                        </svg>
+                        <img class="card__thumb" src="{% static 'media/images/tien.png' %}" alt="" />
+                        <div class="card__header-text">
+                            <h3 class="card__title">Văn Tiến</h3>
+                            <span class="card__status">Pháp sư web</span>
+                        </div>
+                    </div>
+                    <p class="card__description">Nhiệm vụ: Xây dựng trang danh sách sản phẩm, , và chi tiết sản phẩm</p>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="" class="card">
+                <img src="{% static 'media/images/aboutus/pexels-oacthecreator-10241085.jpg' %}" class="card__image" alt="" />
+                <div class="card__overlay">
+                    <div class="card__header">
+                        <svg class="card__arc" xmlns="http://www.w3.org/2000/svg">
+                            <path />
+                        </svg>
+                        <img class="card__thumb" src="{% static 'media/images/ngoc.png' %}" alt="" />
+                        <div class="card__header-text">
+                            <h3 class="card__title">Quách Ngọc</h3>
+                            <span class="card__status">Người gỡ lỗi</span>
+                        </div>
+                    </div>
+                    <p class="card__description">Nhiệm vụ: Xây dựng trang đăng nhập, đăng ký và cập nhật thông tin người dùng</p>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="" class="card">
+                <img src="{% static 'media/images/aboutus/pexels-pratishta-sehgal-64835130-8630669.jpg' %}" class="card__image" alt="" />
+                <div class="card__overlay">
+                    <div class="card__header">
+                        <svg class="card__arc" xmlns="http://www.w3.org/2000/svg">
+                            <path />
+                        </svg>
+                        <img class="card__thumb" src="{% static 'media/images/tien.png' %}" alt="" />
+                        <div class="card__header-text">
+                            <h3 class="card__title">Nguyễn Quốc Đạt</h3>
+                            <span class="card__status">Thành viên nhiệt huyết</span>
+                        </div>
+                    </div>
+                    <p class="card__description">Nhiệm vụ: Xây dựng trang danh quản lý giỏ hàng</p>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="" class="card">
+                <img src="{% static 'media/images/aboutus/pexels-joicerivas-8017295.jpg' %}" class="card__image" alt="" />
+                <div class="card__overlay">
+                    <div class="card__header">
+                        <svg class="card__arc" xmlns="http://www.w3.org/2000/svg">
+                            <path />
+                        </svg>
+                        <img class="card__thumb" src="{% static 'media/images/ngoc.png' %}" alt="" />
+                        <div class="card__header-text">
+                            <h3 class="card__title">Trần Thị Huyền Trang</h3>
+                            <span class="card__status">Người phù phép UI</span>
+                        </div>
+                    </div>
+                    <p class="card__description">Nhiệm vụ: Xây dựng trang thanh toán, chúng tôi và liên hệ</p>
+                </div>
+            </a>
+        </li>
+    </ul>
+</section>
+{% endblock %}

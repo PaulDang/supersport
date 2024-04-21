@@ -11,7 +11,7 @@ class Order(models.Model):
     firstName = models.CharField(max_length=150, null=False, blank=False)
     lastName = models.CharField(max_length=150, null=False, blank=False)
     email = models.EmailField(max_length=150, null=False, validators=[validate_email], blank=False)
-    phone = models.CharField(max_length=150, null=False, blank=False)
+    phone = models.CharField(max_length=12, null=False, blank=False)
     address = models.TextField(null=False, blank=False)
     total_price = models.FloatField(null=False)
     payment_mode = models.CharField(max_length=150, null=False)

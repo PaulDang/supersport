@@ -14,30 +14,35 @@
         <div class="collapse navbar-collapse" id="navbarMobile">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 justify-content-center">
                 <li class="nav-item mx-2">
-                    <a
-                            class="nav-link link-light text-black text-uppercase"
-                            href="/"
-                    >Trang chủ</a
-                    >
-                </li>
-                <li class="nav-item mx-2">
-                    <a
-                            class="nav-link link-light text-black text-uppercase"
-                            href="/cart"
-                    >Sản phẩm</a
-                    >
+                    <div class="dropdown">
+                        <a class="nav-link link-light text-black text-uppercase" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                            Sản phẩm
+                        </a>
+                        <ul class="dropdown-menu w-100 mt-1">
+                            <li><a class="dropdown-item" href="#">Mới</a></li>
+                            <li><a class="dropdown-item" href="#">Nam</a></li>
+                            <li><a class="dropdown-item" href="#">Nữ</a></li>
+                        </ul>
+                   </div>
                 </li>
                 <li class="nav-item mx-2">
                     <a
                             class="nav-link link-light text-black text-uppercase"
                             href="/"
+                    >Sale</a
+                    >
+                </li>
+                <li class="nav-item mx-2">
+                    <a
+                            class="nav-link link-light text-black text-uppercase"
+                            href="about-us"
                     >Chúng tôi</a
                     >
                 </li>
                 <li class="nav-item mx-2">
                     <a
                             class="nav-link link-light text-black text-uppercase"
-                            href="/"
+                            href="contact-us"
                     >Liên hệ</a
                     >
                 </li>
@@ -52,21 +57,38 @@
                             {% bs_icon 'person-dash' size='1.2em' %} Welcome, {{user.username}}
                         </button>
                         <ul class="dropdown-menu w-100 mt-1">
+                            <li><a class="dropdown-item" href={% url "dashboard" %}>Admin</a></li>
                             <li><a class="dropdown-item" href={% url "userInfo" %}>Tài khoản của tôi</a></li>
                             <li><a class="dropdown-item" href={% url "signout" %}>Đăng xuất</a></li>
                          </ul>
                     </div>
 
                 {% else %}
-
-                    <span class="px-2 mx-1">
-                    <a href={% url "signin" %} class="text-decoration-none">{% bs_icon 'person-add' size='1.4em' color='black' %}</a>
-                </span>
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {% bs_icon 'person-add' size='1.4em' color='black' %}
+                        </button>
+                        <ul class="dropdown-menu w-100 mt-1">
+                            <li><a class="dropdown-item" href={% url "dashboard" %}>Admin</a></li>
+                            <li><a class="dropdown-item" href={% url "signin" %}>Đăng nhập</a></li>
+                        </ul>
+                    </div>
 
                 {% endif %}
-
-                <button class="btn border-0 px-2 mx-1">{% bs_icon 'suit-heart' size='1.2em' color='black' %}</button>
-                <button class="btn border-0 px-2 mx-1">{% bs_icon 'cart' size='1.2em' color='black' %}</button>
+                <div class="nav-item d-flex align-items-center cart-button">
+                    <a class="btn btn-cart border-0" type="button" role="button" href="">
+                        {% bs_icon 'cart' size='1.2em' color='black' %}
+                        <div id="cart-qty" class="d-inline-flex">
+                            <div id="cart-qty" class="d-inline-flex">
+                                {% if cart|length > 0 %}
+                                    <p class="number_cart">{{ cart|length }}</p>
+                                {% else %}
+                                    <!-- Nếu giỏ hàng trống, không cần hiển thị gì cả -->
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
     </nav>

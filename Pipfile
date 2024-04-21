@@ -15,6 +15,7 @@ django-bootstrap-icons = "*"
 pillow = "*"
 django-imagekit = "*"
 django-mathfilters = "*"
+djhtml = "*"
 
 [dev-packages]
 

@@ -18,12 +18,12 @@ class ProductAdmin(admin.ModelAdmin):
             return admin.ModelAdmin.formfield_for_dbfield(self, db_field, **kwargs)
         return super(ProductAdmin, self).formfield_for_dbfield(db_field, **kwargs)
 
-    def save_form(self, request, form, instance):
-        form.save()
-        if request.FILES.get('images'):
-            for image_file in request.FILES.getlist('images'):
-                product_image = ProductImage.objects.create(
-                    image=image_file, product=instance)
+    # def save_form(self, request, form, instance):
+    #     form.save()
+    #     if request.FILES.get('images'):
+    #         for image_file in request.FILES.getlist('images'):
+    #             product_image = ProductImage.objects.create(
+    #                 image=image_file, product=instance)
 
 
 @admin.register(Brand)

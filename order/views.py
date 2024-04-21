@@ -70,3 +70,11 @@ def placeorder(request):
 def ordersummary(request):
     template = loader.get_template('ordersummary.html')
     return HttpResponse(template.render())
+
+def aboutus(request):
+    template = loader.get_template('aboutus.html')
+    return HttpResponse(template.render())
+
+def contactus(request):
+    template = loader.get_template('contactus.html')
+    return HttpResponse(template.render())

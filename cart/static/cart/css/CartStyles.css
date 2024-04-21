@@ -1,19 +1,5 @@
-:root {
-  --django-primary: #1b3633;
-  --django-secondary: #cad3e5;
-  --django-light: #fff;
-  --django-dark: #e6e6e6;
-
-  --django-primary--hover: #29524d;
-}
-
-* {
-  box-sizing: border-box;
-}
-
 .logo img {
-  width: 90px;
-  height: 90px;
+  width: 150px;
 }
 
 .header {
@@ -67,11 +53,6 @@
   background-color: var(--django-primary);
 }
 
-.btn-primary:hover,
-.btn-primary:active {
-  background-color: var(--django-primary--hover);
-}
-
 .section-summary {
   margin-bottom: 50px;
   padding: 54px 40px;
@@ -98,7 +79,7 @@
 
 .footer-link:link,
 .footer-link:visited {
-  color: var(--django-primary--hover);
+  color: #000;
 }
 
 .footer .footer-signup--button,

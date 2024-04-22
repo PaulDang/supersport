@@ -66,10 +66,10 @@
       alertify.set('notifier','position', 'top-right');
 
       {% for message in messages %}
-      {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-        alertify.success('{{message}}');
-        {% else %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
           alertify.error('{{message}}');
+        {% else %}
+          alertify.success('{{message}}');
         {% endif %}
       {% endfor %}   
 

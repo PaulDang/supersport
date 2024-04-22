@@ -52,14 +52,6 @@
             <hr>
 
             <br>
-            {% if messages %}
-                <div class="alert alert-success">
-                    {% for message in messages %}
-                        {{ message }}
-                    {% endfor %}
-                </div>
-            {% endif %}
-
             <form method="POST" autocomplete="off">
 
                 {% csrf_token %}

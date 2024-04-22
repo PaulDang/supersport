@@ -41,6 +41,13 @@
     <link rel="stylesheet" href="{% static '/css/sign.css' %}" />
     {% block link %} {% endblock %}
 
+
+    {% comment %} Setting AlertifyJS {% endcomment %}
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+
   </head>
   <body>
     {% if request.path == '/signin/' or request.path == '/signup/' %}
@@ -50,8 +57,22 @@
 
       {% block content %} {% endblock %}
 
-{#            {% include "./component/footer.html" %}#}
     {% endif %}
-  </body>
+    
+    {% comment %} Setting AlertifyJS {% endcomment %}
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
+    <script> 
+      alertify.set('notifier','position', 'top-right');
+
+      {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+          alertify.error('{{message}}');
+        {% else %}
+          alertify.success('{{message}}');
+        {% endif %}
+      {% endfor %}   
+
+    </script>    
+  </body>
 </html>

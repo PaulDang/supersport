@@ -182,3 +182,7 @@ def change_password(request):
         template_name="./component/user-info/change-password.html",
         context={"form": form},
     )
+
+def password_reset(req):
+    if req.method == "POST":
+        form = ChangePasswordForm(request.POST)

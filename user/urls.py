@@ -20,28 +20,28 @@ urlpatterns = [
     path("user-info/", views.dashboard, name="user-info"),
     # path("password-reset/", views.dashboard, name="password-reset"),
     path(
-        "password-reset/",
+        "password_reset/",
         PasswordResetView.as_view(
             template_name="./component/reset-password/password_reset.html"
         ),
         name="password-reset",
     ),
     path(
-        "password-reset/done/",
+        "password_reset/done/",
         PasswordResetDoneView.as_view(
             template_name="./component/reset-password/password_reset_done.html"
         ),
         name="password_reset_done",
     ),
     path(
-        "password-reset-confirm/<uidb64>/<token>/",
+        "reset/<uidb64>/<token>/",
         PasswordResetConfirmView.as_view(
             template_name="./component/reset-password/password_reset_confirm.html"
         ),
         name="password_reset_confirm",
     ),
     path(
-        "password-reset-complete/",
+        "reset/done/",
         PasswordResetCompleteView.as_view(
             template_name="./component/reset-password/password_reset_complete.html"
         ),

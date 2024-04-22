@@ -11,8 +11,8 @@
     <div class="d-flex justify-content-center align-items-center ml-auto mr-auto" style='height: 100vh;'>
       <div style='margin: 100px; width: 600px;'>
         <div style='padding-bottom: 45px;'>
-          <h2>Get Started Now</h2>
-          <h5>Create your new account</h5>
+          <h2>Bắt đầu ngay bây giờ</h2>
+          <h5>Tạo tài khoản mới</h5>
         </div>
         <form method="post">
           {% csrf_token %}
@@ -30,31 +30,29 @@
             {{ register_form.address|as_crispy_field }}
           </div>
 
-          <button type="submit" class="btn btn-primary w-100" style='margin-top: 40px;'>Sign up</button>
+          <button type="submit" class="btn btn-primary w-100" style='margin-top: 40px;'>Đăng ký</button>
         </form>
 
         <div class='d-flex justify-content-center align-items-center mt-4 mb-4'>
           <div class='w-100'>
             <hr class="hr">
           </div>
-          <div style='font-size: 10px;'>&nbsp;Or&nbsp;</div>
+          <div style='font-size: 10px;'>&nbsp;Hoặc&nbsp;</div>
           <div class='w-100'>
             <hr class="hr">
           </div>
         </div>
 
-        <p class='text-center'>Have an account?  
-          <a href="/signin" class="link-primary">Sign in</a>
+        <p class='text-center'>Bạn chưa có tài khoản?  
+          <a href="/signin" class="link-primary">Đăng ký</a>
         </p>
 
-        {% if messages %} 
-          {% for message in messages%} 
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-              {{ message }}
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div> 
-          {% endfor %} 
-        {% endif %}
+        <div class='text-center' style='font-size: 13px'>
+          <a type="button" href="/">
+            Quay trở lại trang chủ
+          </a> 
+        </div>
+
       </div>
       <div style='max-width:900px;'>
           <img src='{% static "/img/sign.jpg" %}' class="img-fluid" alt="signin" />

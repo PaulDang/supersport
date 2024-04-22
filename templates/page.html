@@ -11,6 +11,13 @@
     <link rel="stylesheet" href="{% static '/css/global.css' %}" />
     <link rel="stylesheet" href="{% static '/css/sign.css' %}" />
     <link rel="stylesheet" href="{% static 'cart/css/CartStyles.css' %}" />
+
+    {% comment %} Setting AlertifyJS {% endcomment %}
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+
     {% block link %} {% endblock %}
   </head>
   <body>
@@ -22,6 +29,23 @@
       {% block content %} {% endblock %}
 
       {% include "component/footer.html" %}
+
     {% endif %}
+
+    {% comment %} Setting AlertifyJS {% endcomment %}
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+    <script> 
+      alertify.set('notifier','position', 'top-right');
+
+      {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+          alertify.error('{{message}}');
+        {% else %}
+          alertify.success('{{message}}');
+        {% endif %}
+      {% endfor %}   
+
+    </script>  
   </body>
 </html>

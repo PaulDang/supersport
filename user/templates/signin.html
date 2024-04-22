@@ -11,8 +11,8 @@
   >
     <div style="margin: 100px; width: 600px">
       <div style="padding-bottom: 45px">
-        <h2>Welcome back!</h2>
-        <h5>Enter your Credentials to access your account</h5>
+        <h2>Chào mừng trở lại!</h2>
+        <h5>Nhập thông tin xác thực của bạn để truy cập vào tài khoản của bạn</h5>
       </div>
       <form method="post">
         {% csrf_token %}
@@ -22,32 +22,30 @@
           class="btn btn-primary w-100"
           style="margin-top: 40px"
         >
-          Login
+          Đăng nhập
         </button>      </form>
 
       <div class="d-flex justify-content-center align-items-center mt-4 mb-4">
         <div class="w-100">
           <hr class="hr" />
         </div>
-        <div style="font-size: 10px">&nbsp;Or&nbsp;</div>
+        <div style="font-size: 10px">&nbsp;Hoặc&nbsp;</div>
         <div class="w-100">
           <hr class="hr" />
         </div>
       </div>
 
       <p class="text-center">
-        Don’t have an account?
-        <a href="/signup" class="link-primary">Sign up</a>
+       Bạn chưa có tài khoản?
+        <a href="/signup" class="link-primary">Đăng ký</a>
       </p>
 
-      {% if messages %} 
-        {% for message in messages%} 
-          <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div> 
-        {% endfor %} 
-      {% endif %}
+      <div class='text-center' style='font-size: 13px'>
+        <a type="button" href="/">
+          Quay trở lại trang chủ
+        </a> 
+      </div>
+
     </div>
     <div style="max-width: 900px">
       <img src='{% static "/img/sign.jpg" %}' class="img-fluid" alt="signin" />

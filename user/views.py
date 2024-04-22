@@ -12,18 +12,27 @@ from product.models import Product
 User = get_user_model()
 
 
+# def handle_render_admin(template_name_admin, template_name, request):
+#     if request.user.is_superuser == 1:
+#         return render(request=request, template_name=template_name_admin)
+#     return render(
+#         request=request,
+#         template_name=template_name,
+#     )
+
+
 def cart(request):
     return render(
         request=request,
         template_name="cart.html",
     )
 
+
 def main(request):
     all_products = Product.objects.all()
-    context = {
-        'all_products': all_products
-    }
-    return render(request, 'product/store.html', context)
+    context = {"all_products": all_products}
+    return render(request, "product/store.html", context)
+
 
 def get_signup(request):
     if request.method == "POST":
@@ -74,63 +83,71 @@ def get_signout(request):
     messages.success(request, "Bạn đã đăng xuất thành công.")
     return redirect("signin")
 
-def update_user_info(request):
-    if request.user.is_authenticated:
-        current_user = User.objects.get(userId=request.user.userId)
-        
-        if request.method == "POST":
-            form = UpdatedForm(request.POST or None, instance=current_user)
-            if form.is_valid():
-                user = request.user
 
-                # Update user information using cleaned data
-                user.firstName = form.cleaned_data.get("firstName")
-                user.lastName = form.cleaned_data.get("lastName")
-                user.email = form.cleaned_data.get("email")
-                user.phone = form.cleaned_data.get("phone")
-                user.address = form.cleaned_data.get("address")
-
-@login_required(login_url='signin')
+@login_required(login_url="signin")
 def update_user_info(request):
     if request.method == "POST":
         form = UpdatedForm(request.POST or None, instance=request.user)
         if form.is_valid():
             form.save()
-            messages.success(request, "Thông tin người dùng đã được cập nhật thành công!")
+            messages.success(
+                request, "Thông tin người dùng đã được cập nhật thành công!"
+            )
             return redirect("user_info")
     else:
         form = UpdatedForm(instance=request.user)
     return render(
         request=request,
-        template_name="userInfo.html",
+        template_name="user-info.html",
         context={"user_info_form": form},
     )
-@login_required(login_url='signin')
+
+
+@login_required(login_url="signin")
 def dashboard(request):
+    # handle_render_admin(
+    #     "dashboard.html", "./component/user-info/user-info.html", request
+    # )
+    if request.user.is_superuser == 1:
+        return render(request=request, template_name="dashboard.html")
     return render(
         request=request,
-        template_name="dashboard.html",
+        template_name="./component/user-info/user-info.html",
     )
-@login_required(login_url='signin')
-def profile(request):
 
+
+@login_required(login_url="signin")
+def profile(request):
     # update username and password
     if request.method == "POST":
         user_form = UpdateUserForm(request.POST, instance=request.user)
         if user_form.is_valid():
             user_form.save()
-            messages.success(request, 'Thông tin đã được cập nhật!')  # Thêm dòng này
+            messages.success(request, "Thông tin đã được cập nhật!")  # Thêm dòng này
             return redirect("profile")
         else:
             messages.error(request, "Vui lòng thử lại. Có thể email đã tồn tại")
     user_form = UpdateUserForm(instance=request.user)
     context = {"user_form": user_form}
+
+    if request.user.is_superuser == 1:
+        return render(
+            request=request, template_name="profile-management.html", context=context
+        )
     return render(
         request=request,
-        template_name="profile-management.html",context=context
+        template_name="./component/user-info/profile-management.html",
+        context=context,
     )
+    # handle_render_admin(
+    #     "profile-management.html",
+    #     "./component/user-info/profile-management.html",
+    #     request,
+    #     context,
+    # )
 
-@login_required(login_url='signin')
+
+@login_required(login_url="signin")
 def delete_account(request):
     user = User.objects.get(userId=request.user.userId)
     if request.method == "POST":
@@ -141,16 +158,27 @@ def delete_account(request):
         template_name="delete-account.html",
     )
 
+
 def change_password(request):
     if request.method == "POST":
         form = ChangePasswordForm(request.POST)
         if form.is_valid():
             # Xử lý dữ liệu form ở đây
             messages.success(request, "Mật khẩu đã được thay đổi.")
-            return redirect('signout')
+            return redirect("signout")
         else:
             messages.error(request, "Vui lòng thử lại.")
     else:
         # Nếu không phải yêu cầu POST, hiển thị form trống
         form = ChangePasswordForm()
-    return render(request, 'change-password.html', {'form': form})
+    if request.user.is_superuser == 1:
+        return render(
+            request=request,
+            template_name="change-password.html",
+            context={"form": form},
+        )
+    return render(
+        request=request,
+        template_name="./component/user-info/change-password.html",
+        context={"form": form},
+    )

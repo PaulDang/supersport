@@ -27,19 +27,19 @@ class User(AbstractUser):
             if not re.match(email_regex, self.email):
                 raise ValidationError(_("Invalid email format."), code="invalid_email")
 
-    #     if self.firstName:
-    #         firstName_regex = r"^[a-zA-Z]+$"
-    #         if not re.match(firstName_regex, self.firstName):
-    #             raise ValidationError(
-    #                 _("Invalid first name format."), code="invalid_firstName"
-    #             )
+        if self.firstName:
+            firstName_regex = r"^[a-zA-Z]+$"
+            if not re.match(firstName_regex, self.firstName):
+                raise ValidationError(
+                    _("Invalid first name format."), code="invalid_firstName"
+                )
 
-    #     if self.lastName:
-    #         lastName_regex = r"^[a-zA-Z]+$"
-    #         if not re.match(lastName_regex, self.lastName):
-    #             raise ValidationError(
-    #                 _("Invalid last name format."), code="invalid_lastName"
-    #             )
+        if self.lastName:
+            lastName_regex = r"^[a-zA-Z]+$"
+            if not re.match(lastName_regex, self.lastName):
+                raise ValidationError(
+                    _("Invalid last name format."), code="invalid_lastName"
+                )
 
         if self.phone:
             phone_regex = r"^\+?1?\d{9,15}$"

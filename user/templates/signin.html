@@ -16,14 +16,22 @@
       </div>
       <form method="post">
         {% csrf_token %}
-        {{ login_form|crispy }}
+        {{ login_form.username|as_crispy_field }}
+
+        <div class="d-flex align-items-end flex-column">
+          <div class='w-100'>
+            {{ login_form.password|as_crispy_field }}
+          </div>
+          <a href='/password_reset'>Quên mật khẩu?</a>
+        </div>
         <button
           type="submit"
           class="btn btn-primary w-100"
           style="margin-top: 40px"
         >
           Đăng nhập
-        </button>      </form>
+        </button>      
+      </form>
 
       <div class="d-flex justify-content-center align-items-center mt-4 mb-4">
         <div class="w-100">

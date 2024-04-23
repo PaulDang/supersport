@@ -21,7 +21,7 @@
     {% block link %} {% endblock %}
   </head>
   <body>
-    {% if request.path == '/signin/' or request.path == '/signup/' %}
+    {% if request.path == '/signin/' or request.path == '/signup/' or 'reset' in request.path %}
       {% block sign %} {% endblock %}
     {% else %}
       {% include "component/menu.html" %}

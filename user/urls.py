@@ -18,7 +18,6 @@ urlpatterns = [
     path("delete-account/", views.delete_account, name="delete-account"),
     path("change-password/", views.change_password, name="change-password"),
     path("user-info/", views.dashboard, name="user-info"),
-    # path("password-reset/", views.dashboard, name="password-reset"),
     path(
         "password_reset/",
         PasswordResetView.as_view(

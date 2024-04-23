@@ -11,16 +11,6 @@ from product.models import Product
 
 User = get_user_model()
 
-
-# def handle_render_admin(template_name_admin, template_name, request):
-#     if request.user.is_superuser == 1:
-#         return render(request=request, template_name=template_name_admin)
-#     return render(
-#         request=request,
-#         template_name=template_name,
-#     )
-
-
 def cart(request):
     return render(
         request=request,
@@ -105,9 +95,6 @@ def update_user_info(request):
 
 @login_required(login_url="signin")
 def dashboard(request):
-    # handle_render_admin(
-    #     "dashboard.html", "./component/user-info/user-info.html", request
-    # )
     if request.user.is_superuser == 1:
         return render(request=request, template_name="dashboard.html")
     return render(
@@ -126,7 +113,7 @@ def profile(request):
             messages.success(request, "Thông tin đã được cập nhật!")  # Thêm dòng này
             return redirect("profile")
         else:
-            messages.error(request, "Vui lòng thử lại. Có thể email đã tồn tại")
+            messages.error(request, "Vui lòng thử lại.")
     user_form = UpdateUserForm(instance=request.user)
     context = {"user_form": user_form}
 
@@ -139,13 +126,6 @@ def profile(request):
         template_name="./component/user-info/profile-management.html",
         context=context,
     )
-    # handle_render_admin(
-    #     "profile-management.html",
-    #     "./component/user-info/profile-management.html",
-    #     request,
-    #     context,
-    # )
-
 
 @login_required(login_url="signin")
 def delete_account(request):

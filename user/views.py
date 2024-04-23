@@ -3,13 +3,16 @@ from django.template import loader
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib import messages
-from .forms import RegisterForm, ChangePasswordForm, UpdateUserForm, UpdatedForm
+from .forms import RegisterForm, UpdateUserForm, UpdatedForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .models import User
 from product.models import Product
+from django.urls import reverse_lazy
+from django.contrib.auth.views import PasswordChangeView
 
 User = get_user_model()
+
 
 def cart(request):
     return render(
@@ -127,6 +130,7 @@ def profile(request):
         context=context,
     )
 
+
 @login_required(login_url="signin")
 def delete_account(request):
     user = User.objects.get(userId=request.user.userId)
@@ -139,26 +143,48 @@ def delete_account(request):
     )
 
 
-def change_password(request):
-    if request.method == "POST":
-        form = ChangePasswordForm(request.POST)
-        if form.is_valid():
-            # Xử lý dữ liệu form ở đây
-            messages.success(request, "Mật khẩu đã được thay đổi.")
-            return redirect("signout")
-        else:
-            messages.error(request, "Vui lòng thử lại.")
-    else:
-        # Nếu không phải yêu cầu POST, hiển thị form trống
-        form = ChangePasswordForm()
-    if request.user.is_superuser == 1:
-        return render(
-            request=request,
-            template_name="change-password.html",
-            context={"form": form},
+# @login_required(login_url="signin")
+# def change_password(request):
+#     if request.method == "POST":
+#         form = ChangePasswordForm(request.POST)
+#         if form.is_valid():
+#             user = form.save()
+#             user.set_password("unencrypted_password")  # replace with your real password
+#             user.save()
+#             messages.success(request, "Mật khẩu đã được thay đổi.")
+#             return redirect("signout")
+#         else:
+#             messages.error(request, "Vui lòng thử lại.")
+#     else:
+#         # Nếu không phải yêu cầu POST, hiển thị form trống
+#         form = ChangePasswordForm()
+
+#     return render(
+#         request=request,
+#         template_name="change-password.html",
+#         context={"form": form},
+#     )
+
+
+class MyPasswordChangeView(PasswordChangeView):
+    template_name = "./component/reset-password/password-change.html"
+    success_url = reverse_lazy("signin")
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(
+            self.request, "Mật khẩu đã được thay đổi. Vui lòng đăng nhập lại!"
         )
-    return render(
-        request=request,
-        template_name="./component/user-info/change-password.html",
-        context={"form": form},
-    )
+        return response
+
+
+class MyPasswordChangeViewAdmin(PasswordChangeView):
+    template_name = "password-change-admin.html"
+    success_url = reverse_lazy("signin")
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(
+            self.request, "Mật khẩu đã được thay đổi. Vui lòng đăng nhập lại!"
+        )
+        return response

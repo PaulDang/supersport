@@ -18,7 +18,6 @@ class Brand(models.Model):
     def __str__(self):
         return self.brand_name
 
-
 class Category(models.Model):
     category_name = models.CharField(max_length=250, db_index=True)
     slug = models.SlugField(max_length=250, unique=True)
@@ -59,17 +58,14 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('product-info', args=[self.slug])
 
+
 class ProductImage(models.Model):
-    product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name='images')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='images/')
-    thumbnail = ImageSpecField(source='image',
-                               processors=[ResizeToFill(100, 50)],
-                               format='JPEG',
-                               options={'quality': 60})
 
     def __str__(self):
         return 'image ' + str(self.pk)
+
 
 class ProductDetail(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
@@ -81,3 +77,22 @@ class ProductDetail(models.Model):
 
     def __str__(self):
         return f'{self.product.__str__()} - {self.quantity}'
+
+    def save(self, *args, **kwargs):
+        # Update total_quantity of the product when saving product detail
+        if self.pk is None:  # Create new instance
+            super().save(*args, **kwargs)
+            self.product.total_quantity += self.quantity
+            self.product.save()
+        else:  # Update existing instance
+            old_quantity = ProductDetail.objects.get(pk=self.pk).quantity
+            quantity_change = self.quantity - old_quantity
+            self.product.total_quantity += quantity_change
+            self.product.save()
+            super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        # Update total_quantity of the product when deleting product detail
+        self.product.total_quantity -= self.quantity
+        self.product.save()
+        super().delete(*args, **kwargs)

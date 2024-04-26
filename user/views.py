@@ -96,14 +96,14 @@ def update_user_info(request):
     )
 
 
-@login_required(login_url="signin")
-def dashboard(request):
-    if request.user.is_superuser == 1:
-        return render(request=request, template_name="dashboard.html")
-    return render(
-        request=request,
-        template_name="./component/user-info/user-info.html",
-    )
+# @login_required(login_url="signin")
+# def dashboard(request):
+#     if request.user.is_superuser == 1:
+#         return render(request=request, template_name="dashboard.html")
+#     return render(
+#         request=request,
+#         template_name="./component/user-info/user-info.html",
+#     )
 
 
 @login_required(login_url="signin")

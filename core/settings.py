@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "django_bootstrap_icons",
     "imagekit",
     "mathfilters",
+    "dashboard",
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

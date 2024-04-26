@@ -1,0 +1,30 @@
+{% include "base.html" %} {% load static %} {% load crispy_forms_tags %} 
+
+{% block content %}
+
+<div class="container mx-auto pt-5">
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">userId</th>
+        <th scope="col">username</th>
+        <th scope="col">email</th>
+        <th scope="col">phone</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{user.userId}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.phone}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock content %}

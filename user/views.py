@@ -1,5 +1,3 @@
-from django.http import HttpResponse
-from django.template import loader
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib import messages
@@ -96,16 +94,6 @@ def update_user_info(request):
     )
 
 
-# @login_required(login_url="signin")
-# def dashboard(request):
-#     if request.user.is_superuser == 1:
-#         return render(request=request, template_name="dashboard.html")
-#     return render(
-#         request=request,
-#         template_name="./component/user-info/user-info.html",
-#     )
-
-
 @login_required(login_url="signin")
 def profile(request):
     # update username and password
@@ -113,7 +101,7 @@ def profile(request):
         user_form = UpdateUserForm(request.POST, instance=request.user)
         if user_form.is_valid():
             user_form.save()
-            messages.success(request, "Thông tin đã được cập nhật!")  # Thêm dòng này
+            messages.success(request, "Thông tin đã được cập nhật!")
             return redirect("profile")
         else:
             messages.error(request, "Vui lòng thử lại.")

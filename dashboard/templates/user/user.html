@@ -33,14 +33,16 @@
             <button
               type="button"
               class="btn btn-primary"
+              data-bs-toggle="modal" 
+              data-bs-target="#userEditModal"
             >
               <i class="fa-solid fa-pencil"></i>
             </button>
             <button
                 type="button"
                 class="btn btn-danger btn-trash"
-                {% comment %} data-bs-toggle="modal" 
-                data-bs-target="#userModal" {% endcomment %}
+                data-bs-toggle="modal" 
+                data-bs-target="#userModal"
                 >
                 <i class="fa-solid fa-trash"></i>
               </button>
@@ -50,8 +52,25 @@
       {% endfor %}
     </tbody>
   </table>
-  
-  <!-- Modal -->
+
+  <!-- Modal edit -->
+  <div class="modal fade" id="userEditModal" tabindex="-1" aria-labelledby="userEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="userEditModalLabel">Bạn có thật sự muốn xóa user này không?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+          <button type="button" class="btn btn-primary btn-edit-yes" data-bs-dismiss="modal">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal delete -->
   <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -66,7 +85,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> 
 </div>
 
 {% endblock content %}

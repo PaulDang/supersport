@@ -22,23 +22,24 @@ const handleDeleteUser = function () {
     const row = $(this).closest('tr');
     const userId = row.data('user-id');
 
-    const request = {
-      method: 'POST',
-      headers: { 'X-CSRFToken': csrftoken },
-      data: {
-        user_id: userId,
-      },
-    };
+    $('.btn-yes').click(function () {
+      const request = {
+        method: 'POST',
+        headers: { 'X-CSRFToken': csrftoken },
+        data: {
+          user_id: userId,
+        },
+      };
 
-    fetch(`/delete_user/${userId}}/`, request)
-      .then(function (res) {
-        console.log(res);
-        if (res.status === 200) {
-          row.remove();
-          alertify.success('Xóa user thành công');
-        }
-      })
-      .catch(() => alertify.error('Có lỗi xảy ra khi xóa user!'));
+      fetch(`/delete_user/${userId}}/`, request)
+        .then(function (res) {
+          if (res.status === 200) {
+            row.remove();
+            alertify.success('Xóa user thành công');
+          }
+        })
+        .catch(() => alertify.error('Có lỗi xảy ra khi xóa user!'));
+    });
   });
 };
 

@@ -44,3 +44,48 @@ $(document).ready(function () {
         infinite: true, // Vòng lặp vô hạn
     });
 });
+
+const changeQuantityWhenButtonClicked = function (clickedButton) {
+    const productQuantityElement = clickedButton.closest(".product-quantity");
+    const inputElement = productQuantityElement.querySelector(
+        "input[aria-label='Quantity']"
+    );
+
+    if (clickedButton.classList.contains("btnPlus")) {
+        inputElement.value = +inputElement.value + 1;
+        return;
+    }
+
+    if (clickedButton.classList.contains("btnMinus")) {
+        currentValue = +inputElement.value;
+        inputElement.value = currentValue <= 0 ? 0 : currentValue - 1;
+        return;
+    }
+};
+
+const onQuantityChanged = function (changedElement) {
+  if (changedElement?.tagName?.toLowerCase() === "button")
+    changeQuantityWhenButtonClicked(changedElement);
+  else if (
+    changedElement instanceof Event &&
+    changedElement?.target.ariaLabel === "Quantity"
+  )
+    changeQuantityWhenButtonClicked(changedElement.target);
+};
+
+const buttonTrigger = function (e) {
+  const clickedButton = e.target.closest("button");
+  if (!clickedButton) return;
+  if (
+    clickedButton.classList.contains("btnPlus") ||
+    clickedButton.classList.contains("btnMinus")
+  )
+    return onQuantityChanged(clickedButton);
+};
+
+const addButtonDelegateEvent = function () {
+  const productsQuantityElement = document.querySelector(".product-quantity");
+  productsQuantityElement.addEventListener("click", buttonTrigger);
+};
+
+document.addEventListener("DOMContentLoaded", addButtonDelegateEvent)

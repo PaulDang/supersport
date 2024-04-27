@@ -2,14 +2,19 @@ from django.contrib import admin
 from imagekit.admin import AdminThumbnail
 from django.db import models
 from .models import Category, Product, ProductDetail, Brand, ProductImage
+import json
+
 
 class ImageInline(admin.StackedInline):
     model = ProductImage
+
 
 class ProductDetailInline(admin.StackedInline):
     model = ProductDetail
     extra = 1  # Number of empty inline forms to display
 # Register your models here.
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('product_name',)}
@@ -23,9 +28,11 @@ class ProductAdmin(admin.ModelAdmin):
         FormClass.base_fields['total_quantity'].disabled = True
         return FormClass
 
+
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('brand_name',)}
+
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):

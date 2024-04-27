@@ -35,7 +35,7 @@
     {% comment %} Setting AlertifyJS {% endcomment %}
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
-    <script> 
+    <script>
       alertify.set('notifier','position', 'top-right');
 
       {% for message in messages %}
@@ -44,8 +44,8 @@
         {% else %}
           alertify.success('{{message}}');
         {% endif %}
-      {% endfor %}   
+      {% endfor %}
 
-    </script>  
+    </script>
   </body>
 </html>

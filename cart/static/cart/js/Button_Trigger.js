@@ -11,75 +11,95 @@ const getCSRFToken = function () {
 
 const sendPostToBackEnd = async function ({ url, body }) {
   const csrfToken = getCSRFToken();
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRFToken": `${csrfToken}`,
-    },
-    body: JSON.stringify(body),
-  });
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": `${csrfToken}`,
+      },
+      body: JSON.stringify(body),
+    });
 
-  if (response.status != 200) throw Error();
-  return response;
+     if (!response.ok && response.status == 422) {
+      throw new Error(await response.text())
+    }
+    
+    return response;
+  } catch (error) {
+    throw error;
+  }
+
+  // if (response.status != 200) throw Error(); 
 };
 
 const updateDatabase = async function (
   data,
   { action = "update", quantity = 0 }
 ) {
-  const productDetailId = data.dataset.productDetailId;
+  const cartDetailId = data.dataset.cartDetailId;
   try {
     if (action !== "delete" && action !== "update") return;
 
-    await sendPostToBackEnd({
+    const response = await sendPostToBackEnd({
       url: "/cart/submit_data",
       body: {
-        productDetailId,
+        cartDetailId,
         action,
         quantity,
       },
-    });
+    });   
 
     console.log(`${toTitleCase(action)} request sent successfully`);
+    return response;
   } catch (error) {
-    console.error(`Error sending ${toTitleCase(action)} request:`);
+    throw error;
   }
 };
 
-const changeQuantityWhenButtonClicked = function (clickedButton) {
+const changeQuantityWhenButtonClicked = async function (clickedButton) {
   const productQuantityElement = clickedButton.closest(".product-quantity");
   const inputElement = productQuantityElement.querySelector(
     "input[aria-label='Quantity']"
   );
 
-  const currentValue = parseInt(inputElement.value);
+  let currentValue = parseInt(inputElement.value);
 
-  const parentProductElement = clickedButton.closest(".product");
+  const parentProductElement = clickedButton.closest(".product");     
 
-  if (clickedButton.classList.contains("btnPlus")) {
-    inputElement.value = currentValue + 1;
-  }
+  try { 
 
-  if (clickedButton.classList.contains("btnMinus")) {
-    inputElement.value = currentValue <= 0 ? 0 : currentValue - 1;
-    if (+inputElement.value === 0) {
-      deleteProduct(clickedButton);
-      return;
+    if (clickedButton.classList.contains("btnPlus")) {
+      currentValue += 1;
     }
-  }
 
-  updateDatabase(parentProductElement, { quantity: inputElement.value });
+    if (clickedButton.classList.contains("btnMinus")) {
+      currentValue = currentValue <= 0 ? 0 : currentValue - 1;
+      if (currentValue === 0) {
+        deleteProduct(clickedButton);
+        return;
+      }
+    }
+    
+    const response = await updateDatabase(parentProductElement, { quantity: currentValue});
+    inputElement.value = currentValue;
+    return response;
+  }catch(error) {
+      const errorFromBE = JSON.parse(error.message);
+      console.error(errorFromBE?.message);
+      if (clickedButton.tagName.toLowerCase() == "input")
+      inputElement.value = errorFromBE?.old_quantity
+  }
 };
 
-const onQuantityChanged = function (changedElement) {
+const onQuantityChanged = async function (changedElement) {
   if (changedElement?.tagName?.toLowerCase() === "button")
-    changeQuantityWhenButtonClicked(changedElement);
+    await changeQuantityWhenButtonClicked(changedElement);
   else if (
     changedElement instanceof Event &&
     changedElement?.target.ariaLabel === "Quantity"
   )
-    changeQuantityWhenButtonClicked(changedElement.target);
+    await changeQuantityWhenButtonClicked(changedElement.target);
 
   initializeTotalProductPrice();
 };
@@ -109,10 +129,8 @@ const buttonTrigger = function (e) {
 
 const addButtonDelegateEvent = function () {
   const productsElement = document.querySelector(".products");
-  const btnSubmitPayElement = document.querySelector(".btn-submit-pay");
   productsElement.addEventListener("click", buttonTrigger);
   productsElement.addEventListener("change", onQuantityChanged);
-  btnSubmitPayElement.addEventListener("", submitButtonClicked);
 };
 
 document.addEventListener("DOMContentLoaded", addButtonDelegateEvent);

@@ -128,7 +128,7 @@
             }``
             var selectedSize = $('.size-option.selected').data('size');
             var detail_id = $('.size-option.selected').data('id')
-            $.ajax({
+            {% comment %} $.ajax({
                 type: 'POST',
                 url: '{% url 'cart-add' %}',
                 data:{
@@ -145,7 +145,7 @@
                 error: function (xhr, errmsg,err){
 
                 }
-            });
+            }); {% endcomment %}
         })
     </script>
 

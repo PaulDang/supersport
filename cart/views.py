@@ -1,5 +1,6 @@
 from django.http import Http404, JsonResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from .models import Cart, CartDetail
 from product.models import Product, ProductDetail
 from django.contrib.auth.decorators import login_required
@@ -13,8 +14,17 @@ from django.http import QueryDict
 
 @login_required(login_url='signin')
 def cart(request):
-    user = request.user
-    return redirect("user_cart", username=user.username)
+    current_user = request.user
+    user_products = CartDetail.objects.filter(
+        cart__user__username=current_user.username)
+
+    return render(
+        request=request,
+        template_name="cart/cart.html", context={
+            "user_products": user_products
+        }
+    )
+    # return redirect("user_cart", username=user.username)
 
 
 def cart_view(request, username):
@@ -49,14 +59,18 @@ def cart_add(request):
                     {"message": "Sản phẩm không tồn tại trong cơ sở dữ liệu"})
             total_quantity = product_detail.quantity
             cart_details_with_the_same_product_detail = CartDetail.objects.filter(
-                product_detail=product_detail)
+                product_detail=product_detail).exclude(cart=None)
             cart_details_with_the_same_product_detail_quantity = cart_details_with_the_same_product_detail.aggregate(
                 total_quantity=Sum('quantity'))['total_quantity'] if cart_details_with_the_same_product_detail.count() > 0 else 0
             remained_quantity = total_quantity - \
                 cart_details_with_the_same_product_detail_quantity
-            if remained_quantity <= 0:
+            quantity_after_add_cart_detail = remained_quantity - quantity
+            if quantity_after_add_cart_detail < 0:
                 raise KeyError({"message": f"Sản phẩm cỡ {product_detail.size} của {
-                               product_detail.product.product_name} không đủ"})
+                               product_detail.product.product_name} không đủ",
+
+                    "remained_quantity": remained_quantity},
+                )
             CartDetail.objects.create(
                 cart=current_user_cart, quantity=quantity, product_detail=product_detail)
             return JsonResponse({'message': f'Thêm sản phẩm vào giỏ hàng thành công'})
@@ -82,7 +96,7 @@ def submit_data(request):
             elif action == 'update':
                 new_quanity = int(request_data.get('quantity'))
                 cart_details_with_the_same_product_detail = CartDetail.objects.filter(
-                    product_detail=modify_cart_detail.product_detail).exclude(id=modify_cart_detail.id).exclude(id=None)
+                    product_detail=modify_cart_detail.product_detail).exclude(id=modify_cart_detail.id).exclude(cart=None)
                 cart_details_with_the_same_product_detail_quantity = cart_details_with_the_same_product_detail.aggregate(
                     total_quantity=Sum('quantity'))['total_quantity'] if cart_details_with_the_same_product_detail.count() > 0 else 0
                 new_total_quantity = cart_details_with_the_same_product_detail_quantity + new_quanity

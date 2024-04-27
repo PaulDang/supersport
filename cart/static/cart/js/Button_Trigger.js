@@ -62,6 +62,7 @@ const changeQuantityWhenButtonClicked = async function (clickedButton) {
   const inputElement = productQuantityElement.querySelector(
     "input[aria-label='Quantity']"
   );
+  const btnPlus = productQuantityElement.querySelector(".btnPlus");
 
   let currentValue = parseInt(inputElement.value);
 
@@ -79,6 +80,7 @@ const changeQuantityWhenButtonClicked = async function (clickedButton) {
         deleteProduct(clickedButton);
         return;
       }
+      btnPlus.classList.remove("disabled");
     }
     
     const response = await updateDatabase(parentProductElement, { quantity: currentValue});
@@ -88,7 +90,8 @@ const changeQuantityWhenButtonClicked = async function (clickedButton) {
       const errorFromBE = JSON.parse(error.message);
       console.error(errorFromBE?.message);
       if (clickedButton.tagName.toLowerCase() == "input")
-      inputElement.value = errorFromBE?.old_quantity
+      inputElement.value = errorFromBE?.old_quantity;
+      btnPlus.classList.add("disabled");
   }
 };
 

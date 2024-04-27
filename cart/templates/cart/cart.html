@@ -38,7 +38,7 @@ Cart
         </div>
         <div class="row products d-flex flex-column gap-4">
           {% for product in user_products %}
-          <div class="product row align-items-center" data-product-detail-id="{{ product.product_detail.id }}">
+          <div class="product row align-items-center" data-cart-detail-id="{{ product.id }}">
             <div class="col-2 col-md-2 mb-3 mb-md-0">
               <img
                 src="{% static 'media/' %}{{ product.product_detail.product.images.all.0.image }}"

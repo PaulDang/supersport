@@ -74,5 +74,5 @@ class CartDetailAdmin(admin.ModelAdmin):
     change_form_template = "cart/admin/change_cart_detail_form_with_dynamic_quantity.html"
 
 
-admin.site.register(Cart, CartAdmin)
-admin.site.register(CartDetail, CartDetailAdmin)
+# admin.site.register(Cart, CartAdmin)
+# admin.site.register(CartDetail, CartDetailAdmin)

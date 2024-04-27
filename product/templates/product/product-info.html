@@ -79,6 +79,31 @@
 
                         </div>
 
+                        <div class="col border-bottom">
+                            <div class="product-quantity row p-3">
+
+                                <div class="col-4"> Số lượng</div>
+
+                                <div class="col-3 offset-5 px-0 mb-4 mb-md-0">
+                                    <div class="input-group">
+                                        <button class="btn border-0 btnMinus" type="button">
+                                        -
+                                        </button>
+                                        <input
+                                        class="form-control text-center border border-dark rounded-3"
+                                        type="text"
+                                        value="1"
+                                        aria-label="Quantity"
+                                        aria-describedby="btnMinus btnPlus"
+                                        />
+                                        <button class="btn border-0 btnPlus" type="button">
+                                        +
+                                        </button>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+
                         <div class="col">
 
                             <div class="row p-3">
@@ -86,7 +111,7 @@
                                     {% if product.productdetail_set.all %}
                                         <div class="size-info">
                                             <div class="sizes-container">
-                                                {% for detail in product.productdetail_set.all %}
+                                                {% for detail in product.productdetail_set.all|dictsort:"size" %}
                                                     <span class="size-option"
                                                           data-id= "{{ detail.id }}" data-size="{{ detail.size }}">{{ detail.size }}</span>
                                                 {% endfor %}
@@ -127,25 +152,27 @@
                 return; // Stop further execution
             }``
             var selectedSize = $('.size-option.selected').data('size');
-            var detail_id = $('.size-option.selected').data('id')
-            {% comment %} $.ajax({
+            var detail_id = $('.size-option.selected').data('id');
+            const product_quantity = $('.product-quantity input').val();
+            console.log('product_quantity');
+            $.ajax({
                 type: 'POST',
                 url: '{% url 'cart-add' %}',
                 data:{
                     product_id: $('#add-button').val(),
-                    size:selectedSize,
+                    size: selectedSize,
                     product_detail_id: detail_id,
-                    product_quantity : 1,
+                    product_quantity : product_quantity,
                     csrfmiddlewaretoken: "{{ csrf_token }}",
                     action: 'post'
                 },
                 success: function(json){
-                    location.reload(true);
+                    {% comment %} location.reload(true); {% endcomment %}
                 },
                 error: function (xhr, errmsg,err){
 
                 }
-            }); {% endcomment %}
+            });
         })
     </script>
 

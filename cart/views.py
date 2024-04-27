@@ -82,7 +82,7 @@ def submit_data(request):
             elif action == 'update':
                 new_quanity = int(request_data.get('quantity'))
                 cart_details_with_the_same_product_detail = CartDetail.objects.filter(
-                    product_detail=modify_cart_detail.product_detail).exclude(id=modify_cart_detail.id)
+                    product_detail=modify_cart_detail.product_detail).exclude(id=modify_cart_detail.id).exclude(id=None)
                 cart_details_with_the_same_product_detail_quantity = cart_details_with_the_same_product_detail.aggregate(
                     total_quantity=Sum('quantity'))['total_quantity'] if cart_details_with_the_same_product_detail.count() > 0 else 0
                 new_total_quantity = cart_details_with_the_same_product_detail_quantity + new_quanity

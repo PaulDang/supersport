@@ -12,13 +12,11 @@ function getCookie(name) {
   }
   return cookieValue;
 }
-
 const csrftoken = getCookie('csrftoken');
-
-alertify.set('notifier', 'position', 'top-right');
 
 const handleDeleteUser = function () {
   $('.btn-trash').click(function () {
+    
     const row = $(this).closest('tr');
     const userId = row.data('user-id');
 
@@ -31,7 +29,7 @@ const handleDeleteUser = function () {
         },
       };
 
-      fetch(`/delete_user/${userId}}/`, request)
+      fetch(`/delete_user/${userId}/`, request)
         .then(function (res) {
           if (res.status === 200) {
             row.remove();
@@ -42,6 +40,7 @@ const handleDeleteUser = function () {
     });
   });
 };
+
 
 const handleUserTable = function () {
   handleDeleteUser();

@@ -1,6 +1,6 @@
 from crispy_forms.bootstrap import FormActions
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Field, Layout, HTML, Submit
+from crispy_forms.layout import Field, Layout, HTML, Submit, ButtonHolder
 from django import forms
 
 from user.models import User
@@ -72,7 +72,7 @@ class CreateUserForm(forms.ModelForm):
             Field("is_superuser", css_class="form-check-inline"),
             HTML("</div>"),
             HTML("</div>"),
-            FormActions(
-                Submit("save_changes", "Tạo", css_class="btn-primary"),
+            ButtonHolder(
+                Submit("create", "Tạo", css_class="button white w-100"),
             ),
         )

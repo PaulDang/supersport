@@ -2,6 +2,7 @@
 import subprocess
 
 targets = {
+    "live": ["livereload"],
     "full": [
         "migrate",
         "runserver",

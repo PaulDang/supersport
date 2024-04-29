@@ -8,8 +8,8 @@ urlpatterns = [
     path("dashboard/user/", views.user_dashboard, name="user_dashboard"),
     path(
         "dashboard/user/create",
-        views.create_user_dashboard,
-        name="create_user_dashboard",
+        views.create_user,
+        name="create_user",
     ),
     path(
         "dashboard/user/edit/<str:user_id>/",
@@ -17,5 +17,4 @@ urlpatterns = [
         name="edit_user_dashboard",
     ),
     path("delete_user/<str:user_id>/", views.delete_user, name="delete_user"),
-    path("create_user", views.create_user, name="create_user"),
 ]

@@ -168,9 +168,13 @@
                 },
                 success: function(json){
                     {% comment %} location.reload(true); {% endcomment %}
+                    window.location.href = "/cart"
                 },
                 error: function (xhr, errmsg,err){
-
+                    const product_quantity = $('.product-quantity input');
+                    product_quantity.val(`${xhr.responseJSON.remained_quantity}`);
+                    const btnPlus = $('button.btnPlus');
+                    btnPlus.addClass("disabled");
                 }
             });
             var detail_id = $('.size-option.selected').data('id')

@@ -59,6 +59,10 @@ const changeQuantityWhenButtonClicked = function (clickedButton) {
     if (clickedButton.classList.contains("btnMinus")) {
         currentValue = +inputElement.value;
         inputElement.value = currentValue <= 0 ? 0 : currentValue - 1;
+        const btnPlus = productQuantityElement.querySelector(".btnPlus");
+        if (!btnPlus.classList.contains("disabled"))
+            return;
+        btnPlus.classList.remove("disabled");
         return;
     }
 };

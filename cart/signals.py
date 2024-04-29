@@ -1,8 +1,9 @@
+from django.db.models.signals import post_save, pre_delete
 from user.models import User
 from product.models import ProductDetail
-from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 from .models import Cart, CartDetail
+from django.apps import apps
 
 
 @receiver(post_save, sender=User)

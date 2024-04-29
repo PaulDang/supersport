@@ -54,7 +54,7 @@ def edit_user_dashboard(request, user_id):
 @login_required(login_url="signin")
 @require_POST
 def delete_user(request, user_id):
-    user = User.objects.get(userId=user_id).order_by("date_joined")
+    user = User.objects.get(userId=user_id)
     user.delete()
     messages.success(request, "Xóa người dùng thành công.")
 

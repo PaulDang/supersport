@@ -178,6 +178,24 @@
                 }
             });
             var detail_id = $('.size-option.selected').data('id')
+            {% comment %} $.ajax({
+                type: 'POST',
+                url: '{% url 'cart-add' %}',
+                data:{
+                    product_id: $('#add-button').val(),
+                    size:selectedSize,
+                    product_detail_id: detail_id,
+                    product_quantity : 1,
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                    action: 'post'
+                },
+                success: function(json){
+                    location.reload(true);
+                },
+                error: function (xhr, errmsg,err){
+
+                }
+            }); {% endcomment %}
         })
     </script>
 

@@ -3,7 +3,8 @@ from user.models import User
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views.decorators.http import require_POST
-from django.middleware.csrf import get_token
+from .forms import CreateUserForm
+from django.db.models import F
 
 
 # Create your views here.
@@ -18,18 +19,37 @@ def dashboard(request):
 
 
 def user_dashboard(request):
-    users = User.objects.all()
-    context = {
-        "users": users,
-    }
+    users = User.objects.all().order_by(F("date_joined").desc())
+    context = {"users": users, "createUserForm": CreateUserForm()}
     return render(request, "user/user.html", context)
+
+
+def create_user_dashboard(request):
+    context = {"forms": CreateUserForm}
+    return render(request, "user/create_form.html", context)
 
 
 @login_required(login_url="signin")
 @require_POST
 def delete_user(request, user_id):
-    user = User.objects.get(userId=user_id)
+    user = User.objects.get(userId=user_id).order_by("date_joined")
     user.delete()
-    messages.success(request, "Xóa user thành công.")
+    messages.success(request, "Xóa người dùng thành công.")
 
     return redirect("user_dashboard")
+
+
+@login_required(login_url="signin")
+@require_POST
+def create_user(request):
+    if request.method == "POST":
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+
+            if user is not None:
+                messages.success(request, "Tạo người dùng thành công.")
+                return redirect("user_dashboard")
+
+        messages.error(request, "Tạo người dùng không thành công. Vui lòng thử lại.")
+        return redirect("create_user_dashboard")

@@ -1,0 +1,25 @@
+{% include "base.html" %} 
+{% load static %} 
+{% load crispy_forms_tags %} 
+{% load bootstrap_icons %}
+
+{% block script_user %}
+<script defer src="{% static 'js/dashboard/user/user.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+  <a class='my-4' type="button" href="/dashboard/user">
+    Trở lại
+  </a>
+
+  <h2>Tạo người dùng</h2>
+  <form class="row g-3 mt-3" novalidate action="/create_user" method="post">
+    {% csrf_token %}
+    {% crispy forms %}
+  </form> 
+
+</div>
+
+{% endblock content %}

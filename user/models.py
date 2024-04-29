@@ -25,27 +25,29 @@ class User(AbstractUser):
         if self.email:
             email_regex = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
             if not re.match(email_regex, self.email):
-                raise ValidationError(_("Invalid email format."), code="invalid_email")
+                raise ValidationError(_("Email không hợp lệ."), code="invalid_email")
 
         if self.firstName:
-            firstName_regex = r"^[a-zA-Z]+$"
+            firstName_regex = r"^[a-z ,.'-]+$"
             if not re.match(firstName_regex, self.firstName):
                 raise ValidationError(
-                    _("Invalid first name format."), code="invalid_firstName"
+                    _("Tên không được chứa số hay ký tự đặc biệt."),
+                    code="invalid_firstName",
                 )
 
         if self.lastName:
-            lastName_regex = r"^[a-zA-Z]+$"
+            lastName_regex = r"^[a-z ,.'-]+$"
             if not re.match(lastName_regex, self.lastName):
                 raise ValidationError(
-                    _("Invalid last name format."), code="invalid_lastName"
+                    _("Tên không được chứa số hay ký tự đặc biệt."),
+                    code="invalid_lastName",
                 )
 
         if self.phone:
             phone_regex = r"^\+?1?\d{9,15}$"
             if not re.match(phone_regex, self.phone):
                 raise ValidationError(
-                    _("Invalid phone number format."), code="invalid_phone"
+                    _("Số điện thoại không hợp lệ."), code="invalid_phone"
                 )
 
     def change_password(self, new_password):

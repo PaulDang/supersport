@@ -31,19 +31,53 @@
         <th scope="col">Username</th>
         <th scope="col">Email</th>
         <th scope="col">Phone</th>
+        <th scope="col">Active</th>
+        <th scope="col">Staff</th>
+        <th scope="col">Admin</th>
         <th scope="col">Action</th>
       </tr>
     </thead>
     <tbody>
-      {% for user in users %}
-      <tr data-user-id="{{ user.userId }}">
+      {% for userRow in users %}
+      <tr data-user-id="{{ userRow.userId }}">
         <th scope="row">{{ forloop.counter }}</th>
-        <td>{{user.username}}</td>
-        <td>{{user.email}}</td>
-        <td>{{user.phone}}</td>
+        <td>{{userRow.username}}</td>
+        <td>{{userRow.email}}</td>
+        <td>{{userRow.phone}}</td>
+        <td>
+          {% if userRow.is_active %}
+            <span class="badge rounded-pill text-bg-success">Yes</span>
+          {% else %}
+            <span class="badge rounded-pill text-bg-secondary">No</span>
+          {% endif %}
+        </td>
+        <td>
+          {% if userRow.is_staff %}
+            <span class="badge rounded-pill text-bg-success">Yes</span>
+          {% else %}
+            <span class="badge rounded-pill text-bg-secondary">No</span>
+          {% endif %}
+        </td>
+        <td>
+          {% if userRow.is_superuser %}
+            <span class="badge rounded-pill text-bg-success">Yes</span>
+          {% else %}
+            <span class="badge rounded-pill text-bg-secondary">No</span>
+          {% endif %}
+        </td>
         <td class="mr-auto">
           <div class="d-flex gap-4">
-            <button
+            <a href='/dashboard/user/edit/{{userRow.userId}}' >
+              <button
+              type="button"
+              class="btn btn-primary btn-edit"
+              >
+                <i class="fa-solid fa-pencil"></i>
+              </button>
+            </a>
+            
+            {% if userRow.username != user.username %}
+              <button
                 type="button"
                 class="btn btn-danger btn-trash"
                 data-bs-toggle="modal" 
@@ -51,27 +85,13 @@
                 >
                 <i class="fa-solid fa-trash"></i>
               </button>
+            {% endif %}
           </div>
         </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
-
-  <!-- Modal edit -->
-  {% comment %} <div class="modal fade" id="userEditModal" tabindex="-1" aria-labelledby="userEditModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="userEditModalLabel">Tạo người dùng</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          {% include 'user/_create_form.html' %}
-        </div>
-      </div>
-    </div>
-  </div> {% endcomment %}
 
   <!-- Modal delete -->
   <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">

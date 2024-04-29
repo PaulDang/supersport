@@ -11,6 +11,11 @@ urlpatterns = [
         views.create_user_dashboard,
         name="create_user_dashboard",
     ),
+    path(
+        "dashboard/user/edit/<str:user_id>/",
+        views.edit_user_dashboard,
+        name="edit_user_dashboard",
+    ),
     path("delete_user/<str:user_id>/", views.delete_user, name="delete_user"),
     path("create_user", views.create_user, name="create_user"),
 ]

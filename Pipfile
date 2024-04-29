@@ -16,7 +16,6 @@ pillow = "*"
 django-imagekit = "*"
 django-mathfilters = "*"
 djhtml = "*"
-python = "*"
 
 [dev-packages]
 

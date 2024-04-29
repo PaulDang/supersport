@@ -150,11 +150,14 @@
             if ($('.size-option.selected').length === 0) {
                 alert('Vui lòng chọn size'); // Display the alert message
                 return; // Stop further execution
-            }``
+            };
             var selectedSize = $('.size-option.selected').data('size');
             var detail_id = $('.size-option.selected').data('id');
             const product_quantity = $('.product-quantity input').val();
-            console.log('product_quantity');
+            if (product_quantity <= 0) {
+                alert("Số lượng sản phẩm phải lớn hơn 0");
+                return;
+            }
             $.ajax({
                 type: 'POST',
                 url: '{% url 'cart-add' %}',
@@ -177,25 +180,6 @@
                     btnPlus.addClass("disabled");
                 }
             });
-            var detail_id = $('.size-option.selected').data('id')
-            {% comment %} $.ajax({
-                type: 'POST',
-                url: '{% url 'cart-add' %}',
-                data:{
-                    product_id: $('#add-button').val(),
-                    size:selectedSize,
-                    product_detail_id: detail_id,
-                    product_quantity : 1,
-                    csrfmiddlewaretoken: "{{ csrf_token }}",
-                    action: 'post'
-                },
-                success: function(json){
-                    location.reload(true);
-                },
-                error: function (xhr, errmsg,err){
-
-                }
-            }); {% endcomment %}
         })
     </script>
 

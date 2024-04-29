@@ -14,3 +14,8 @@
 .checkout-page .payment-subdescription {
     font-size: 14px;
 }
+
+.checkout-page .b-item-price {
+    width: 250px;
+    text-align: right;
+}

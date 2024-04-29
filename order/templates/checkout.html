@@ -23,7 +23,7 @@
                       <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
                       <li class="breadcrumb-item active" aria-current="page">Thanh toán</li>
                     </ol>
-                  </nav>
+                </nav>
             </div>
         </div>
     </div>
@@ -76,9 +76,9 @@
                     <ol class="ps-0">
                         {% for item in data %}
                         <li class="d-flex align-items-center py-1">
-                            <img src="{% static '/media/' %}{{item.image_url}}" alt="{{item.product_name}}" width="70px" class="p-1 me-2">
-                            <span>{{item.product_name}} x {{item.quantity}}</span>
-                            <span class="ms-auto">{{item.item_total|price_format}}</span>
+                            <img src="{% static '/media/' %}{{item.product_detail.product.images.all.0.image}}" alt="{{item.product_detail.product.product_name}}" width="70px" class="p-1 me-2">
+                            <span>{{item.product_detail.product.product_name}} x {{item.quantity}}</span>
+                            <span class="ms-auto b-item-price">{{item.product_detail.product.price|price_format}}</span>
                         </li>
                         {% endfor %}
                     </ol>

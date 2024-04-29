@@ -51,8 +51,6 @@ class Product(models.Model):
         return self.product_name
 
     def save(self, *args, **kwargs):
-        if not self.sizes:
-            self.sizes = {}
         self.slug = slugify(self.product_name)
         super().save(*args, **kwargs)
 

@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from user.models import User
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.views.decorators.http import require_POST
-from .forms import CreateUserForm
+from .forms import CreateUserForm, EditUserForm
 from django.db.models import F
+from django.views.decorators.http import require_http_methods
 
 
 # Create your views here.
@@ -27,6 +28,27 @@ def user_dashboard(request):
 def create_user_dashboard(request):
     context = {"forms": CreateUserForm}
     return render(request, "user/create_form.html", context)
+
+
+@login_required(login_url="signin")
+def edit_user_dashboard(request, user_id):
+    user = get_object_or_404(User, userId=user_id)
+    if request.method == "POST":
+        form = EditUserForm(request.POST or None, instance=user)
+        if form.is_valid():
+            updated_user = form.save()
+
+            if updated_user is not None:
+                messages.success(request, "Chỉnh sửa người dùng thành công.")
+                return redirect("user_dashboard")
+        messages.error(
+            request, "Chỉnh sửa người dùng không thành công. Vui lòng thử lại."
+        )
+    else:
+        form = EditUserForm(instance=user)
+
+    context = {"forms": form, "user": user}
+    return render(request, "user/edit_form.html", context)
 
 
 @login_required(login_url="signin")

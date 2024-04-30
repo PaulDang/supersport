@@ -2,25 +2,15 @@ from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponse, JsonResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
-from .models import Order, OrderItem
-from .forms import CheckoutForm
+from order.models import Order, OrderItem
+from order.forms import CheckoutForm
+from cart.models import Cart, CartDetail
 from product.models import Product, ProductDetail
 from django.urls import resolve
 
-
-def generate_product_details_object(product_detail: ProductDetail):
-    return {
-        "id": product_detail.pk,
-        "product_name": product_detail.product.product_name,
-        "image_url": product_detail.product.images.all()[0].image,
-        "price": product_detail.product.price,
-        "quantity": product_detail.quantity,
-    }
-
-
 def generate_data(request):
-    product_details = ProductDetail.objects.filter(cartdetail__cart__user=request.user)
-    return list(map(generate_product_details_object, product_details))
+    cart_details = CartDetail.objects.filter(cart__user=request.user)
+    return cart_details
 
 
 @login_required(login_url="signin")
@@ -29,12 +19,11 @@ def checkout(request):
         data = generate_data(request)
         total_price = 0
         for item in data:
-            item_total = item["price"] * item["quantity"]
-            item["item_total"] = item_total
+            item_total = item.product_detail.product.price * item.quantity
             total_price = total_price + item_total
 
         template = "checkout.html"
-        context = {"data": data, "total_price": total_price}
+        context = {'data': data, 'total_price': total_price}
         return render(request=request, template_name=template, context=context)
 
 
@@ -52,20 +41,26 @@ def placeorder(request):
 
             total_price = 0
             for item in data:
-                item_total = item["price"] * item["quantity"]
-                item["item_total"] = item_total
+                item_total = item.product_detail.product.price * item.quantity
                 total_price = total_price + item_total
 
             order.total_price = total_price
             order.save()
 
-            # for item in data:
-            #     OrderItem.objects.create(
-            #         order=order,
-            #         product=item['id'],
-            #         price=item['price'],
-            #         quantity=item['quantity']
-            #     )
+            neworderitems = CartDetail.objects.filter(cart__user=request.user)
+            for item in neworderitems:
+                OrderItem.objects.create(
+                    order=order,
+                    product=item.product_detail.product,
+                    price=item.product_detail.product.price,
+                    quantity=item.quantity
+                )
+
+                orderproduct = ProductDetail.objects.filter(product_id=item.product_detail.product_id, size=item.product_detail.size).first()
+                orderproduct.quantity = orderproduct.quantity - item.quantity
+                orderproduct.save()
+
+            CartDetail.objects.filter(cart__user=request.user).delete()
 
             return redirect("/order-summary")
 
@@ -76,13 +71,13 @@ def placeorder(request):
         return render(request, "checkout.html", {"form": form})
 
 
-def ordersummary(request):
+def get_ordersummary(request):
     return render(request, "ordersummary.html")
 
 
-def aboutus(request):
+def get_aboutus(request):
     return render(request, "aboutus.html")
 
 
-def contactus(request):
+def get_contactus(request):
     return render(request, "contactus.html")

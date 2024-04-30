@@ -35,14 +35,14 @@
                 <li class="nav-item mx-2">
                     <a
                             class="nav-link link-light text-black text-uppercase"
-                            href="about-us"
+                            href={% url "aboutus" %}
                     >Chúng tôi</a
                     >
                 </li>
                 <li class="nav-item mx-2">
                     <a
                             class="nav-link link-light text-black text-uppercase"
-                            href="contact-us"
+                            href={% url "contactus" %}
                     >Liên hệ</a
                     >
                 </li>
@@ -57,7 +57,7 @@
                             {% bs_icon 'person-dash' size='1.2em' %} Xin chào, {{user.username}}
                         </button>
                         <ul class="dropdown-menu w-100 mt-1">
-                            {% if user.is_superuser  %}
+                            {% if user.is_superuser%}
                                 <li><a class="dropdown-item" href={% url "dashboard" %}>Admin</a></li>
                             {% else %}
                                 <li><a class="dropdown-item" href={% url "user-info" %}>Tài khoản của tôi</a></li>
@@ -78,7 +78,7 @@
 
                 {% endif %}
                 <div class="nav-item d-flex align-items-center cart-button">
-                    <a class="btn btn-cart border-0" type="button" role="button" href="">
+                    <a class="btn btn-cart border-0" type="button" role="button" href="{% url 'cart' %}">
                         {% bs_icon 'cart' size='1.2em' color='black' %}
                         <div id="cart-qty" class="d-inline-flex">
                             <div id="cart-qty" class="d-inline-flex">

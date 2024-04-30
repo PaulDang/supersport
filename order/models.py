@@ -1,4 +1,5 @@
 import re
+import uuid
 from django.db import models
 from user.models import User
 from product.models import Product
@@ -7,6 +8,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 class Order(models.Model):
+    orderId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     firstName = models.CharField(max_length=150, null=False, blank=False)
     lastName = models.CharField(max_length=150, null=False, blank=False)
@@ -28,7 +30,21 @@ class Order(models.Model):
             email_regex = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
             if not re.match(email_regex, self.email):
                 raise ValidationError(_("Invalid email format."), code="invalid_email")
-        
+
+        if self.firstName:
+            firstName_regex = r"^[a-zA-Z]+$"
+            if not re.match(firstName_regex, self.firstName):
+                raise ValidationError(
+                    _("Invalid first name format."), code="invalid_firstName"
+                )
+
+        if self.lastName:
+            lastName_regex = r"^[a-zA-Z]+$"
+            if not re.match(lastName_regex, self.lastName):
+                raise ValidationError(
+                    _("Invalid last name format."), code="invalid_lastName"
+                )
+
         if self.phone:
             phone_regex = r"^\+?1?\d{9,15}$"
             if not re.match(phone_regex, self.phone):

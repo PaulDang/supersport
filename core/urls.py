@@ -19,9 +19,11 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf.urls.static import static
 from django.conf import settings
+from django.views.generic import RedirectView
 from cart.views import cart_view
 
 urlpatterns = [
+    path("", RedirectView.as_view(url="/main/")),
     path("", include("user.urls")),
     path("", include("dashboard.urls")),
     path("", include("django.contrib.auth.urls")),

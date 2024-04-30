@@ -92,6 +92,39 @@
       {% endfor %}
     </tbody>
   </table>
+  
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end">
+      {% if users.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page=1" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{users.previous_page_number}}">Previous</a>
+      </li>
+      {% endif %}
+
+      <li class="page-item">
+        <span class="page-link">
+          Page {{users.number}} of {{users.paginator.num_pages}}
+        </span>
+      </li>
+
+      {% if users.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{users.next_page_number}}">Next</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{users.paginator.num_pages}}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+
 
   <!-- Modal delete -->
   <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">

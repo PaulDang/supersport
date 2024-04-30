@@ -6,6 +6,7 @@ from django.views.decorators.http import require_POST
 from .forms import CreateUserForm, EditUserForm
 from django.db.models import F
 from django.views.decorators.http import require_http_methods
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -20,14 +21,15 @@ def dashboard(request):
 
 
 def user_dashboard(request):
-    users = User.objects.all().order_by(F("date_joined").desc())
-    context = {"users": users, "createUserForm": CreateUserForm()}
+    user_list = User.objects.all().order_by(F("date_joined").desc())
+
+    # Set up pagination
+    p = Paginator(user_list, 5)
+    page = request.GET.get("page")
+    users = p.get_page(page)
+
+    context = {"user_list": user_list, "users": users}
     return render(request, "user/user.html", context)
-
-
-def create_user_dashboard(request):
-    context = {"forms": CreateUserForm}
-    return render(request, "user/create_form.html", context)
 
 
 @login_required(login_url="signin")
@@ -61,8 +63,6 @@ def delete_user(request, user_id):
     return redirect("user_dashboard")
 
 
-@login_required(login_url="signin")
-@require_POST
 def create_user(request):
     if request.method == "POST":
         form = CreateUserForm(request.POST)
@@ -74,4 +74,6 @@ def create_user(request):
                 return redirect("user_dashboard")
 
         messages.error(request, "Tạo người dùng không thành công. Vui lòng thử lại.")
-        return redirect("create_user_dashboard")
+
+    context = {"forms": CreateUserForm}
+    return render(request, "user/create_form.html", context)

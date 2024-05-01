@@ -4,7 +4,7 @@
 {% block title %}
 Cart
 {% endblock %}
-{% block script_cart %}
+{% block script %}
 <script defer src="{% static 'cart/js/Modify_Total_Price.js' %}"></script>
 <script defer src="{% static 'cart/js/Button_trigger.js' %}"></script>
 {% endblock %}
@@ -127,7 +127,7 @@ Cart
                 <div class="">Thành tiền</div>
                 <div class="ms-auto me-0 products-total-price">250.000 VNĐ</div>
               </div>
-              <form action="/checkout" method="POST">
+              <form action="{% url 'checkout' %}" method="POST">
                 {% csrf_token %}
                 <button input="submit" class="btn btn-lg btn-primary px-5 btn-submit-pay">Thanh toán</button>
               </form>

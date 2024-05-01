@@ -93,5 +93,8 @@ img {
     margin-left: 5px;
 }
 
-
+span.detail-disabled {
+    color: #bbbbbb;
+    border: 1px solid gray;
+}
 

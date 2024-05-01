@@ -112,7 +112,7 @@
                                         <div class="size-info">
                                             <div class="sizes-container">
                                                 {% for detail in product.productdetail_set.all|dictsort:"size" %}
-                                                    <span class="size-option"
+                                                    <span class="size-option {% if detail.quantity == 0 %}detail-disabled {% endif %}"
                                                           data-id= "{{ detail.id }}" data-size="{{ detail.size }}">{{ detail.size }}</span>
                                                 {% endfor %}
                                             </div>
@@ -150,7 +150,16 @@
             if ($('.size-option.selected').length === 0) {
                 alert('Vui lòng chọn size'); // Display the alert message
                 return; // Stop further execution
-            }``
+            }
+            const productQuantity = $('.product-quantity input');
+            if (productQuantity.val() == 0) {
+                productQuantity.val(1);
+                return;
+            }
+            if (!Number.isInteger(productQuantity.val())) {
+                productQuantity.val(Math.trunc(productQuantity.val()));
+                return;
+            }
             var selectedSize = $('.size-option.selected').data('size');
             var detail_id = $('.size-option.selected').data('id');
             const product_quantity = $('.product-quantity input').val();

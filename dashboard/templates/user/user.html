@@ -1,4 +1,4 @@
-{% include "page.html" %} 
+{% include "base.html" %} 
 {% load static %} 
 {% load crispy_forms_tags %} 
 {% load bootstrap_icons %}
@@ -11,20 +11,33 @@
 {% block content %}
 
 <div class="container mx-auto pt-5">
-  <div class="w-100 d-flex justify-content-end">
-    <a href='/dashboard/user/create' >
+  <div class="d-flex justify-content-between align-item-center">
+    <div class='w-50 d-flex'>
+      <div class="input-group">
+        <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa-solid fa-search"></i></span>
+        <input placeholder="Nhập tên người dùng..." type="text" class="form-control search-user" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+      </div>
       <button
-        type="button"
-        class="btn btn-primary btn-create"
-        data-bs-toggle="modal" 
-        data-bs-target="#userEditModal"
-      >
-      <i class="fa-solid fa-plus"></i>
-      &nbsp; Tạo người dùng
-    </button>
-    </a>
+          type="button"
+          class="btn btn-primary btn-search"
+          style="white-space:nowrap"
+        >
+        Tìm kiếm
+      </button>
+    </div>
+    <div>
+      <a href='/dashboard/user/create' >
+        <button
+          type="button"
+          class="btn btn-primary btn-create"
+        >
+        <i class="fa-solid fa-plus"></i>
+        &nbsp; Tạo người dùng
+      </button>
+      </a>
+    </div>
 </div>
-  <table class="table">
+  <table class="table mt-3">
     <thead>
       <tr>
         <th scope="col">#</th>

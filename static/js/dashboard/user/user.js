@@ -41,9 +41,18 @@ const handleDeleteUser = function () {
   });
 };
 
+const handleSearchUser = function () {
+  $('.btn-search').click(function () {
+    console.log('hiiiihoooo');
+    const inputValue = $('.search-user').val();
+    console.log('Giá trị ô input:', inputValue);
+  })
+}
+
 
 const handleUserTable = function () {
   handleDeleteUser();
+  handleSearchUser();
 };
 
 document.addEventListener('DOMContentLoaded', handleUserTable);

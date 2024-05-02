@@ -152,7 +152,7 @@
                 return; // Stop further execution
             }
             const productQuantity = $('.product-quantity input');
-            if (productQuantity.val() == 0) {
+            if (productQuantity.val() <= 0) {
                 productQuantity.val(1);
                 return;
             }

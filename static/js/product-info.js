@@ -3,6 +3,7 @@ window.onload = function () {
     sizeOptions.forEach(function (option) {
         option.addEventListener('click', function () {
             // Xóa lớp 'selected' từ tất cả các kích thước
+            if (option.classList.contains('detail-disabled')) return;
             sizeOptions.forEach(function (opt) {
                 opt.classList.remove('selected');
             });

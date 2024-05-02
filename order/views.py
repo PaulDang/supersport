@@ -8,6 +8,7 @@ from cart.models import Cart, CartDetail
 from product.models import Product, ProductDetail
 from django.urls import resolve
 
+
 def generate_data(request):
     cart_details = CartDetail.objects.filter(cart__user=request.user)
     return cart_details
@@ -19,7 +20,7 @@ def checkout(request):
         data = generate_data(request)
         total_price = 0
         for item in data:
-            item_total = item.product_detail.product.price * item.quantity
+            item_total = item.product_detail.product.discount_price * item.quantity
             total_price = total_price + item_total
 
         template = "checkout.html"
@@ -56,7 +57,8 @@ def placeorder(request):
                     quantity=item.quantity
                 )
 
-                orderproduct = ProductDetail.objects.filter(product_id=item.product_detail.product_id, size=item.product_detail.size).first()
+                orderproduct = ProductDetail.objects.filter(
+                    product_id=item.product_detail.product_id, size=item.product_detail.size).first()
                 orderproduct.quantity = orderproduct.quantity - item.quantity
                 orderproduct.save()
 

@@ -2,6 +2,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Field, Layout, HTML, Submit, ButtonHolder
 from django import forms
 from user.models import User
+from django.contrib.auth.hashers import make_password
 
 
 class CreateUserForm(forms.ModelForm):
@@ -74,6 +75,40 @@ class CreateUserForm(forms.ModelForm):
                 Submit("create", "Tạo", css_class="button white w-100"),
             ),
         )
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        data = self.cleaned_data
+        fields = [
+            "password",
+            "username",
+            "email",
+            "firstName",
+            "lastName",
+            "phone",
+            "address",
+            "is_staff",
+            "is_superuser",
+            "is_active",
+        ]
+
+        for field in fields:
+            setattr(user, field, data.get(field))
+
+        if commit:
+            user = User.objects.create_user(
+                username=user.username,
+                email=user.email,
+                password=user.password,
+                firstName=user.firstName,
+                lastName=user.lastName,
+                phone=user.phone,
+                address=user.address,
+                is_active=user.is_active,
+                is_superuser=user.is_superuser,
+                is_staff=user.is_staff,
+            )
+        return user
 
 
 class EditUserForm(forms.ModelForm):

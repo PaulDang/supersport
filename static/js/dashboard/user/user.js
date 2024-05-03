@@ -41,9 +41,16 @@ const handleDeleteUser = function () {
   });
 };
 
+const handleSearchUser = () => {
+  $('.btn-search').click(function () {
+    console.log('run');
+  })
+}
+
 
 const handleUserTable = function () {
   handleDeleteUser();
+  handleSearchUser()
 };
 
 document.addEventListener('DOMContentLoaded', handleUserTable);

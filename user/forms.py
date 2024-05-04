@@ -1,13 +1,44 @@
 from django import forms
 from .models import User
+from django.core.validators import RegexValidator, EmailValidator, MinLengthValidator, MaxLengthValidator
+from django.utils.translation import gettext_lazy as _
 
 
 class RegisterForm(forms.ModelForm):
-    firstName = forms.CharField(required=True)
-    phone = forms.CharField(required=True)
-    username = forms.CharField(required=True)
-    email = forms.EmailField(required=True)
-    password = forms.PasswordInput()
+    firstName = forms.CharField(
+        label=_('First Name'),
+        required=True,
+        validators=[
+            RegexValidator(
+                regex=r'^[a-zA-ZÀ-Ỹà-ỹ\s]+$',
+                message=_('First name should contain only letters and spaces.'),
+                code='invalid_firstname'
+            )
+        ]
+    )
+    lastName = forms.CharField(
+        label=_('Last Name'),
+        required=True,
+        validators=[
+            RegexValidator(
+                regex=r'^[a-zA-ZÀ-Ỹà-ỹ\s]+$',
+                message=_('Last name should contain only letters and spaces.'),
+                code='invalid_lastname'
+            )
+        ]
+    )
+    phone = forms.CharField(
+        label=_('Phone'),
+        required=True,
+        validators=[
+            MinLengthValidator(10, message=_("Phone number should have at least 10 characters.")),
+            MaxLengthValidator(10, message=_("Phone number should have at most 10 characters."))
+        ]
+    )
+    username = forms.CharField(label=_('Username'), required=True)
+    email = forms.EmailField(label=_('Email'), required=True, validators=[EmailValidator(message=_("Enter a valid email address."))])
+    password = forms.CharField(label=_('Password'), widget=forms.PasswordInput(), required=True)
+    address = forms.CharField(label=_('Address'), required=False)
 
     class Meta:
         model = User

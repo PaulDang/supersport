@@ -28,7 +28,7 @@ class User(AbstractUser):
                 raise ValidationError(_("Email không hợp lệ."), code="invalid_email")
 
         if self.firstName:
-            firstName_regex = r"^[a-z ,.'-]+$"
+            firstName_regex = r"^[a-zA-ZÀ-Ỹà-ỹ\s]+$"
             if not re.match(firstName_regex, self.firstName):
                 raise ValidationError(
                     _("Tên không được chứa số hay ký tự đặc biệt."),
@@ -36,7 +36,7 @@ class User(AbstractUser):
                 )
 
         if self.lastName:
-            lastName_regex = r"^[a-z ,.'-]+$"
+            lastName_regex = r"^[a-zA-ZÀ-Ỹà-ỹ\s]+$"
             if not re.match(lastName_regex, self.lastName):
                 raise ValidationError(
                     _("Tên không được chứa số hay ký tự đặc biệt."),

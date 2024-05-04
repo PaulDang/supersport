@@ -11,20 +11,38 @@
 {% block content %}
 
 <div class="container mx-auto pt-5">
-  <div class="w-100 d-flex justify-content-end">
-    <a href='/dashboard/user/create' >
+  <div class="d-flex justify-content-between align-item-center">
+    <form class='w-50 d-flex' onsubmit="return handleSearchUser()">
+      <div class="input-group">
+        <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa-solid fa-search"></i></span>
+        <input placeholder="Nhấn Enter để tìm username..." type="text" class="form-control" id="search-user" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"
+        >
+      </div>
+    <a href="/dashboard/user">
       <button
-        type="button"
-        class="btn btn-primary btn-create"
-        data-bs-toggle="modal" 
-        data-bs-target="#userEditModal"
-      >
-      <i class="fa-solid fa-plus"></i>
-      &nbsp; Tạo người dùng
-    </button>
+            type="button"
+            class="btn btn-primary"
+            style="white-space:nowrap"
+            id='reset-btn'
+          >
+          <i class="fa-solid fa-redo"></i>
+      </button>
     </a>
+    </form>
+    <div>
+      <a href='/dashboard/user/create' >
+        <button
+          type="button"
+          class="btn btn-primary btn-create"
+        >
+        <i class="fa-solid fa-plus"></i>
+        &nbsp; Tạo người dùng
+      </button>
+      </a>
+    </div>
 </div>
-  <table class="table">
+
+  <table class="table mt-3">
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -38,58 +56,67 @@
       </tr>
     </thead>
     <tbody>
-      {% for userRow in users %}
-      <tr data-user-id="{{ userRow.userId }}">
-        <th scope="row">{{ forloop.counter }}</th>
-        <td>{{userRow.username}}</td>
-        <td>{{userRow.email}}</td>
-        <td>{{userRow.phone}}</td>
-        <td>
-          {% if userRow.is_active %}
-            <span class="badge rounded-pill text-bg-success">Yes</span>
-          {% else %}
-            <span class="badge rounded-pill text-bg-secondary">No</span>
-          {% endif %}
-        </td>
-        <td>
-          {% if userRow.is_staff %}
-            <span class="badge rounded-pill text-bg-success">Yes</span>
-          {% else %}
-            <span class="badge rounded-pill text-bg-secondary">No</span>
-          {% endif %}
-        </td>
-        <td>
-          {% if userRow.is_superuser %}
-            <span class="badge rounded-pill text-bg-success">Yes</span>
-          {% else %}
-            <span class="badge rounded-pill text-bg-secondary">No</span>
-          {% endif %}
-        </td>
-        <td class="mr-auto">
-          <div class="d-flex gap-4">
-            <a href='/dashboard/user/edit/{{userRow.userId}}' >
-              <button
-              type="button"
-              class="btn btn-primary btn-edit"
-              >
-                <i class="fa-solid fa-pencil"></i>
-              </button>
-            </a>
-            
-            {% if userRow.username != user.username %}
-              <button
-                type="button"
-                class="btn btn-danger btn-trash"
-                data-bs-toggle="modal" 
-                data-bs-target="#userModal"
-                >
-                <i class="fa-solid fa-trash"></i>
-              </button>
+      
+      
+      {% if users|length > 0 %}
+        {% for userRow in users %}
+        <tr data-user-id="{{ userRow.userId }}">
+          <td>{{ forloop.counter }}</td>
+          <td>{{userRow.username}}</td>
+          <td>{{userRow.email}}</td>
+          <td>{{userRow.phone}}</td>
+          <td>
+            {% if userRow.is_active %}
+              <span class="badge rounded-pill text-bg-success">Yes</span>
+            {% else %}
+              <span class="badge rounded-pill text-bg-secondary">No</span>
             {% endif %}
-          </div>
-        </td>
-      </tr>
-      {% endfor %}
+          </td>
+          <td>
+            {% if userRow.is_staff %}
+              <span class="badge rounded-pill text-bg-success">Yes</span>
+            {% else %}
+              <span class="badge rounded-pill text-bg-secondary">No</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if userRow.is_superuser %}
+              <span class="badge rounded-pill text-bg-success">Yes</span>
+            {% else %}
+              <span class="badge rounded-pill text-bg-secondary">No</span>
+            {% endif %}
+          </td>
+          <td class="mr-auto">
+            <div class="d-flex gap-4">
+              <a href='/dashboard/user/edit/{{userRow.userId}}' >
+                <button
+                type="button"
+                class="btn btn-primary btn-edit"
+                >
+                  <i class="fa-solid fa-pencil"></i>
+                </button>
+              </a>
+              
+              {% if userRow.username != user.username %}
+                <button
+                  type="button"
+                  class="btn btn-danger btn-trash"
+                  data-bs-toggle="modal" 
+                  data-bs-target="#userModal"
+                  >
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      {% else %}
+        <tr>
+          <td class='text-center' colspan="8">Không tìm thấy kết quả cần tìm &nbsp; <i class="fa-solid fa-search"></i></td>
+        </tr>
+      {% endif %}
+        
     </tbody>
   </table>
   

@@ -127,7 +127,7 @@ Cart
                 <div class="">Thành tiền</div>
                 <div class="ms-auto me-0 products-total-price">250.000 VNĐ</div>
               </div>
-              <form action="{% url 'checkout' %}" method="POST">
+              <form id="check-out" action="{% url 'checkout' %}" method="POST">
                 {% csrf_token %}
                 <button input="submit" class="btn btn-lg btn-primary px-5 btn-submit-pay">Thanh toán</button>
               </form>

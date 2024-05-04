@@ -36,7 +36,8 @@ def get_signup(request):
                 messages.success(request, "Đăng ký thành công.")
                 return redirect("main")
 
-        messages.error(request, "Đăng ký không thành công. Thông tin không hợp lệ.")
+        messages.error(
+            request, "Đăng ký không thành công. Thông tin không hợp lệ.")
     form = RegisterForm()
     return render(
         request=request,
@@ -55,7 +56,8 @@ def get_signin(request):
             if user is not None:
                 login(request, user)
                 messages.info(
-                    request, f"Bây giờ bạn đã đăng nhập với tư cách {username}."
+                    request, f"Bây giờ bạn đã đăng nhập với tư cách {
+                        username}."
                 )
 
                 return redirect("main")

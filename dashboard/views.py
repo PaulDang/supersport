@@ -22,13 +22,19 @@ def dashboard(request):
 
 def user_dashboard(request):
     user_list = User.objects.all().order_by(F("date_joined").desc())
+    search_query = request.GET.get("q", "")
+
+    if search_query:
+        user_list = user_list.filter(
+            username__icontains=search_query
+        )
 
     # Set up pagination
     p = Paginator(user_list, 5)
     page = request.GET.get("page")
     users = p.get_page(page)
 
-    context = {"user_list": user_list, "users": users}
+    context = {"users": users}
     return render(request, "user/user.html", context)
 
 

@@ -48,9 +48,31 @@
                 </li>
             </ul>
             <div class="d-flex align-items-center">
-                <form class="mx-3">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <form class='w-50 d-flex' action="/main/search/" onsubmit="return handleSearchProduct()">
+                    <div class="input-group">
+                        <input placeholder="Bạn đang tìm gì..." type="text" class="form-control" id="search-product" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa-solid fa-search" id="search-icon"></i></span>
+                    </div>
                 </form>
+
+<!--                MODAL SEARCH RESULT -->
+                <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="searchModalLabel">Search Results</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" id="searchResults">
+                                <!-- Search results will be displayed here -->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 {% if user.is_authenticated %}
                     <div class="dropdown">
                          <button class="btn dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">

@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from .models import Category, Product, Brand, ProductImage, ProductDetail
+from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
+from .models import Category, Product, Brand, ProductImage, ProductDetail
 
 # Create your views here.
 class ProductManager:
@@ -42,6 +43,26 @@ def store(request):
     product_manager = ProductManager()
     context = product_manager.get_context(request)
     return render(request, 'product/store.html', context)
+
+def search_product(request):
+    query = request.GET.get('q')
+    print("Query:", query)  # In ra giá trị của query
+    if query:
+        products = Product.objects.filter(product_name__icontains=query)
+        data = []
+        for product in products:
+            product_data = {
+                'product_name': product.product_name,
+                'price': product.price,
+                'description': product.description,
+                'total_quantity': product.total_quantity,
+                'images': [image.image.url for image in product.images.all()]
+            }
+            data.append(product_data)
+        print("Results:", data)
+        return JsonResponse(data, safe=False)
+    else:
+        return JsonResponse([], safe=False)
 
 def categories(request):
     all_categories = Category.objects.all()

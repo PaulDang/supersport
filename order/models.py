@@ -57,4 +57,9 @@ class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     price = models.FloatField(null=False)
     quantity = models.IntegerField(null=False)
+    total_price = models.FloatField(null=True, editable=False)  # Add total_price field
+
+    def save(self, *args, **kwargs):
+        self.total_price = self.quantity * self.price  # Calculate total price
+        super().save(*args, **kwargs)
 

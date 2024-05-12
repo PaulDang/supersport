@@ -1,0 +1,59 @@
+{% extends "page.html" %} {% load static %} {% load crispy_forms_tags %}
+{% load price_format %}
+
+{% block content %}
+
+
+    <div class="container bg-white shadow-md p-5 form-layout">
+
+        <div class="d-flex justify-content-center align-items-center justify-content-between">
+            <h3>
+                <i class="fa fa-address-book" aria-hidden="true"></i> Chi tiết đơn hàng
+            </h3>
+            <a class="" type="button" href="/user-info">
+                Trở lại
+            </a>
+        </div>
+
+        <p>Lịch sử đơn hàng.</p>
+
+        <hr/>
+        <h2>Order ID: {{ order.orderId }}</h2>
+        <p>Ngày đặt hàng: {{ order.created_at }}</p>
+        <p>Trạng thái: {{ order.status }}</p>
+        <p>Phương thức thanh toán: {{ order.payment_mode }}</p>
+        <p style="font-weight: bold; color: red">Giá trị đơn hàng: {{ order.total_price | price_format }}</p>
+
+        <h3>Sản phẩm đặt hàng:</h3>
+        <ul>
+            <table class="table">
+  <thead>
+    <tr class="text-center">
+      <th scope="col">Sản phẩm</th>
+      <th scope="col">Hình</th>
+      <th scope="col">Giá</th>
+      <th scope="col">Số lượng</th>
+        <th scope="col">Tổng</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in order_items %}
+    <tr>
+      <td>{{ item.product.product_name }}</td>
+      <td class="text-center"><img src="{{ item.product.images.first.image.url }}" alt="{{ item.product.name }}" style="max-width: 100px; max-height: 100px;"></td>
+      <td class="text-center">{{ item.price | price_format}}</td>
+      <td class="text-center">{{ item.quantity  }}</td>
+        <td class="text-center">{{ item.total_price | price_format }}</td>
+
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+        </ul>
+    </div>
+
+    <br/>
+{% endblock %}
+
+

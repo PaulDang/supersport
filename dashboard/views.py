@@ -16,7 +16,7 @@ def dashboard(request):
         return render(request=request, template_name="dashboard.html")
     return render(
         request=request,
-        template_name="./component/user-info/user-info.html",
+        template_name="./component/profile/profile.html",
     )
 
 
@@ -25,9 +25,7 @@ def user_dashboard(request):
     search_query = request.GET.get("q", "")
 
     if search_query:
-        user_list = user_list.filter(
-            username__icontains=search_query
-        )
+        user_list = user_list.filter(username__icontains=search_query)
 
     # Set up pagination
     p = Paginator(user_list, 5)

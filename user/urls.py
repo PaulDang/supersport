@@ -13,10 +13,8 @@ urlpatterns = [
     path("signin/", views.get_signin, name="signin"),
     path("signup/", views.get_signup, name="signup"),
     path("signout/", views.get_signout, name="signout"),
-    # path("checkout/", views.checkout, name= "checkout"),
     path("profile/", views.profile, name="profile"),
     path("delete-account/", views.delete_account, name="delete-account"),
-    # path("change-password/", views.change_password, name="change-password"),
     path(
         "password_reset/",
         PasswordResetView.as_view(

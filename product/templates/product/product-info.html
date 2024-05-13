@@ -144,20 +144,29 @@
     <script type="text/javascript" src="{% static 'js/product-info.js' %}"></script>
 
     <script>
-        $(document).on('click','#add-button', function(e){
-            e.preventDefault();
-            // Check if a size is selected
-            if ($('.size-option.selected').length === 0) {
-                alert('Vui lòng chọn size'); // Display the alert message
-                return; // Stop further execution
-            }
+        $(document).on("blur", '.product-quantity input', function(e) {
             const productQuantity = $('.product-quantity input');
-            if (productQuantity.val() == 0) {
+            if (productQuantity.val() < 0) {
+                alertify.error("Số lượng sản phẩm không được nhỏ hơn 0");
                 productQuantity.val(1);
                 return;
             }
             if (!Number.isInteger(+productQuantity.val())) {
                 productQuantity.val(Math.trunc(+productQuantity.val()));
+                return;
+            }
+        });
+        $(document).on('click','#add-button', function(e){
+            e.preventDefault();
+            // Check if a size is selected
+            if ($('.size-option.selected').length === 0) {
+                alertify.error('Bạn chưa chọn size'); // Display the alert message
+                return; // Stop further execution
+            }
+            const productQuantity = $('.product-quantity input');
+            if (productQuantity.val() <= 0) {
+                alertify.error("Số lượng sản phẩm không được nhỏ hơn hoặc bằng 0");
+                productQuantity.val(1);
                 return;
             }
             var selectedSize = $('.size-option.selected').data('size');
@@ -176,10 +185,11 @@
                     action: 'post'
                 },
                 success: function(json){
-                    {% comment %} location.reload(true); {% endcomment %}
-                    window.location.href = "/cart"
+                    alertify.success(json.message);
                 },
-                error: function (xhr, errmsg,err){
+                error: function (xhr, errmsg, err){
+                    alertify.error(xhr.responseJSON.message);
+                    if (!xhr.responseJSON.remained_quantity) return;
                     const product_quantity = $('.product-quantity input');
                     product_quantity.val(`${xhr.responseJSON.remained_quantity}`);
                     const btnPlus = $('button.btnPlus');

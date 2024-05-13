@@ -12,12 +12,7 @@ from django.core.paginator import Paginator
 # Create your views here.
 @login_required(login_url="signin")
 def dashboard(request):
-    if request.user.is_superuser == 1:
-        return render(request=request, template_name="dashboard.html")
-    return render(
-        request=request,
-        template_name="./component/profile/profile.html",
-    )
+    return render(request=request, template_name="dashboard.html")
 
 
 def user_dashboard(request):

@@ -97,13 +97,9 @@ def profile(request):
     user_form = UpdateUserForm(instance=request.user)
     context = {"user_form": user_form}
 
-    if request.user.is_superuser == 1:
-        return render(
-            request=request, template_name="profile-management.html", context=context
-        )
     return render(
         request=request,
-        template_name="./component/profile/profile-management.html",
+        template_name="profile-management.html",
         context=context,
     )
 

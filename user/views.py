@@ -31,6 +31,11 @@ def main(request):
     return render(request, "product/store.html", context)
 
 
+@login_required(login_url="signin")
+def user_info(request):
+    return render(request=request, template_name="./component/profile/user-info.html")
+
+
 def get_signup(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)

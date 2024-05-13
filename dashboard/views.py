@@ -12,7 +12,65 @@ from django.core.paginator import Paginator
 # Create your views here.
 @login_required(login_url="signin")
 def dashboard(request):
-    return render(request=request, template_name="dashboard.html")
+    users = User.objects.all()
+
+    # Biểu đồ trạng thái người dùng
+    status_data = {}
+    for user in users:
+        status = user.is_active if hasattr(user, "is_active") else "Unknown"
+        status_data[status] = status_data.get(status, 0) + 1
+
+    status_chart_data = {
+        "labels": ["Đang hoạt động", "Đã vô hiệu hóa"],
+        "datasets": [
+            {
+                "label": "Tỉ lệ số người",
+                "data": list(status_data.values()),
+                "backgroundColor": [
+                    "rgb(54, 162, 235)",
+                    "rgb(255, 99, 132)",
+                ],
+                "hoverOffset": 4,
+            }
+        ],
+    }
+
+    # Biểu đồ role người dùng
+    role_data = {
+        "Quản trị viên": 0,
+        "Nhân viên": 0,
+        "Khách hàng": 0,
+    }
+
+    for user in users:
+        if hasattr(user, "is_superuser") and user.is_superuser:
+            role = "Quản trị viên"
+        elif hasattr(user, "is_staff") and user.is_staff:
+            role = "Nhân viên"
+        else:
+            role = "Khách hàng"
+
+        role_data[role] += 1
+
+    role_chart_data = {
+        "labels": ["Quản trị viên", "Nhân viên", "Khách hàng"],
+        "datasets": [
+            {
+                "label": "Tỉ lệ số người",
+                "data": list(role_data.values()),
+                "backgroundColor": [
+                    "rgb(54, 162, 235)",
+                    "rgb(255, 205, 86)",
+                    "rgb(255, 99, 132)",
+                ],
+                "hoverOffset": 4,
+            }
+        ],
+    }
+
+    chart_data = {"chart_data": [status_chart_data, role_chart_data]}
+
+    return render(request=request, template_name="dashboard.html", context=chart_data)
 
 
 def user_dashboard(request):

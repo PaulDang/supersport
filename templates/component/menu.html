@@ -57,10 +57,9 @@
                             {% bs_icon 'person-dash' size='1.2em' %} Xin chào, {{user.username}}
                         </button>
                         <ul class="dropdown-menu w-100 mt-1">
-                            {% if user.is_superuser%}
+                            <li><a class="dropdown-item" href={% url "user-info" %}>Tài khoản của tôi</a></li>
+                            {% if user.is_superuser %}
                                 <li><a class="dropdown-item" href={% url "dashboard" %}>Admin</a></li>
-                            {% else %}
-                                <li><a class="dropdown-item" href={% url "user-info" %}>Tài khoản của tôi</a></li>
                             {% endif %}
                             <li><a class="dropdown-item" href={% url "signout" %}>Đăng xuất</a></li>
                          </ul>

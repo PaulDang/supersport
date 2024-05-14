@@ -160,4 +160,4 @@ cython_debug/
 #.idea/
 .idea/
 
-# static/media
+static/media

@@ -1,6 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib import messages
+
+from order.models import Order, OrderItem
 from .forms import RegisterForm, UpdateUserForm, CustomAuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .models import User
@@ -144,3 +146,15 @@ class MyPasswordChangeViewAdmin(PasswordChangeView):
             self.request, "Mật khẩu đã được thay đổi. Vui lòng đăng nhập lại!"
         )
         return response
+
+@login_required(login_url="signin")
+def user_order(request):
+    user = User.objects.get(userId=request.user.userId)
+    orders = Order.objects.filter(user=user)
+    return render(request, './component/profile/user-order.html', {'orders': orders})
+
+@login_required(login_url="signin")
+def user_order_detail(request, order_id):
+    order = get_object_or_404(Order, orderId=order_id)
+    order_items = OrderItem.objects.filter(order=order)
+    return render(request, './component/profile/user_order_details.html', {'order': order, 'order_items': order_items})

@@ -1,4 +1,5 @@
 {% extends "page.html" %}
+{% load fontawesome_5 %}
 {% load price_format %}
 {% load static %}
 {% block link %}
@@ -11,10 +12,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Slick Carousel JavaScript -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-
-
-
-    <link rel="stylesheet" href="{% static 'css/product-info.css' %}">
+    <link rel="stylesheet" href="{% static 'css/product-info.css' %}">    
+    {% fontawesome_5_static %}
 
 {% endblock %}
 {% block content %}
@@ -87,7 +86,7 @@
                                 <div class="col-3 offset-5 px-0 mb-4 mb-md-0">
                                     <div class="input-group">
                                         <button class="btn border-0 btnMinus" type="button">
-                                        -
+                                            {% fa5_icon 'minus' 'fas' color='#e03131'%}
                                         </button>
                                         <input
                                         class="form-control text-center border border-dark rounded-3"
@@ -97,7 +96,7 @@
                                         aria-describedby="btnMinus btnPlus"
                                         />
                                         <button class="btn border-0 btnPlus" type="button">
-                                        +
+                                            {% fa5_icon 'plus' 'fas' color='#099268'%}
                                         </button>
                             </div>
                             </div>
@@ -120,8 +119,8 @@
                                     {% endif %}
                                 </div>
                                 <div class="col-6 text-end">
-                                    <button type="button" id="add-button" value="{{ product.id }}"
-                                            class="btn btn-secondary btn-sm">
+                                    <button class="btn px-3" type="button" id="add-button" value="{{ product.id }}"
+                                            class="btn btn-success btn-sm">
                                         Thêm vào giỏ hàng
                                     </button>
 

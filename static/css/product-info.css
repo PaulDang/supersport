@@ -18,7 +18,7 @@ img {
         display: inline-block;
         padding: 5px 10px;
         margin: 5px;
-        border: 1px solid #000; /* Đường viền 1px màu đen */
+        border: 1px solid var(--django-primary); /* Đường viền 1px màu đen */
         border-radius: 5px; /* Bo tròn góc */
         cursor: pointer; /* Con trỏ biểu tượng tay khi di chuột qua */
         font-weight: 600;
@@ -27,7 +27,7 @@ img {
 .size-option.selected {
     color: #ffffff;
     border-color: white; /* Màu viền khi kích thước được chọn */
-    background-color: black; /* Màu nền khi kích thước được chọn */
+    background-color: var(--django-primary); /* Màu nền khi kích thước được chọn */
 }
 
 
@@ -98,3 +98,20 @@ span.detail-disabled {
     border: 1px solid gray;
 }
 
+.form-control:focus {
+    box-shadow: 0 0 5px #007bff;
+}
+
+#add-button {
+  border-radius: 13px !important;
+  color: var(--django-light);
+  background-color: var(--django-primary);
+  border: 2px solid var(--django-primary);
+  transition: all 0.4s;
+}
+
+#add-button:hover, 
+#add-button:active {  
+  color: var(--django-primary);
+  background-color: var(--django-light);
+}

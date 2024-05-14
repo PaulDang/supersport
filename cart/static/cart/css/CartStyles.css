@@ -51,11 +51,30 @@
   border-radius: 13px !important;
 }
 
+.product-quantity .btn:hover {
+  transform: scale(1.3);
+  transition: all 0.3s;
+}
+
+.btn.btn-delete-from-cart:hover .fa-trash {
+  color: white;
+  transform: scale(1.1);
+  transition: all 0.3s;
+}
+
 .btn-primary:link,
 .btn-primary:visited {
   border-radius: 13px !important;
   color: var(--django-light);
   background-color: var(--django-primary);
+  border: 2px solid var(--django-primary);
+  transition: all 0.4s;
+}
+
+.btn-primary:hover, 
+.btn-primary:active {  
+  color: var(--django-primary);
+  background-color: var(--django-light);
 }
 
 .section-summary {
@@ -71,6 +90,11 @@
 .section-summary .summary-header {
   font-size: 30px;
 }
+
+.form-control:focus {
+    box-shadow: 0 0 5px #007bff;
+}
+
 
 .footer-link:link,
 .footer-link:visited {

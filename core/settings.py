@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "imagekit",
     "mathfilters",
     "dashboard",
+    "fontawesome_5"
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     "bootstrap5",
     "user",
     "cart",
-    "django_bootstrap_icons",
     "imagekit",
     "mathfilters",
     "dashboard",

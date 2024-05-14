@@ -67,7 +67,8 @@ def get_signin(request):
             if user is not None:
                 login(request, user)
                 messages.info(
-                    request, f"Bây giờ bạn đã đăng nhập với tư cách {username}."
+                    request, f"Bây giờ bạn đã đăng nhập với tư cách {
+                        username}."
                 )
 
                 return redirect("main")

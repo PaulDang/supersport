@@ -7,7 +7,7 @@ class OrderAdmin(admin.ModelAdmin):
   list_display = ("orderId", "user", "firstName", "lastName", "email", "phone", "address", "payment_mode", "total_price", "status", "created_at")
 
 class OrderItemAdmin(admin.ModelAdmin):
-  list_display  = ('get_orderId', 'product', 'price', 'quantity')
+  list_display  = ('get_orderId', 'product', 'price', 'quantity','total_price')
 
   @admin.display(ordering='order__orderId', description='orderId')
   def get_orderId(self, obj):

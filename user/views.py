@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib import messages
-
+from django.contrib.auth import update_session_auth_hash
 from order.models import Order, OrderItem
-from .forms import RegisterForm, UpdateUserForm, CustomAuthenticationForm
+from .forms import RegisterForm, UpdateUserForm, CustomAuthenticationForm, MyPasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from .models import User
 from product.models import Product
@@ -124,28 +124,22 @@ def delete_account(request):
     )
 
 
-class MyPasswordChangeView(PasswordChangeView):
-    template_name = "./component/reset-password/password-change.html"
-    success_url = reverse_lazy("signin")
+@login_required
+def update_password(request):
+    form = MyPasswordChangeForm(user=request.user)
 
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        messages.success(
-            self.request, "Mật khẩu đã được thay đổi. Vui lòng đăng nhập lại!"
-        )
-        return response
+    if request.method == 'POST':
+        form = MyPasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            
+        handle_errors(form, request)
 
+    return render(request, './component/reset-password/password-change.html', {
+        'form': form,
+    })
 
-class MyPasswordChangeViewAdmin(PasswordChangeView):
-    template_name = "password-change-admin.html"
-    success_url = reverse_lazy("signin")
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        messages.success(
-            self.request, "Mật khẩu đã được thay đổi. Vui lòng đăng nhập lại!"
-        )
-        return response
 
 @login_required(login_url="signin")
 def user_order(request):

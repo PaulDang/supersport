@@ -14,7 +14,7 @@
   </a>
 
   <h2>Tạo người dùng</h2>
-  <form class="row g-3 mt-3" novalidate method="post">
+  <form class="row g-3 mt-3 needs-validation" novalidate method="post">
     {% csrf_token %}
     {% crispy forms %}
   </form> 

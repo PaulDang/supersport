@@ -101,8 +101,9 @@ const changeQuantityWhenButtonClicked = async function (clickedButton) {
       const errorFromBE = JSON.parse(error.message);
       console.error(errorFromBE?.message);
       if (clickedButton.tagName.toLowerCase() == "input")
-      inputElement.value = errorFromBE?.old_quantity;
-      btnPlus.classList.add("disabled");
+        inputElement.value = errorFromBE?.old_quantity;
+      else
+        btnPlus.classList.add("disabled");
   }
 };
 

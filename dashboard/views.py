@@ -9,6 +9,13 @@ from django.views.decorators.http import require_http_methods
 from django.core.paginator import Paginator
 
 
+def handle_errors(form, request):
+    form_errors = list(form.errors.values())
+    error_messages = [" ".join(errors) for errors in form_errors]
+    for error_message in error_messages:
+        messages.error(request, error_message)
+
+
 # Create your views here.
 @login_required(login_url="signin")
 def dashboard(request):
@@ -100,9 +107,8 @@ def edit_user_dashboard(request, user_id):
             if updated_user is not None:
                 messages.success(request, "Chỉnh sửa người dùng thành công.")
                 return redirect("user_dashboard")
-        messages.error(
-            request, "Chỉnh sửa người dùng không thành công. Vui lòng thử lại."
-        )
+        handle_errors(form, request)
+
     else:
         form = EditUserForm(instance=user)
 
@@ -130,7 +136,7 @@ def create_user(request):
                 messages.success(request, "Tạo người dùng thành công.")
                 return redirect("user_dashboard")
 
-        messages.error(request, "Tạo người dùng không thành công. Vui lòng thử lại.")
+        handle_errors(form, request)
 
     context = {"forms": CreateUserForm}
     return render(request, "user/create_form.html", context)

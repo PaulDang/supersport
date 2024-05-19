@@ -7,6 +7,7 @@ from django.contrib.auth.hashers import make_password
 
 class CreateUserForm(forms.ModelForm):
     firstName = forms.CharField(required=True)
+    lastName = forms.CharField(required=True)
     phone = forms.CharField(required=True)
     username = forms.CharField(required=True)
     email = forms.EmailField(required=True)
@@ -35,28 +36,28 @@ class CreateUserForm(forms.ModelForm):
         self.helper.layout = Layout(
             HTML("<div class='row'>"),
             HTML("<div class='form-group col-md-6'>"),
-            Field("firstName", css_class="input-xlarge"),
+            Field("firstName", css_class="input-xlarge", attrs={"required": True}),
             HTML("</div>"),
             HTML("<div class='form-group col-md-6'>"),
-            Field("lastName", css_class="input-xlarge"),
+            Field("lastName", css_class="input-xlarge", attrs={"required": True}),
             HTML("</div>"),
             HTML("</div>"),
             # --*--
             HTML("<div class='row'>"),
             HTML("<div class='form-group col-md-6'>"),
-            Field("username", css_class="input-xlarge"),
+            Field("username", css_class="input-xlarge", attrs={"required": True}),
             HTML("</div>"),
             HTML("<div class='form-group col-md-6'>"),
-            Field("password", css_class="input-xlarge"),
+            Field("password", css_class="input-xlarge", attrs={"required": True}),
             HTML("</div>"),
             HTML("</div>"),
             # --*--
             HTML("<div class='row'>"),
             HTML("<div class='form-group col-md-6'>"),
-            Field("email", css_class="input-xlarge"),
+            Field("email", css_class="input-xlarge", attrs={"required": True}),
             HTML("</div>"),
             HTML("<div class='form-group col-md-6'>"),
-            Field("phone", css_class="input-xlarge"),
+            Field("phone", css_class="input-xlarge", attrs={"required": True}),
             HTML("</div>"),
             HTML("</div>"),
             # --*--
@@ -113,9 +114,11 @@ class CreateUserForm(forms.ModelForm):
 
 class EditUserForm(forms.ModelForm):
     firstName = forms.CharField(required=True)
+    lastName = forms.CharField(required=True)
     phone = forms.CharField(required=True)
     username = forms.CharField(required=True)
     email = forms.EmailField(required=True)
+    password = forms.CharField(widget=forms.PasswordInput(), required=False)
 
     class Meta:
         model = User
@@ -135,34 +138,33 @@ class EditUserForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["username"].disabled = True
-        self.fields["password"].disabled = True
 
         self.helper = FormHelper()
         self.helper.layout = Layout(
             HTML("<div class='row'>"),
             HTML("<div class='form-group col-md-6'>"),
-            Field("firstName", css_class="input-xlarge"),
+            Field("firstName", css_class="input-xlarge", attrs={"required": True}),
             HTML("</div>"),
             HTML("<div class='form-group col-md-6'>"),
-            Field("lastName", css_class="input-xlarge"),
+            Field("lastName", css_class="input-xlarge", attrs={"required": True}),
             HTML("</div>"),
             HTML("</div>"),
             # --*--
             HTML("<div class='row'>"),
             HTML("<div class='form-group col-md-6'>"),
-            Field("username", css_class="input-xlarge"),
+            Field("username", css_class="input-xlarge", attrs={"required": True}),
             HTML("</div>"),
             HTML("<div class='form-group col-md-6'>"),
-            Field("password", css_class="input-xlarge"),
+            Field("password", css_class="input-xlarge", attrs={"required": True}),
             HTML("</div>"),
             HTML("</div>"),
             # --*--
             HTML("<div class='row'>"),
             HTML("<div class='form-group col-md-6'>"),
-            Field("email", css_class="input-xlarge"),
+            Field("email", css_class="input-xlarge", attrs={"required": True}),
             HTML("</div>"),
             HTML("<div class='form-group col-md-6'>"),
-            Field("phone", css_class="input-xlarge"),
+            Field("phone", css_class="input-xlarge", attrs={"required": True}),
             HTML("</div>"),
             HTML("</div>"),
             # --*--
@@ -181,3 +183,12 @@ class EditUserForm(forms.ModelForm):
                 Submit("edit", "Chỉnh sửa", css_class="button white w-100"),
             ),
         )
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        password = self.cleaned_data.get("password")
+        if password:
+            user.password = make_password(password, hasher="pbkdf2_sha256")
+        if commit:
+            user.save()
+        return user

@@ -8,6 +8,7 @@ from django.core.validators import (
 )
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 class UserFormMixin(forms.Form):
@@ -116,3 +117,21 @@ class UpdateUserForm(UserFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["username"].disabled = True
+
+
+class MyPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(
+        label="Mật khẩu cũ",
+        strip=False,
+        widget=forms.PasswordInput(attrs={"autofocus": True}),
+    )
+    new_password1 = forms.CharField(
+        label="Mật khẩu mới",
+        strip=False,
+        widget=forms.PasswordInput,
+    )
+    new_password2 = forms.CharField(
+        label="Nhập lại mật khẩu mới",
+        strip=False,
+        widget=forms.PasswordInput,
+    )

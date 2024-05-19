@@ -21,7 +21,7 @@ const sendPostToBackEnd = async function ({ url, body }) {
       body: JSON.stringify(body),
     });
 
-     if (!response.ok && response.status == 422) {
+     if (!response.ok) {
       throw new Error(await response.text())
     }
     

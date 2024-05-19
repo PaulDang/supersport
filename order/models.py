@@ -51,6 +51,8 @@ class Order(models.Model):
                 raise ValidationError(
                     _("Invalid phone number format."), code="invalid_phone"
                 )
+    class Meta:
+        verbose_name_plural = 'Đơn hàng'
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
@@ -63,3 +65,5 @@ class OrderItem(models.Model):
         self.total_price = self.quantity * self.price  # Calculate total price
         super().save(*args, **kwargs)
 
+    class Meta:
+        verbose_name_plural = 'Chi tiết đơn hàng'

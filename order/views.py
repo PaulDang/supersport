@@ -64,7 +64,7 @@ def placeorder(request):
 
             CartDetail.objects.filter(cart__user=request.user).delete()
 
-            return redirect("/order-summary")
+            return redirect("/main/order-summary")
 
         else:
             return render(request, "checkout.html", {"form": form})

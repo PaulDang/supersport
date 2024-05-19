@@ -15,6 +15,7 @@ class ProductDetailInline(admin.StackedInline):
 class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('product_name',)}
     inlines = [ImageInline, ProductDetailInline]
+    list_display = ('product_name', 'brand', 'price', 'discount_price', 'total_quantity')
     formfield_overrides = {
         models.ImageField: {'widget': AdminThumbnail(image_field='thumbnail')},
     }

@@ -42,7 +42,7 @@ class Product(models.Model):
     total_quantity = models.IntegerField(default=0)
 
     class Meta:
-        verbose_name_plural = 'products'
+        verbose_name_plural = 'Sản phẩm'
 
     def __str__(self):
         return self.product_name

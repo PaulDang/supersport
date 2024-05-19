@@ -53,3 +53,6 @@ class User(AbstractUser):
     def change_password(self, new_password):
         self.password = make_password(new_password)
         self.save()
+
+    class Meta:
+        verbose_name_plural = 'Quản lý người dùng'

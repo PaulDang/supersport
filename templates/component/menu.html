@@ -55,24 +55,20 @@
                     </div>
                 </form>
 
-<!--                MODAL SEARCH RESULT -->
+                <!-- MODAL SEARCH RESULT -->
                 <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="searchModalLabel">Search Results</h5>
+                                <h5 class="modal-title" id="searchModalLabel">SẢN PHẨM</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body" id="searchResults">
                                 <!-- Search results will be displayed here -->
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            </div>
                         </div>
                     </div>
                 </div>
-
                 {% if user.is_authenticated %}
                     <div class="dropdown">
                          <button class="btn dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">

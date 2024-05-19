@@ -53,6 +53,7 @@ def search_product(request):
         for product in products:
             product_data = {
                 'product_name': product.product_name,
+                'slug': product.slug,
                 'price': product.price,
                 'description': product.description,
                 'total_quantity': product.total_quantity,

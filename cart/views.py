@@ -108,8 +108,7 @@ def submit_data(request):
                 product_size_quantity = modify_cart_detail.product_detail.quantity
                 if new_total_quantity > product_size_quantity:
                     raise CartDetailException(
-                        message=f"The product size cannot exceeds {
-                            new_quanity}",
+                        message=f"The product size cannot exceeds {new_quanity}",
                         old_quantity=modify_cart_detail.quantity
                     )
                 modify_cart_detail.quantity = new_quanity

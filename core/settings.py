@@ -49,10 +49,10 @@ INSTALLED_APPS = [
     "bootstrap5",
     "user",
     "cart",
-    "django_bootstrap_icons",
     "imagekit",
     "mathfilters",
     "dashboard",
+    "fontawesome_5"
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

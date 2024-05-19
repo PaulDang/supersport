@@ -1,7 +1,8 @@
 {% include "page.html" %} 
 {% load static %} 
 {% load crispy_forms_tags %} 
-{% load bootstrap_icons %}
+{% load fontawesome_5 %}
+{% fontawesome_5_static %} 
 
 {% block script_user %}
 <script defer src="{% static 'js/dashboard/user/user.js' %}"></script>
@@ -14,7 +15,7 @@
   <div class="d-flex justify-content-between align-item-center">
     <form class='w-50 d-flex' onsubmit="return handleSearchUser()">
       <div class="input-group">
-        <span class="input-group-text" id="inputGroup-sizing-default"><i class="fa-solid fa-search"></i></span>
+        <span class="input-group-text" id="inputGroup-sizing-default">{% fa5_icon 'search' %}</span>
         <input placeholder="Nhấn Enter để tìm username..." type="text" class="form-control" id="search-user" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"
         >
       </div>
@@ -25,7 +26,7 @@
             style="white-space:nowrap"
             id='reset-btn'
           >
-          <i class="fa-solid fa-redo"></i>
+          {% fa5_icon 'redo' %}
       </button>
     </a>
     </form>
@@ -35,7 +36,7 @@
           type="button"
           class="btn btn-primary btn-create"
         >
-        <i class="fa-solid fa-plus"></i>
+        {% fa5_icon 'plus' %}
         &nbsp; Tạo người dùng
       </button>
       </a>
@@ -93,7 +94,7 @@
                 type="button"
                 class="btn btn-primary btn-edit"
                 >
-                  <i class="fa-solid fa-pencil"></i>
+                  {% fa5_icon 'edit' %}
                 </button>
               </a>
               
@@ -104,7 +105,7 @@
                   data-bs-toggle="modal" 
                   data-bs-target="#userModal"
                   >
-                  <i class="fa-solid fa-trash"></i>
+                  {% fa5_icon 'trash-alt' %}
                 </button>
               {% endif %}
             </div>

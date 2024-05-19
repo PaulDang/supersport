@@ -11,11 +11,11 @@ django-livereload-server = "*"
 crispy-bootstrap5 = "*"
 django-crispy-forms = "*"
 python-dotenv = "*"
-django-bootstrap-icons = "*"
 pillow = "*"
 django-imagekit = "*"
 django-mathfilters = "*"
 djhtml = "*"
+django-fontawesome-5 = "*"
 
 [dev-packages]
 

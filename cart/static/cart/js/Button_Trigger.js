@@ -57,6 +57,8 @@ const updateDatabase = async function (
   }
 };
 
+const isFloat = (value) => typeof value === "number" && !isNaN(value) && Number.isFinite(value) && value % 1 !== 0;
+
 const changeQuantityWhenButtonClicked = async function (clickedButton) {
   const productQuantityElement = clickedButton.closest(".product-quantity");
   const inputElement = productQuantityElement.querySelector(
@@ -64,12 +66,21 @@ const changeQuantityWhenButtonClicked = async function (clickedButton) {
   );
   const btnPlus = productQuantityElement.querySelector(".btnPlus");
 
-  let currentValue = parseInt(inputElement.value);
+  let currentValue = parseInt(inputElement.value); 
+
+  if (currentValue <= 0) {
+    inputElement.value = 1;
+    return;
+  }
+
+  if (isFloat(currentValue)) {
+    inputElement.value = Math.trunc(currentValue);
+    return;
+  }
 
   const parentProductElement = clickedButton.closest(".product");     
 
-  try { 
-
+  try {
     if (clickedButton.classList.contains("btnPlus")) {
       currentValue += 1;
     }
@@ -130,10 +141,22 @@ const buttonTrigger = function (e) {
     return deleteProduct(clickedButton);
 };
 
+const formSubmitHandler = function(e) {
+  e.preventDefault();
+  const firstProduct = document.querySelector(".product");
+  if (!firstProduct) {
+    alertify.error("Không có sản phẩm trong giỏ hàng");
+    return;
+  }
+  this.submit();
+}
+
 const addButtonDelegateEvent = function () {
   const productsElement = document.querySelector(".products");
   productsElement.addEventListener("click", buttonTrigger);
-  productsElement.addEventListener("change", onQuantityChanged);
+  productsElement.addEventListener("focusout", onQuantityChanged);
+  const checkOutForm = document.querySelector("#check-out");
+  checkOutForm?.addEventListener("submit", formSubmitHandler);
 };
 
 document.addEventListener("DOMContentLoaded", addButtonDelegateEvent);

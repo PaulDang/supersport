@@ -1,6 +1,5 @@
 {% extends "page.html" %}
 {% load static %}
-{% load bootstrap_icons %}
 
 {% block title %}
     Xác nhận đơn hàng
@@ -8,8 +7,11 @@
 
 {% block content %}
 
+{% load fontawesome_5 %}
+{% fontawesome_5_static %} 
+
 <section class="order-summary py-5 my-5 text-center">
-    <p class="text-center">{% bs_icon 'balloon-heart-fill' size='3em' color="#15293b" %}</p>
+    <p class="text-center">{% fa5_icon 'hand-holding-heart' 'fas' size='fa-4x' color="#15293b" %}</p>
     <h2 class="text-uppercase">Cảm ơn</h2>
     <h5 class="mt-2">Bạn đã đặt hàng thành công</h5>
 </section>

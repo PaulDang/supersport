@@ -1,5 +1,6 @@
 {% extends "page.html" %}
 {% load static %}
+{% load fontawesome_5 %}
 {% load price_format %}
 {% block title %}
 Cart
@@ -12,6 +13,7 @@ Cart
 {% block link %}
 <link rel="stylesheet" href="{% static 'cart/css/CartStyles.css' %}" />
 <link rel="stylesheet" href="{% static 'css/main.css' %}">
+{% fontawesome_5_static %} 
 {% endblock %}
 
 {% block content %}
@@ -70,7 +72,7 @@ Cart
             <div class="col-md-2 px-0 mb-4 mb-md-0">
               <div class="product-quantity input-group">
                 <button class="btn border-0 btnMinus" type="button">
-                  -
+                  {% fa5_icon 'minus' 'fas' color='#e03131'%}
                 </button>
                 <input
                   class="form-control text-center border border-dark rounded-3"
@@ -80,7 +82,7 @@ Cart
                   aria-describedby="btnMinus btnPlus"
                 />
                 <button class="btn border-0 btnPlus" type="button">
-                  +
+                  {% fa5_icon 'plus' 'fas' color='#099268'%}
                 </button>
               </div>
             </div>
@@ -90,22 +92,8 @@ Cart
                   <span class="d-md-none fw-bold">Tổng tiền: </span>
                   <span class="product-total-price">250.000 VNĐ</span>
                 </div>
-                <button class="btn btn-delete-from-cart">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
-                    fill="currentColor"
-                    class="bi bi-trash"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"
-                    />
-                    <path
-                      d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"
-                    />
-                  </svg>
+                <button class="btn border-0 btn-delete-from-cart">
+                  {% fa5_icon 'trash' 'fas' size='fa-2x' color='#fa5252'%}
                 </button>
               </div>
             </div>
@@ -127,7 +115,7 @@ Cart
                 <div class="">Thành tiền</div>
                 <div class="ms-auto me-0 products-total-price">250.000 VNĐ</div>
               </div>
-              <form action="{% url 'checkout' %}" method="POST">
+              <form id="check-out" action="{% url 'checkout' %}" method="POST">
                 {% csrf_token %}
                 <button input="submit" class="btn btn-lg btn-primary px-5 btn-submit-pay">Thanh toán</button>
               </form>

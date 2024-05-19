@@ -9,15 +9,75 @@ from django.views.decorators.http import require_http_methods
 from django.core.paginator import Paginator
 
 
+def handle_errors(form, request):
+    form_errors = list(form.errors.values())
+    error_messages = [" ".join(errors) for errors in form_errors]
+    for error_message in error_messages:
+        messages.error(request, error_message)
+
+
 # Create your views here.
 @login_required(login_url="signin")
 def dashboard(request):
-    if request.user.is_superuser == 1:
-        return render(request=request, template_name="dashboard.html")
-    return render(
-        request=request,
-        template_name="./component/user-info/user-info.html",
-    )
+    users = User.objects.all()
+
+    # Biểu đồ trạng thái người dùng
+    status_data = {}
+    for user in users:
+        status = user.is_active if hasattr(user, "is_active") else "Unknown"
+        status_data[status] = status_data.get(status, 0) + 1
+
+    status_chart_data = {
+        "labels": ["Đang hoạt động", "Đã vô hiệu hóa"],
+        "datasets": [
+            {
+                "label": "Tỉ lệ số người",
+                "data": list(status_data.values()),
+                "backgroundColor": [
+                    "rgb(54, 162, 235)",
+                    "rgb(255, 99, 132)",
+                ],
+                "hoverOffset": 4,
+            }
+        ],
+    }
+
+    # Biểu đồ role người dùng
+    role_data = {
+        "Quản trị viên": 0,
+        "Nhân viên": 0,
+        "Khách hàng": 0,
+    }
+
+    for user in users:
+        if hasattr(user, "is_superuser") and user.is_superuser:
+            role = "Quản trị viên"
+        elif hasattr(user, "is_staff") and user.is_staff:
+            role = "Nhân viên"
+        else:
+            role = "Khách hàng"
+
+        role_data[role] += 1
+
+    role_chart_data = {
+        "labels": ["Quản trị viên", "Nhân viên", "Khách hàng"],
+        "datasets": [
+            {
+                "label": "Tỉ lệ số người",
+                "data": list(role_data.values()),
+                "backgroundColor": [
+                    "rgb(54, 162, 235)",
+                    "rgb(255, 205, 86)",
+                    "rgb(255, 99, 132)",
+                ],
+                "hoverOffset": 4,
+            }
+        ],
+    }
+
+    chart_data = {"chart_data": [status_chart_data, role_chart_data]}
+
+    return render(request=request, template_name="dashboard.html", context=chart_data)
 
 
 def user_dashboard(request):
@@ -25,9 +85,7 @@ def user_dashboard(request):
     search_query = request.GET.get("q", "")
 
     if search_query:
-        user_list = user_list.filter(
-            username__icontains=search_query
-        )
+        user_list = user_list.filter(username__icontains=search_query)
 
     # Set up pagination
     p = Paginator(user_list, 5)
@@ -49,9 +107,8 @@ def edit_user_dashboard(request, user_id):
             if updated_user is not None:
                 messages.success(request, "Chỉnh sửa người dùng thành công.")
                 return redirect("user_dashboard")
-        messages.error(
-            request, "Chỉnh sửa người dùng không thành công. Vui lòng thử lại."
-        )
+        handle_errors(form, request)
+
     else:
         form = EditUserForm(instance=user)
 
@@ -79,7 +136,7 @@ def create_user(request):
                 messages.success(request, "Tạo người dùng thành công.")
                 return redirect("user_dashboard")
 
-        messages.error(request, "Tạo người dùng không thành công. Vui lòng thử lại.")
+        handle_errors(form, request)
 
     context = {"forms": CreateUserForm}
     return render(request, "user/create_form.html", context)

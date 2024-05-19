@@ -1,128 +1,97 @@
-
-{% extends "page.html" %}
-
-{% load static %}
-
-{% load crispy_forms_tags %}
-
-
+{% extends "page.html" %} {% load static %} {% load crispy_forms_tags %} 
 {% block content %}
 
-    <style>
+<style>
+  body {
+    background-color: gray;
+  }
+</style>
 
+<body>
+  <br />
 
-        body{
+  <div class="container bg-white shadow-md p-5 form-layout">
+    <div class="d-flex justify-content-center align-items-start justify-content-between">
+      <h3>
+        <i class="fa fa-address-book" aria-hidden="true"></i> &nbsp; Quản lý thông tin cá nhân
+      </h3>
+      <a class="" type="button" href="/user-info">
+          Trở lại
+      </a>
+    </div>
+    
+    <p>Quản lý tài khoản của bạn một cách hiệu quả.</p>
 
+    <hr />
+  </div>
 
-            background-color: gray;
+  <br />
 
-        }
+  <div class="container bg-white shadow-md p-5 form-layout">
+    <h4>CẬP NHẬT THÔNG TIN</h4>
 
+    <p>Thay đổi thông tin tài khoản của bạn!</p>
 
+    <hr />
 
-    </style>
+    <br />
+    <form method="POST" autocomplete="off">
+      {% csrf_token %} {{user_form.username|as_crispy_field}}
 
+      <br />
+      <br />
 
+      {{user_form.email|as_crispy_field}}
 
+      <br />
+      <br />
 
-    <body>
+      {{user_form.firstName|as_crispy_field}}
 
-        <br>
+      <br />
+      <br />
 
-        <div class="container bg-white shadow-md p-5 form-layout">
+      {{user_form.lastName|as_crispy_field}}
 
-            <h3> <i class="fa fa-address-book" aria-hidden="true"></i> &nbsp; Profile management </h3>
+      <br />
+      <br />
 
-            <p> Manage your account effectively. </p>
+      {{user_form.phone|as_crispy_field}}
 
-            <hr>
-            
+      <br />
+      <br />
 
+      {{user_form.address|as_crispy_field}}
 
-        </div>
+      <br />
+      <br />
 
-        <br>
+      <button type="submit" class="btn btn-primary navbar-btn text-white">
+        &nbsp; Cập nhật thông tin
+      </button>
+    </form>
+  </div>
 
-        <div class="container bg-white shadow-md p-5 form-layout">
+  <br />
 
-            <h4> CẬP NHẬT THÔNG TIN </h4>
+  <div class="container bg-white shadow-md p-5 form-layout">
+    <h4>Xóa tài khoản</h4>
 
-            <p> Thay đổi thông tin tài khoản của bạn! </p>
+    <p>Thực hiện nếu bạn muốn xóa tài khoản.</p>
 
-            <hr>
+    <hr />
 
-            <br>
-            <form method="POST" autocomplete="off">
+    <a
+      class="btn btn-primary navbar-btn text-white"
+      type="button"
+      href="{% url 'delete-account' %}"
+    >
+      Xóa tài khoản
+    </a>
+  </div>
+</body>
 
-                {% csrf_token %}
-
-                {{user_form.username|as_crispy_field}}
-
-
-                <br> <br>
-
-
-                {{user_form.email|as_crispy_field}}
-
-                <br> <br>
-                
-                 {{user_form.firstName|as_crispy_field}}
-
-                <br> <br>
-                
-                {{user_form.lastName|as_crispy_field}}
-
-                <br> <br>
-                
-                {{user_form.phone|as_crispy_field}}
-
-                <br> <br>
-                
-                 {{user_form.address|as_crispy_field}}
-
-                <br> <br>
-
-                
-                <button type="submit" class="btn btn-primary navbar-btn text-white"> &nbsp; Cập nhật thông tin </button>
-
-
-            </form>
-
-
-        </div>
-
-        <br>
-
-
-        <div class="container bg-white shadow-md p-5 form-layout">
-
-            <h4> Xóa tài khoản </h4>
-
-            <p> Thực hiện nếu bạn muốn xóa tài khoản.</p>
-
-            <hr>
-
-            <a class="btn btn-primary navbar-btn text-white" type="button"  href="{% url 'delete-account' %}"> Xóa tài khoản </a>
-
-        </div>
-
-
-
-    </body>
-
-    <br> <br>
-
+<br />
+<br />
 
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-

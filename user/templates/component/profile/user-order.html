@@ -1,0 +1,46 @@
+{% extends "page.html" %} {% load static %} {% load crispy_forms_tags %} \
+{% block content %}
+
+<div class="container bg-white shadow-md p-5 form-layout">
+
+    <div class="d-flex justify-content-center align-items-center justify-content-between">
+        <h3>
+            <i class="fa fa-address-book" aria-hidden="true"></i> Quản lý đơn hàng
+        </h3>
+        <a class="" type="button" href="/user-info">
+            Trở lại
+        </a>
+    </div>
+
+    <p>Lịch sử đơn hàng.</p>
+
+    <hr/>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Mã đặt hàng</th>
+            <th scope="col">Ngày đặt hàng</th>
+            <th scope="col">Trạng thái</th>
+            <th scope="col">Chi tiết</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.orderId }}</td>
+                <td>{{ order.created_at }}</td>
+                <td>{{ order.status }}</td>
+                <td>
+                     <a class="btn btn-primary navbar-btn text-white" type="button" href="{% url 'user-order-detail' order.orderId %}">Xem</a>
+                </td>
+                <!-- Add more <td> elements for additional order details if needed -->
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<br/>
+{% endblock %}
+
+

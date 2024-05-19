@@ -1,7 +1,6 @@
 {% include "page.html" %} 
 {% load static %} 
 {% load crispy_forms_tags %} 
-{% load bootstrap_icons %}
 
 {% block script_user %}
 <script defer src="{% static 'js/dashboard/user/user.js' %}"></script>
@@ -15,7 +14,7 @@
   </a>
 
   <h2>Tạo người dùng</h2>
-  <form class="row g-3 mt-3" novalidate method="post">
+  <form class="row g-3 mt-3 needs-validation" novalidate method="post">
     {% csrf_token %}
     {% crispy forms %}
   </form> 

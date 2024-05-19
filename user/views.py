@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib import messages
-from .forms import RegisterForm, UpdateUserForm, UpdatedForm
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import update_session_auth_hash
+from order.models import Order, OrderItem
+from .forms import RegisterForm, UpdateUserForm, CustomAuthenticationForm, MyPasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from .models import User
 from product.models import Product
@@ -10,6 +11,13 @@ from django.urls import reverse_lazy
 from django.contrib.auth.views import PasswordChangeView
 
 User = get_user_model()
+
+
+def handle_errors(form, request):
+    form_errors = list(form.errors.values())
+    error_messages = [" ".join(errors) for errors in form_errors]
+    for error_message in error_messages:
+        messages.error(request, error_message)
 
 
 def cart(request):
@@ -25,6 +33,11 @@ def main(request):
     return render(request, "product/store.html", context)
 
 
+@login_required(login_url="signin")
+def user_info(request):
+    return render(request=request, template_name="./component/profile/user-info.html")
+
+
 def get_signup(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
@@ -36,7 +49,8 @@ def get_signup(request):
                 messages.success(request, "Đăng ký thành công.")
                 return redirect("main")
 
-        messages.error(request, "Đăng ký không thành công. Thông tin không hợp lệ.")
+        handle_errors(form, request)
+
     form = RegisterForm()
     return render(
         request=request,
@@ -47,7 +61,7 @@ def get_signup(request):
 
 def get_signin(request):
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
+        form = CustomAuthenticationForm(request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
@@ -55,13 +69,15 @@ def get_signin(request):
             if user is not None:
                 login(request, user)
                 messages.info(
-                    request, f"Bây giờ bạn đã đăng nhập với tư cách {username}."
+                    request, f"Bây giờ bạn đã đăng nhập với tư cách {
+                        username}."
                 )
 
                 return redirect("main")
 
-        messages.error(request, "Sai username hoặc password.")
-    form = AuthenticationForm()
+        handle_errors(form, request)
+
+    form = CustomAuthenticationForm()
     return render(
         request=request,
         template_name="signin.html",
@@ -76,25 +92,6 @@ def get_signout(request):
 
 
 @login_required(login_url="signin")
-def update_user_info(request):
-    if request.method == "POST":
-        form = UpdatedForm(request.POST or None, instance=request.user)
-        if form.is_valid():
-            form.save()
-            messages.success(
-                request, "Thông tin người dùng đã được cập nhật thành công!"
-            )
-            return redirect("user_info")
-    else:
-        form = UpdatedForm(instance=request.user)
-    return render(
-        request=request,
-        template_name="user-info.html",
-        context={"user_info_form": form},
-    )
-
-
-@login_required(login_url="signin")
 def profile(request):
     # update username and password
     if request.method == "POST":
@@ -103,18 +100,14 @@ def profile(request):
             user_form.save()
             messages.success(request, "Thông tin đã được cập nhật!")
             return redirect("profile")
-        else:
-            messages.error(request, "Vui lòng thử lại.")
+
+        handle_errors(user_form, request)
     user_form = UpdateUserForm(instance=request.user)
     context = {"user_form": user_form}
 
-    if request.user.is_superuser == 1:
-        return render(
-            request=request, template_name="profile-management.html", context=context
-        )
     return render(
         request=request,
-        template_name="./component/user-info/profile-management.html",
+        template_name="profile-management.html",
         context=context,
     )
 
@@ -131,48 +124,31 @@ def delete_account(request):
     )
 
 
-# @login_required(login_url="signin")
-# def change_password(request):
-#     if request.method == "POST":
-#         form = ChangePasswordForm(request.POST)
-#         if form.is_valid():
-#             user = form.save()
-#             user.set_password("unencrypted_password")  # replace with your real password
-#             user.save()
-#             messages.success(request, "Mật khẩu đã được thay đổi.")
-#             return redirect("signout")
-#         else:
-#             messages.error(request, "Vui lòng thử lại.")
-#     else:
-#         # Nếu không phải yêu cầu POST, hiển thị form trống
-#         form = ChangePasswordForm()
+@login_required
+def update_password(request):
+    form = MyPasswordChangeForm(user=request.user)
 
-#     return render(
-#         request=request,
-#         template_name="change-password.html",
-#         context={"form": form},
-#     )
+    if request.method == 'POST':
+        form = MyPasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            
+        handle_errors(form, request)
+
+    return render(request, './component/reset-password/password-change.html', {
+        'form': form,
+    })
 
 
-class MyPasswordChangeView(PasswordChangeView):
-    template_name = "./component/reset-password/password-change.html"
-    success_url = reverse_lazy("signin")
+@login_required(login_url="signin")
+def user_order(request):
+    user = User.objects.get(userId=request.user.userId)
+    orders = Order.objects.filter(user=user)
+    return render(request, './component/profile/user-order.html', {'orders': orders})
 
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        messages.success(
-            self.request, "Mật khẩu đã được thay đổi. Vui lòng đăng nhập lại!"
-        )
-        return response
-
-
-class MyPasswordChangeViewAdmin(PasswordChangeView):
-    template_name = "password-change-admin.html"
-    success_url = reverse_lazy("signin")
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        messages.success(
-            self.request, "Mật khẩu đã được thay đổi. Vui lòng đăng nhập lại!"
-        )
-        return response
+@login_required(login_url="signin")
+def user_order_detail(request, order_id):
+    order = get_object_or_404(Order, orderId=order_id)
+    order_items = OrderItem.objects.filter(order=order)
+    return render(request, './component/profile/user_order_details.html', {'order': order, 'order_items': order_items})

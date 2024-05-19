@@ -2,11 +2,9 @@
 <html>
   <head>
     <title>Dashboard</title>
-    {% load static %}
-    {% load bootstrap5 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
-    {% load bootstrap_icons %}
+    {% load static %} {% load bootstrap5 %} 
+    {% bootstrap_css %} 
+    {% bootstrap_javascript %} 
     {% block script %}{% endblock %}
     <link rel="stylesheet" href="{% static '/css/global.css' %}" />
 
@@ -15,89 +13,82 @@
         background-color: gray;
       }
     </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
-<body>
-  {% include "component/menu_base.html" %}
-  <br />
+  <body>
+    {% include "component/menu_base.html" %}
+    <br />
 
-  <div class="container bg-white shadow-md p-5 form-layout">
-    <h4>Xin chào, {{user}}
-    </h4>
+    <div class="container bg-white shadow-md p-5 form-layout">
+      <h4>Xin chào, {{user}}</h4>
 
-    <hr />
+      <hr />
 
-    <p>This is your dashboard where you can perform any of the following:</p>
+      <p>This is your dashboard where you can perform any of the following:</p>
 
-    <ul>
-      <li>Tra cứu đơn hàng</li>
-      <li>Quản lý tài khoản</li>
-    </ul>
-  </div>
-
-  <br />
-
-  <div class="container bg-white shadow-md p-5 form-layout">
-    <h4>
-      Track your orders
-    </h4>
-
-    <hr />
-
-    <p>Track all of your orders here...</p>
-
-    <a class="btn btn-primary navbar-btn text-white px-3" type="button" href="">
-      My orders
-    </a>
-  </div>
-
-  <br />
-
-  <div class="container bg-white shadow-md p-5 form-layout">
-    <h4>
-      Quản lý tài khoản
-    </h4>
-
-    <hr />
-
-    <p>Cập nhật hoặc xóa tài khoản</p>
-
-    <a
-      class="btn btn-primary navbar-btn text-white px-3"
-      type="button"
-      href="{% url 'profile' %}"
-    >
-    Cập nhật thông tin
-    </a>
+      <ul>
+        <li>
+          <a href="/dashboard/user">Quản lý người dùng</a>
+        </li>
+      </ul>
+    </div>
 
     <br />
-    <br />
-    <p>Thay đổi mật khẩu</p>
 
-    <a
-      class="btn btn-primary navbar-btn text-white px-3"
-      type="button"
-      href="{% url 'password-change-view-admin' %}"
-    >
-      Thay đổi mật khẩu
-    </a>
-  </div>
+    <div class="container bg-white shadow-md p-5 form-layout">
+      <h4>Thống kê người dùng</h4>
 
-  <br />
+      <hr />
 
-  <div class="container bg-white shadow-md p-5 form-layout">
-    <h4>
-      Manage shipping
-    </h4>
+      <div style=" height: 500px; width: 100%; display: flex; justify-content: center; ">
+        <canvas id="userChart1"></canvas>
+        <script>
+            const ctx = document.getElementById('userChart1').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {{ chart_data|first|safe }},
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Thống kê trạng thái người dùng'
+                        }
+                    },
+                }
+            });
+        </script>
+    </div>
 
     <hr />
 
-    <p>Enter in a shipping address</p>
+    <div style=" height: 500px; width: 100%; display: flex; justify-content: center; ">
+        <canvas id="userChart2"></canvas>
+        <script>
+            const ctx2 = document.getElementById('userChart2').getContext('2d');
+            new Chart(ctx2, {
+                type: 'doughnut',
+                data: {{ chart_data|last|safe }},
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Thống kê quyền người dùng'
+                        }
+                    },
+                }
+            });
+        </script>
+    </div>
 
-    <a class="btn btn-primary navbar-btn text-white px-3" type="button" href="">
-      Manage shipping
-    </a>
-  </div>
-
-  <br />
-</body>
+  </body>
+</html>

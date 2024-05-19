@@ -1,6 +1,5 @@
 from django.urls import path
 from . import views
-from .views import MyPasswordChangeView, MyPasswordChangeViewAdmin
 from django.contrib.auth.views import (
     PasswordResetView,
     PasswordResetDoneView,
@@ -13,10 +12,9 @@ urlpatterns = [
     path("signin/", views.get_signin, name="signin"),
     path("signup/", views.get_signup, name="signup"),
     path("signout/", views.get_signout, name="signout"),
-    # path("checkout/", views.checkout, name= "checkout"),
+    path("user-info/", views.user_info, name="user-info"),
     path("profile/", views.profile, name="profile"),
     path("delete-account/", views.delete_account, name="delete-account"),
-    # path("change-password/", views.change_password, name="change-password"),
     path(
         "password_reset/",
         PasswordResetView.as_view(
@@ -45,12 +43,11 @@ urlpatterns = [
         ),
         name="password_reset_complete",
     ),
+    path("change-password/", views.update_password, name="password-change-view"),
+    path("user_order_info/", views.user_order, name="user_order_info"),
     path(
-        "change-password/", MyPasswordChangeView.as_view(), name="password-change-view"
-    ),
-    path(
-        "change-password-admin/",
-        MyPasswordChangeViewAdmin.as_view(),
-        name="password-change-view-admin",
+        "user_order_detail/<uuid:order_id>/",
+        views.user_order_detail,
+        name="user-order-detail",
     ),
 ]

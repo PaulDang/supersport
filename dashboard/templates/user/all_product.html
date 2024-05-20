@@ -1,0 +1,83 @@
+{% extends "dashboard_template.html" %}
+{% load static %}
+
+{% block link %}
+    <link rel="stylesheet" href="{% static 'css/product-list.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Danh sách Sản phẩm</h1>
+        <div class="mb-3">
+            <a href="{% url 'add_product' %}" class="btn btn-primary navbar-btn text-white">
+                <i class="fa fa-plus"></i> Thêm sản phẩm
+            </a>
+        </div>
+        <table class="table table-bordered table-hover text-center">
+            <thead>
+                <tr>
+                    <th class="align-middle" scope="col">ID</th>
+                    <th class="align-middle" scope="col">Hình ảnh</th>
+                    <th class="align-middle" scope="col">Tên Sản phẩm</th>
+                    <th class="align-middle" scope="col">Thương Hiệu</th>
+                    <th class="align-middle" scope="col">Giá</th>
+                    <th class="align-middle" scope="col">Chỉnh sửa</th>
+                    <th class="align-middle" scope="col">Xóa</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td class="align-middle">{{ product.id }}</td>
+                    <td class="align-middle">
+                        <img src="{{ product.images.first.image.url }}" alt="Main Image" class="img-fluid" style="max-width: 100px;">
+                    </td>
+                    <td class="align-middle">{{ product.product_name }}</td>
+                    <td class="align-middle">{{ product.brand }}</td>
+                    <td class="align-middle">{{ product.price }}</td>
+                    <td class="align-middle">
+                        <a href="#" class="btn btn-primary btn-sm">Chỉnh sửa</a>
+                    </td>
+                    <td class="align-middle">
+                        <button class="btn btn-danger btn-sm" onclick="confirmDelete('{{ product.id }}')">Xóa</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Xác nhận xóa sản phẩm</h5>
+                    <button type="button" class="btn-close" onclick="cancelDelete()" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc chắn muốn xóa sản phẩm này không?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="cancelDelete()">Hủy</button>
+                    <form id="deleteForm" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Xóa</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function confirmDelete(productId) {
+            $('#deleteModal').modal('show');
+            $('#deleteForm').attr('action', "/delete-product/" + productId + "/");
+        }
+
+        function cancelDelete() {
+            $('#deleteForm').attr('action', ""); // Clear the form action
+            $('#deleteModal').modal('hide');
+        }
+    </script>
+{% endblock%}

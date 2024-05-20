@@ -1,0 +1,9 @@
+img {
+    width: 150px;
+    height: auto;
+}
+
+.table th,
+.table td {
+    font-size: 18px; /* Cỡ chữ mong muốn */
+}

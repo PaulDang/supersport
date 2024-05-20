@@ -1,0 +1,213 @@
+{% extends "dashboard_template.html" %}
+{% load static %}
+
+{% block link %}
+    <link rel="stylesheet" href="{% static 'css/add-product.css' %}"/>
+{% endblock %}
+
+
+{% block content %}
+    <div class="container mt-4">
+        <h1>Thêm sản phẩm</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-section">
+                <h2>Thông tin sản phẩm</h2>
+                <div class="container">
+                    <div class="flex-item">
+                        <label>Tên sản phẩm</label><br>
+                        {{ product_form.product_name }}
+                    </div>
+                    <div class="flex-item">
+                        <label>Thuơng hiệu</label><br>
+                        {{ product_form.brand }}
+                        <button type="button" class="add-btn" onclick="openModal('brandModal')">Thêm Thương Hiệu Mới
+                        </button>
+                    </div>
+                </div>
+                <div class="container">
+                    <h2>Hình ảnh</h2>
+                    <div id="image-fields">
+                        <input type="file" name="images" accept="image/*" onchange="previewImages()">
+                    </div>
+                    <button type="button" class="add-btn" onclick="addImageField()">Thêm Ảnh Mới</button>
+                    <div id="image-preview" class="image-preview"></div>
+                </div>
+                <div class="container">
+                    <h2>Giá sản phẩm</h2>
+                    <div class="flex-item">
+                        <label>Giá</label><br>
+                        {{ product_form.price }}
+                    </div>
+                    <div class="flex-item">
+                        <label>Giá khuyến mại </label><br>
+                        {{ product_form.discount_price }}
+                    </div>
+                </div>
+                <div class="container">
+                    <label> Mô tả </label><br>
+                    {{ product_form.description }}
+                </div>
+                <div class="container">
+                    {{ product_form.categories.label_tag }}<br>
+                    {{ product_form.categories }}
+                    <button type="button" class="add-btn" onclick="openModal('categoryModal')">Thêm Danh Mục Mới
+                    </button>
+                </div>
+            </div>
+
+            <div class="container">
+                <h2>Size</h2>
+                <div id="detail-fields" class="flex-container">
+                    <div class="detail-container">
+                        <label>Size: </label>
+                        <input type="text" name="sizes" placeholder="Size">
+                    </div>
+                    <div class="detail-container">
+                        <label>Số lượng: </label>
+                        <input type="number" name="quantities" placeholder="Quantity">
+                    </div>
+                </div>
+                <button type="button" class="add-btn" onclick="addDetailField()">Thêm Size</button>
+            </div>
+
+            <button type="submit">Thêm sản phẩm</button>
+        </form>
+    </div>
+
+    <!-- Brand modal -->
+    <div id="brandModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('brandModal')">&times;</span>
+            <h2>Thêm Thương Hiệu Mới</h2>
+            <form id="brandForm" method="post" action="{% url 'add_brand' %}">
+                {% csrf_token %}
+                <input type="text" name="brand_name" placeholder="Tên Thương Hiệu" required>
+                <button type="submit">Thêm Thương Hiệu</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Category modal -->
+    <div id="categoryModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('categoryModal')">&times;</span>
+            <h2>Thêm Danh Mục Mới</h2>
+            <form id="categoryForm" method="post" action="{% url 'add_category' %}">
+                {% csrf_token %}
+                <input type="text" name="category_name" placeholder="Tên Danh Mục" required>
+                <button type="submit">Thêm Danh Mục</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Function to open modal
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        // Function to close modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Function to add image field
+        function addImageField() {
+            const imageFields = document.getElementById('image-fields');
+            const newField = document.createElement('input');
+            newField.type = 'file';
+            newField.name = 'images';
+            newField.accept = 'image/*';
+            newField.onchange = previewImages;
+            imageFields.appendChild(newField);
+        }
+
+        // Function to preview images
+        function previewImages() {
+            const previewContainer = document.getElementById('image-preview');
+            previewContainer.innerHTML = '';
+            const files = document.querySelectorAll('input[name="images"]');
+            files.forEach(input => {
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.classList.add('preview-image'); // Add a class for styling if needed
+                        previewContainer.appendChild(img);
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
+            });
+        }
+
+        // Function to add detail field
+        function addDetailField() {
+            const detailFields = document.getElementById('detail-fields');
+
+            // Create a new container div for each detail field
+            const newContainer = document.createElement('div');
+            newContainer.className = 'detail-container';
+
+            // Create input fields for size and quantity
+            const sizeField = document.createElement('input');
+            sizeField.type = 'text';
+            sizeField.name = 'sizes';
+            sizeField.placeholder = 'Size';
+
+            const quantityField = document.createElement('input');
+            quantityField.type = 'number';
+            quantityField.name = 'quantities';
+            quantityField.placeholder = 'Quantity';
+
+            // Append size and quantity fields to the container
+            newContainer.appendChild(sizeField);
+            newContainer.appendChild(quantityField);
+
+            // Append the container to the detail fields section
+            detailFields.appendChild(newContainer);
+        }
+
+        // AJAX submission for adding brand
+        $(document).ready(function () {
+            $('#brandForm').submit(function (event) {
+                event.preventDefault();
+                $.ajax({
+                    type: $(this).attr('method'),
+                    url: $(this).attr('action'),
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            $('#id_brand').append($('<option>', {
+                                value: response.brand_id,
+                                text: response.brand_name
+                            }));
+                            closeModal('brandModal');
+                        }
+                    }
+                });
+            });
+
+            // AJAX submission for adding category
+            $('#categoryForm').submit(function (event) {
+                event.preventDefault();
+                $.ajax({
+                    type: $(this).attr('method'),
+                    url: $(this).attr('action'),
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            $('#id_categories').append($('<option>', {
+                                value: response.category_id,
+                                text: response.category_name
+                            }));
+                            closeModal('categoryModal');
+                        }
+
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

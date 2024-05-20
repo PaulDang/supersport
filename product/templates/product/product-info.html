@@ -72,7 +72,7 @@
                                 <div class="col-4"> Giá</div>
 
                                 <div class="col-8 text-end"><span
-                                        class="h4 fw-bold">{{ product.price | price_format }} </span></div>
+                                        class="h4 fw-semibold ">{{ product.price | price_format }} </span></div>
 
                             </div>
 
@@ -146,6 +146,7 @@
         $(document).on("blur", '.product-quantity input', function(e) {
             const productQuantity = $('.product-quantity input');
             if (productQuantity.val() < 0) {
+                alertify.set('notifier','delay', 1);
                 alertify.error("Số lượng sản phẩm không được nhỏ hơn 0");
                 productQuantity.val(1);
                 return;
@@ -157,6 +158,8 @@
         });
         $(document).on('click','#add-button', function(e){
             e.preventDefault();
+            
+            alertify.set('notifier','delay', 1);
             // Check if a size is selected
             if ($('.size-option.selected').length === 0) {
                 alertify.error('Bạn chưa chọn size'); // Display the alert message

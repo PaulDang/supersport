@@ -16,11 +16,11 @@ class CheckoutForm(ModelForm):
     
     def clean(self):
         super(CheckoutForm, self).clean()
-        firstName = self.cleaned_data.get('firstName')
-        lastName = self.cleaned_data.get('lastName')
-        email = self.cleaned_data.get('email')
-        phone = self.cleaned_data.get('phone')
-        address = self.cleaned_data.get('address')
+        # firstName = self.cleaned_data.get('firstName')
+        # lastName = self.cleaned_data.get('lastName')
+        # email = self.cleaned_data.get('email')
+        # phone = self.cleaned_data.get('phone')
+        # address = self.cleaned_data.get('address')
 
         return self.cleaned_data
 

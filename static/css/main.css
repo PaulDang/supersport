@@ -146,3 +146,6 @@ a:hover {
     font-size: 12px; /* Điều chỉnh kích thước của chữ */
 }
 
+.navbar-light .navbar-nav .nav-link:hover {
+    opacity: 0.7;
+}

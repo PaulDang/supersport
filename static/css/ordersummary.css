@@ -1,0 +1,14 @@
+.order-summary .table {
+    max-width: 600px;
+    margin: auto;
+    border: 1px solid #dee2e6;
+}
+
+.order-summary .bg-success {
+    border-radius: 5px;
+}
+
+.order-summary .b-item-price {
+    min-width: 115px;
+    text-align: right;
+}

@@ -1,29 +1,37 @@
 from django.shortcuts import render, redirect
-from django.http import Http404, HttpResponse, JsonResponse
-from django.template import loader
 from django.contrib.auth.decorators import login_required
 from order.models import Order, OrderItem
 from order.forms import CheckoutForm
-from cart.models import Cart, CartDetail
-from product.models import Product, ProductDetail
-from django.urls import resolve
+from cart.models import CartDetail
+from product.models import ProductDetail
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
 def generate_data(request):
     cart_details = CartDetail.objects.filter(cart__user=request.user)
     return cart_details
 
-
 @login_required(login_url="signin")
 def checkout(request):
     if request.method == "POST":
         data = generate_data(request)
         total_price = 0
+
         for item in data:
-            item_total = item.product_detail.product.discount_price * item.quantity
+            standard_price = item.product_detail.product.price
+            discount_price = item.product_detail.product.discount_price
+
+            if (discount_price > 0 and discount_price < standard_price):
+                price = discount_price
+            else:
+                price = standard_price
+
+            item_total = price * item.quantity
             total_price = total_price + item_total
 
         template = "checkout.html"
+        # user_info = init_user(request)
         context = {'data': data, 'total_price': total_price}
         return render(request=request, template_name=template, context=context)
 
@@ -41,8 +49,17 @@ def placeorder(request):
             order.payment_mode = request.POST.get("payment_mode")
 
             total_price = 0
+
             for item in data:
-                item_total = item.product_detail.product.price * item.quantity
+                standard_price = item.product_detail.product.price
+                discount_price = item.product_detail.product.discount_price
+
+                if (discount_price > 0 and discount_price < standard_price):
+                    price = discount_price
+                else:
+                    price = standard_price
+
+                item_total = price * item.quantity
                 total_price = total_price + item_total
 
             order.total_price = total_price
@@ -50,21 +67,35 @@ def placeorder(request):
 
             neworderitems = CartDetail.objects.filter(cart__user=request.user)
             for item in neworderitems:
+                standard_price = item.product_detail.product.price
+                discount_price = item.product_detail.product.discount_price
+
+                if (discount_price > 0 and discount_price < standard_price):
+                    price = discount_price
+                else:
+                    price = standard_price
+                # Tạo New OrderItem
                 OrderItem.objects.create(
                     order=order,
                     product=item.product_detail.product,
-                    price=item.product_detail.product.price,
-                    quantity=item.quantity
+                    price=price,
+                    quantity=item.quantity,
+                    size=item.product_detail.size
                 )
 
-                orderproduct = ProductDetail.objects.filter(
+                # Giảm số lượng product quantity trong Product Detail
+                orderedproduct = ProductDetail.objects.filter(
                     product_id=item.product_detail.product_id, size=item.product_detail.size).first()
-                orderproduct.quantity = orderproduct.quantity - item.quantity
-                orderproduct.save()
 
+                orderedproduct.quantity = orderedproduct.quantity - item.quantity
+                orderedproduct.save()
+            
+            # Xóa cart detail
             CartDetail.objects.filter(cart__user=request.user).delete()
 
-            return redirect("/order-summary")
+            return HttpResponseRedirect(reverse("ordersummary", args=(order.id,)))
+
+            # return redirect("/main/order-summary/", orderId = '123')
 
         else:
             return render(request, "checkout.html", {"form": form})
@@ -73,8 +104,10 @@ def placeorder(request):
         return render(request, "checkout.html", {"form": form})
 
 
-def get_ordersummary(request):
-    return render(request, "ordersummary.html")
+def get_ordersummary(request, orderId):
+    my_order = Order.objects.get(id=orderId)
+    order_items = OrderItem.objects.filter(order__id = orderId)
+    return render(request, "ordersummary.html", {"order": my_order, "orderItems": order_items})
 
 
 def get_aboutus(request):

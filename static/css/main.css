@@ -145,3 +145,7 @@ a:hover {
     right: 20px; /* Điều chỉnh vị trí right để số lượng nằm bên phải của biểu tượng giỏ hàng */
     font-size: 12px; /* Điều chỉnh kích thước của chữ */
 }
+
+.navbar-light .navbar-nav .nav-link:hover {
+    opacity: 0.7;
+}

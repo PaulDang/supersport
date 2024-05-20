@@ -17,8 +17,13 @@ urlpatterns = [
     ),
     path("delete_user/<str:user_id>/", views.delete_user, name="delete_user"),
     path('dashboard/add_product/', views.add_product, name='add_product'),
+    path('dashboard/update_product/<int:product_id>', views.update_product, name='update_product'),
     path('dashboard/add-brand/', views.add_brand, name='add_brand'),
+    path('dashboard/app_brand_add/', views.app_brand_add, name='add_brand_app'),
     path('dashboard/add-category/', views.add_category, name='add_category'),
     path('dashboard/product/', views.product_list, name='product_list'),
     path('delete-product/<int:product_id>/', views.delete_product, name='delete_product'),
+    path('dashboard/product/brand_list/', views.brand_list, name='brand_list'),
+    path('dashboard/product/update_brand/<int:brand_id>/', views.edit_brand, name='edit_brand'),
+    path('dashboard/product/delete_brand/<int:brand_id>/', views.delete_brand, name='delete_brand'),
 ]

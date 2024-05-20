@@ -2,6 +2,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Field, Layout, HTML, Submit, ButtonHolder
 from django import forms
 from user.models import User
+from product.models import Product, ProductImage, ProductDetail, Brand, Category
 from django.contrib.auth.hashers import make_password
 
 
@@ -192,3 +193,56 @@ class EditUserForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['product_name', 'brand', 'categories', 'description', 'price', 'discount_price','slug','total_quantity']
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 4}),  # Better display for description
+        }
+
+    slug = forms.CharField(widget=forms.HiddenInput())
+    total_quantity = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+
+    def clean_slug(self):
+        slug = self.cleaned_data['slug']
+        if not slug:  # Handle empty slug (likely on initial form display)
+            slug = self.instance.slug if self.instance else None  # Get from existing object or default
+        return slug
+
+    def save(self, commit=True):
+        product = super().save(commit=False)  # Don't save immediately
+
+        # Calculate total quantity if details are provided
+        total_quantity = 0
+        for size, quantity in zip(self.data.getlist('sizes'), self.data.getlist('quantities')):
+            if size and quantity:
+                total_quantity += int(quantity)
+        product.total_quantity = total_quantity
+
+        if commit:
+            product.save()
+            self.save_m2m()  # Save ManyToManyField (categories)
+        return product
+
+class ProductImageForm(forms.ModelForm):
+    class Meta:
+        model = ProductImage
+        fields = ['image']
+
+class ProductDetailForm(forms.ModelForm):
+    class Meta:
+        model = ProductDetail
+        fields = ['size', 'quantity']
+
+class BrandForm(forms.ModelForm):
+    class Meta:
+        model = Brand
+        fields = ['brand_name']
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['category_name']

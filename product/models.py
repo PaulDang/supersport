@@ -71,25 +71,22 @@ class ProductDetail(models.Model):
     size = models.CharField(max_length=20, null=True)
     quantity = models.IntegerField(default=0)
 
-    class Meta:
-        verbose_name_plural = 'ProductDetails'
-
     def __str__(self):
         return f'{self.product.__str__()} - {self.quantity}'
 
     def save(self, *args, **kwargs):
         if self.pk is None:  # Create new instance
             super().save(*args, **kwargs)
-            self.product.total_quantity += self.quantity
+            self.product.total_quantity += int(self.quantity)  # Chuyển đổi sang kiểu số nguyên
             self.product.save()
         else:  # Update existing instance
             old_quantity = ProductDetail.objects.get(pk=self.pk).quantity
-            quantity_change = self.quantity - old_quantity
+            quantity_change = int(self.quantity) - old_quantity  # Chuyển đổi sang kiểu số nguyên
             self.product.total_quantity += quantity_change
             self.product.save()
             super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
-        self.product.total_quantity -= self.quantity
+        self.product.total_quantity -= int(self.quantity)  # Chuyển đổi sang kiểu số nguyên
         self.product.save()
         super().delete(*args, **kwargs)

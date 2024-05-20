@@ -6,15 +6,10 @@ class OrderItemInline(admin.TabularInline):  # Hoặc admin.StackedInline nếu 
     extra = 1  # Số lượng form trống để thêm mới
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ("orderId", "user", "firstName", "lastName", "email", "phone", "address", "payment_mode", "total_price", "status", "created_at")
+    list_display = ("id", "user", "firstName", "lastName", "email", "phone", "address", "payment_mode", "total_price", "status", "created_at")
     inlines = [OrderItemInline]
-
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ('get_orderId', 'product', 'price', 'quantity', 'total_price')
-
-    @admin.display(ordering='order__orderId', description='orderId')
-    def get_orderId(self, obj):
-        return obj.order.orderId
+    list_display = ('product', 'price', 'quantity', 'size')
 
 admin.site.register(Order, OrderAdmin)
 # admin.site.register(OrderItem, OrderItemAdmin)

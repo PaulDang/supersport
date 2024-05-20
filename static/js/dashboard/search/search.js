@@ -9,49 +9,49 @@ function handleSearchProduct() {
         },
         success: function (response) {
             var modalBody = document.getElementById('searchResults');
+            var searchInput = document.getElementById('search-product');
+            var searchModal = document.getElementById('searchModal');
+
             modalBody.innerHTML = '';
 
             if (response.length > 0) {
+                var ul = document.createElement('ul');
+                ul.classList.add('list-group');
+
                 var productsToShow = Math.min(response.length, 4);
-                for (var i = 0; i < productsToShow; i += 2) {
-                    var product1 = response[i];
-                    var product2 = response[i + 1];
+                for (var i = 0; i < productsToShow; i++) {
+                    var product = response[i];
 
-                    var rowContainer = document.createElement('div');
-                    rowContainer.classList.add('row', 'mb-3');
+                    var li = document.createElement('li');
+                    li.classList.add('list-group-item', 'mb-3');
 
-                    if (product1) {
-                        var productHtml1 = '<div class="col-md-6">';
-                        productHtml1 += '<a href="product/' + product1.slug + '"><img src="' + product1.images[0] + '" alt="' + product1.product_name + '" style="width: 50%; height: 50%;">';
-                        productHtml1 += '<div class="d-flex flex-column h-100 justify-content-center">';
-                        productHtml1 += '<p class="fw-bold">' + product1.product_name + '</p>';
-                        productHtml1 += '<p >Price: ' + product1.price + '</p>';
-                        productHtml1 += '</div>';
-                        productHtml1 += '</a></div>';
-                        rowContainer.innerHTML += productHtml1;
-                    }
+                    var productHtml = '<a href="/main/product/' + product.slug + '" class="d-flex align-items-center">';
+                    productHtml += '<img src="' + product.images[0] + '" alt="' + product.product_name + '" style="width: 50px; height: 50px; margin-right: 10px;">';
+                    productHtml += '<div>';
+                    productHtml += '<p class="fw-bold mb-1">' + product.product_name + '</p>';
+                    productHtml += '<p>Price: ' + product.price + '</p>';
+                    productHtml += '</div>';
+                    productHtml += '</a>';
 
-                    if (product2) {
-                        var productHtml2 = '<div class="col-md-6">';
-                        productHtml2 += '<a href="product/' + product2.slug + '"><img src="' + product2.images[0] + '" alt="' + product2.product_name + '" class="img-fluid"></a>';
-                        productHtml2 += '<div class="d-flex flex-column h-100 justify-content-center">';
-                        productHtml2 += '<h5 class="fw-bold text-center" style="max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' + product2.product_name + '</h5>';
-                        productHtml2 += '<p class="text-center" style="max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Price: ' + product2.price + '</p>';
-                        productHtml2 += '</div>';
-                        productHtml2 += '</div>';
-                        rowContainer.innerHTML += productHtml2;
-                    }
-
-                    modalBody.appendChild(rowContainer);
+                    li.innerHTML = productHtml;
+                    ul.appendChild(li);
                 }
 
+                modalBody.appendChild(ul);
+
                 if (response.length > 4) {
-                    modalBody.innerHTML += '<div class="text-center"><a href="#" class="btn btn-primary">Xem tất cả kết quả &rarr;</a></div>';
+                    modalBody.innerHTML += '<div class="text-center mt-3"><a href="#" class="btn btn-primary">Xem tất cả kết quả &rarr;</a></div>';
                 }
             } else {
                 modalBody.innerHTML = `<p class="text-center">Rất tiếc, hiện không có kết quả phù hợp với từ khóa ${query} .</p>`;
             }
-            $('#searchModal').modal('show');
+
+            const rect = searchInput.getBoundingClientRect();
+            searchModal.style.top = `${rect.bottom + window.scrollY}px`;
+            searchModal.style.left = `${rect.left + window.scrollX - 95}px`;
+            searchModal.style.width = `${rect.width}px`;
+            searchModal.style.display = 'block';
+
             $('.modal-backdrop').remove();
         },
         error: function (xhr, errmsg, err) {
@@ -61,3 +61,13 @@ function handleSearchProduct() {
 
     return false;
 }
+
+// Close modal when clicking outside
+document.addEventListener('click', function(event) {
+    const searchModal = document.getElementById('searchModal');
+    const searchInput = document.getElementById('search-product');
+
+    if (!searchModal.contains(event.target) && !searchInput.contains(event.target)) {
+        searchModal.style.display = 'none';
+    }
+});

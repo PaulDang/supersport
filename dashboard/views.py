@@ -183,6 +183,69 @@ def add_product(request):
         'product_form': product_form
     })
 
+
+def update_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    if request.method == 'POST':
+        print(request.POST)
+        product_name = request.POST.get('product_name')
+        brand_id = request.POST.get('brand')
+        category_ids = request.POST.getlist('categories')
+        description = request.POST.get('description')
+        price = request.POST.get('price')
+        discount_price = request.POST.get('discount_price')
+        brand = Brand.objects.get(id=brand_id)
+        categories = Category.objects.filter(id__in=category_ids)
+
+        # Update product details
+        product.product_name = product_name
+        product.brand = brand
+        product.description = description
+        product.price = price
+        product.discount_price = discount_price
+        product.categories.set(categories)
+        product.save()
+
+        image_ids = request.POST.getlist('image_ids')
+
+        for image_id in image_ids:
+            # Kiểm tra xem có tệp mới được tải lên cho ảnh này không
+            if f'images_{image_id}' in request.FILES:
+                new_image_file = request.FILES[f'images_{image_id}']
+
+                # Xử lý tệp mới ở đây, ví dụ: cập nhật ảnh trong database
+                image = get_object_or_404(ProductImage, id=image_id)
+                image.image = new_image_file
+                image.save()
+
+            # Xử lý các tệp hình ảnh mới được tải lên
+        new_images = request.FILES.getlist('images')
+        for new_image_file in new_images:
+            # Tạo một ProductImage mới và lưu vào cơ sở dữ liệu
+            new_image = ProductImage(product=product, image=new_image_file)
+            new_image.save()
+
+        # Update product details
+        ProductDetail.objects.filter(product=product).delete()  # Delete existing product details
+        sizes = request.POST.getlist('sizes')
+        quantities = request.POST.getlist('quantities')
+        for size, quantity in zip(sizes, quantities):
+            ProductDetail.objects.create(product=product, size=size, quantity=quantity)
+
+        messages.success(request, 'Sản phẩm đã được cập nhật thành công.')
+        return redirect('product_list')
+    else:
+        product_form = ProductForm(instance=product)
+        existing_images = ProductImage.objects.filter(product=product)
+        existing_details = ProductDetail.objects.filter(product=product)
+
+    return render(request, 'user/update_product.html', {
+        'product_form': product_form,
+        'existing_images': existing_images,
+        'existing_details': existing_details,
+    })
+
 @user_passes_test(is_superuser_or_staff)
 def app_brand_add(request):
     if request.method == 'POST':

@@ -46,7 +46,7 @@ urlpatterns = [
     path("change-password/", views.update_password, name="password-change-view"),
     path("user_order_info/", views.user_order, name="user_order_info"),
     path(
-        "user_order_detail/<uuid:order_id>/",
+        "user_order_detail/<int:order_id>/",
         views.user_order_detail,
         name="user-order-detail",
     ),

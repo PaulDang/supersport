@@ -1,0 +1,9 @@
+.custom-modal {
+    position: absolute;
+    z-index: 10040;
+    overflow: auto;
+    display: none;
+    min-width: 400px;
+    min-height: 300px;
+    max-width: 600px;
+}

@@ -1,7 +1,8 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% load fontawesome_5 %}
-{% fontawesome_5_static %} 
+{% fontawesome_5_static %}
+<link rel="stylesheet" href="{% static 'css/search-modal.css' %}">
 
 <!--HEADER-->
 <div class="container-fluid p-0 sticky-top bg-white shadow-sm">
@@ -50,9 +51,26 @@
                 </li>
             </ul>
             <div class="d-flex align-items-center">
-                <form class="mx-3">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <form class='w-50 d-flex' action="/main/search/" onsubmit="return handleSearchProduct()">
+                    <div class="input-group">
+                        <input placeholder="Bạn đang tìm gì..." type="text" class="form-control" id="search-product" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        <span class="input-group-text" id="inputGroup-sizing-default">
+                            <i class="fas fa-search" id="search-icon"></i>
+                        </span>
+                    </div>
                 </form>
+
+                <!-- MODAL SEARCH RESULT -->
+                <div class="modal custom-modal" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5>Kết quả tìm kếm</h5>
+                        </div>
+                        <div class="modal-body" id="searchResults">
+                            <!-- Search results will be displayed here -->
+                        </div>
+                    </div>
+                </div>
                 {% if user.is_authenticated %}
                     <div class="dropdown">
                          <button class="btn dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">

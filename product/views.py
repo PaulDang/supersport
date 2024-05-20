@@ -49,6 +49,26 @@ def store(request):
     context = product_manager.get_context(request)
     return render(request, 'product/store.html', context)
 
+def search_product(request):
+    query = request.GET.get('q')
+    print("Query:", query)  # In ra giá trị của query
+    if query:
+        products = Product.objects.filter(product_name__icontains=query)
+        data = []
+        for product in products:
+            product_data = {
+                'product_name': product.product_name,
+                'slug': product.slug,
+                'price': product.price,
+                'description': product.description,
+                'total_quantity': product.total_quantity,
+                'images': [image.image.url for image in product.images.all()]
+            }
+            data.append(product_data)
+        print("Results:", data)
+        return JsonResponse(data, safe=False)
+    else:
+        return JsonResponse([], safe=False)
 
 def categories(request):
     all_categories = Category.objects.all()

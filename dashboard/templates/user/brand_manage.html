@@ -1,0 +1,38 @@
+{% extends "dashboard_template.html" %}
+{% load static %}
+
+{% block link %}
+    <link rel="stylesheet" href="{% static 'css/product-list.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h1 class="mb-4">Quản lý Thương hiệu</h1>
+        <a href="{% url 'add_brand' %}" class="btn btn-primary mb-3">Thêm Thương hiệu <i class="fa fa-plus"></i></a>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Tên Thương hiệu</th>
+                <th scope="col">Slug</th>
+                <th scope="col">Thao tác</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for brand in brands %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ brand.brand_name }}</td>
+                    <td>{{ brand.slug }}</td>
+                    <td>
+                        <a href="{% url 'edit_brand' brand.id %}" class="btn btn-info btn-sm">Sửa</a>
+                        <a href="{% url 'delete_brand' brand.id %}" class="btn btn-danger btn-sm">Xóa</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

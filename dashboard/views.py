@@ -256,17 +256,40 @@ def app_brand_add(request):
     else:
         form = BrandForm()
 
-    return render(request, 'user/add_brand.html', {'form': form})
+    return render(request, 'app_brand_add.html', {'form': form})
+
+@user_passes_test(is_superuser_or_staff)
+def brand_list(request):
+    brands = Brand.objects.all()
+    return render(request, 'user/brand_manage.html', {'brands': brands})
 @user_passes_test(is_superuser_or_staff)
 def add_brand(request):
     if request.method == 'POST':
         form = BrandForm(request.POST)
         if form.is_valid():
-            brand = form.save()
-            return JsonResponse({'success': True, 'brand_id': brand.id, 'brand_name': brand.brand_name})
+            form.save()
+            return redirect('brand_list')
     else:
         form = BrandForm()
-    return render(request, 'app_brand_add.html', {'form': form})
+    return render(request, 'user/add_brand.html', {'form': form})
+@user_passes_test(is_superuser_or_staff)
+def edit_brand(request, brand_id):
+    brand = get_object_or_404(Brand, id=brand_id)
+    if request.method == 'POST':
+        form = BrandForm(request.POST, instance=brand)
+        if form.is_valid():
+            form.save()
+            return redirect('brand_list')
+    else:
+        form = BrandForm(instance=brand)
+    return render(request, 'user/edit_brand.html', {'form': form})
+@user_passes_test(is_superuser_or_staff)
+def delete_brand(request, brand_id):
+    brand = get_object_or_404(Brand, id=brand_id)
+    if request.method == 'POST':
+        brand.delete()
+        return redirect('brand_list')
+    return render(request, 'user/delete_brand.html', {'brand': brand})
 
 @user_passes_test(is_superuser_or_staff)
 def add_category(request):

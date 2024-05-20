@@ -3,17 +3,24 @@
 
 {% block link %}
     <link rel="stylesheet" href="{% static 'css/product-list.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 {% endblock %}
 
 {% block content %}
     <div class="container mt-4">
         <h1 class="text-center mb-4">Danh sách Sản phẩm</h1>
         <div class="mb-3">
-            <a href="{% url 'add_product' %}" class="btn btn-primary navbar-btn text-white">
-                <i class="fa fa-plus"></i> Thêm sản phẩm
+            <a href="{% url 'add_product' %}" class="btn btn-primary navbar-btn text-white m-2">
+                 Thêm sản phẩm <i class="fa fa-plus"></i>
+            </a>
+             <a href="{% url 'brand_list' %}" class="btn btn-success navbar-btn text-white m-2">
+                 Quản lý brand <i class="fa fa-navicon"></i>
+            </a>
+            <a href="{% url 'add_product' %}" class="btn btn-success navbar-btn text-white m-2">
+                 Quản lý category <i class='fas fa-edit'></i>
             </a>
         </div>
-        <table class="table table-bordered table-hover text-center">
+        <table class="table table-bordered table-hover text-center" style="background-color: #f3f3f3">
             <thead>
                 <tr>
                     <th class="align-middle" scope="col">ID</th>

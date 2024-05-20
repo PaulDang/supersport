@@ -22,4 +22,7 @@ urlpatterns = [
     path('dashboard/add-category/', views.add_category, name='add_category'),
     path('dashboard/product/', views.product_list, name='product_list'),
     path('delete-product/<int:product_id>/', views.delete_product, name='delete_product'),
+    path('dashboard/product/brand_list/', views.brand_list, name='brand_list'),
+    path('dashboard/product/update_brand/<int:brand_id>/', views.edit_brand, name='edit_brand'),
+path('dashboard/product/delete_brand/<int:brand_id>/', views.delete_brand, name='delete_brand'),
 ]

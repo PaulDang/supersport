@@ -80,7 +80,7 @@
         <div class="modal-content">
             <span class="close" onclick="closeModal('brandModal')">&times;</span>
             <h2>Thêm Thương Hiệu Mới</h2>
-            <form id="brandForm" method="post" action="{% url 'add_brand' %}">
+            <form id="brandForm" method="post" action="{% url 'add_brand_app' %}">
                 {% csrf_token %}
                 <input type="text" name="brand_name" placeholder="Tên Thương Hiệu" required>
                 <button type="submit">Thêm Thương Hiệu</button>

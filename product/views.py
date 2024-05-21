@@ -1,10 +1,14 @@
 from django.shortcuts import render
-from django.http import JsonResponse
+
+from cart.models import CartDetail
+from .models import Category, Product, Brand, ProductImage, ProductDetail
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
-from .models import Category, Product, Brand, ProductImage, ProductDetail
+from django.db.models import Sum
 
 # Create your views here.
+
+
 class ProductManager:
     def __init__(self):
         self.items_per_page = 4
@@ -39,6 +43,7 @@ class ProductManager:
             'giay_page_obj': giay_page_obj,
         }
 
+
 def store(request):
     product_manager = ProductManager()
     context = product_manager.get_context(request)
@@ -69,14 +74,26 @@ def categories(request):
     all_categories = Category.objects.all()
     return {'all_categories': all_categories}
 
+
 def product_info(request, slug):
     product = get_object_or_404(Product, slug=slug)
-    context = {
-        'product': product
-    }
-    return render(request, 'product/product-info.html',context)
+    product_details = product.productdetail_set.all()
+    sizes = {}
+    for detail in product_details:
+        cart_details = CartDetail.objects.filter(
+            product_detail=detail).exclude(cart=None).aggregate(total_quantities=Sum("quantity"))
+        total_cart_detail_quantity = cart_details.get(
+            "total_quantities") if cart_details.get("total_quantities") else 0
+        sizes[detail.size] = detail.quantity - total_cart_detail_quantity
 
-def list_categories(request,slug = None):
+    context = {
+        'product': product,
+        'sizes': sizes
+    }
+    return render(request, 'product/product-info.html', context)
+
+
+def list_categories(request, slug=None):
     category = get_object_or_404(Category, slug=slug)
     products = category.product_set.all()
-    return render(request, 'product/list-category.html',{'category':category, 'products':products})
+    return render(request, 'product/list-category.html', {'category': category, 'products': products})

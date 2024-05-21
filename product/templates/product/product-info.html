@@ -1,6 +1,7 @@
 {% extends "page.html" %}
 {% load fontawesome_5 %}
 {% load price_format %}
+{% load get_item %}
 {% load static %}
 {% block link %}
     <!-- CSS của Slick Carousel -->
@@ -111,7 +112,7 @@
                                         <div class="size-info">
                                             <div class="sizes-container">
                                                 {% for detail in product.productdetail_set.all|dictsort:"size" %}
-                                                    <span class="size-option {% if detail.quantity == 0 %}detail-disabled {% endif %}"
+                                                    <span class="size-option {% if sizes|get_item:detail.size <= 0 %}detail-disabled {% endif %}"
                                                           data-id= "{{ detail.id }}" data-size="{{ detail.size }}">{{ detail.size }}</span>
                                                 {% endfor %}
                                             </div>
@@ -191,11 +192,19 @@
                 },
                 error: function (xhr, errmsg, err){
                     alertify.error(xhr.responseJSON.message);
-                    if (!xhr.responseJSON.remained_quantity) return;
+                    if (!("remained_quantity" in xhr.responseJSON)) return;
                     const product_quantity = $('.product-quantity input');
                     product_quantity.val(`${xhr.responseJSON.remained_quantity}`);
-                    const btnPlus = $('button.btnPlus');
-                    btnPlus.addClass("disabled");
+                    if (xhr.responseJSON.remained_quantity <= 0) {
+                        const currentElement = $(`.size-option[data-size=${selectedSize}]`);
+                        currentElement.addClass("detail-disabled");
+                        if (currentElement.hasClass("selected"))
+                            currentElement.removeClass("selected");
+                    }
+                    else {
+                        const btnPlus = $('button.btnPlus');
+                        btnPlus.addClass("disabled");
+                    }
                 }
             });
         })

@@ -1,45 +1,14 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Dashboard</title>
-    {% load static %} {% load bootstrap5 %} 
-    {% bootstrap_css %} 
-    {% bootstrap_javascript %} 
-    {% block script %}{% endblock %}
-    <link rel="stylesheet" href="{% static '/css/global.css' %}" />
+{% extends "dashboard_template.html" %}
+{% load static %}
+{% load bootstrap5 %} 
+{% bootstrap_css %} 
+{% bootstrap_javascript %}
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script defer src="{% static 'js/dashboard/search/search.js' %}"></script>
+{% endblock %}
 
-    <style>
-      body {
-        background-color: gray;
-      }
-    </style>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  </head>
-
-  <body>
-    {% include "component/menu_base.html" %}
-    <br />
-
-    <div class="container bg-white shadow-md p-5 form-layout">
-      <h4>Xin chào, {{user}}</h4>
-
-      <hr />
-
-      <p>This is your dashboard where you can perform any of the following:</p>
-
-      <ul class="list-inline">
-        <li class="list-inline-item text-decoration-none">
-            <a class="text-decoration-none" href="/dashboard/user"><i class="fa fa-address-book"></i> Quản lý người dùng</a>
-           <li >
-        <li class="list-inline-item text-decoration-none">
-
-            <a class="text-decoration-none" href="/dashboard/product"><i class="fa fa-shopping-bag"></i> Quản lý sản phẩm</a>
-        </li>
-      </ul>
-    </div>
-
-    <br />
+{% block content %}
 
     <div class="container bg-white shadow-md p-5 form-layout">
       <h4>Thống kê người dùng</h4>
@@ -94,5 +63,4 @@
         </script>
     </div>
 
-  </body>
-</html>
+{% endblock %}

@@ -27,11 +27,11 @@
         <tbody>
         {% for order in orders %}
             <tr>
-                <td>{{ order.orderId }}</td>
+                <td>#{{ order.id }}</td>
                 <td>{{ order.created_at }}</td>
                 <td>{{ order.status }}</td>
                 <td>
-                     <a class="btn btn-primary navbar-btn text-white" type="button" href="{% url 'user-order-detail' order.orderId %}">Xem</a>
+                     <a class="btn btn-primary navbar-btn text-white" type="button" href="{% url 'user-order-detail' order.id %}">Xem</a>
                 </td>
                 <!-- Add more <td> elements for additional order details if needed -->
             </tr>

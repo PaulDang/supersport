@@ -69,8 +69,7 @@ def get_signin(request):
             if user is not None:
                 login(request, user)
                 messages.info(
-                    request, f"Bây giờ bạn đã đăng nhập với tư cách {
-                        username}."
+                    request, f"Bây giờ bạn đã đăng nhập với tư cách {username}."
                 )
 
                 return redirect("main")
@@ -149,6 +148,6 @@ def user_order(request):
 
 @login_required(login_url="signin")
 def user_order_detail(request, order_id):
-    order = get_object_or_404(Order, orderId=order_id)
+    order = get_object_or_404(Order, id=order_id)
     order_items = OrderItem.objects.filter(order=order)
     return render(request, './component/profile/user_order_details.html', {'order': order, 'order_items': order_items})

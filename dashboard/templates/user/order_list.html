@@ -1,0 +1,61 @@
+{% extends "dashboard_template.html" %}
+{% load static %}
+
+{% block link %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h1>Danh sách đơn hàng</h1>
+
+    <form method="get" class="form-inline mb-4">
+        <div class="form-group mr-2">
+            <label for="status" class="mr-2">Trạng thái:</label>
+            <select id="status" name="status" class="form-control">
+                <option value="">Tất cả</option>
+                {% for value, display in orderstatuses %}
+                    <option value="{{ value }}" {% if value == status_filter %}selected{% endif %}>{{ display }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group mr-2">
+            <label for="start_date" class="mr-2"> Từ ngày:</label>
+            <input type="date" id="start_date" name="start_date" class="form-control" value="{{ start_date }}">
+        </div>
+        <div class="form-group mr-2">
+            <label for="end_date" class="mr-2"> đến ngày:</label>
+            <input type="date" id="end_date" name="end_date" class="form-control" value="{{ end_date }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Lọc</button>
+    </form>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Khách hàng</th>
+                <th>Email</th>
+                <th>Số điện thoại</th>
+                <th>Tổng giá</th>
+                <th>Trạng thái</th>
+                <th>Ngày tạo</th>
+                <th>Chi tiết</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.firstName }} {{ order.lastName }}</td>
+                <td>{{ order.email }}</td>
+                <td>{{ order.phone }}</td>
+                <td>{{ order.total_price }}</td>
+                <td>{{ order.get_status_display }}</td>
+                <td>{{ order.created_at }}</td>
+                <td><a href="{% url 'order_detail' order.id %}" class="btn btn-primary btn-sm">Chi tiết</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

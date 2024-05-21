@@ -1,0 +1,38 @@
+{% extends "dashboard_template.html" %}
+{% load static %}
+
+{% block link %}
+    <link rel="stylesheet" href="{% static 'css/product-list.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h1 class="mb-4">Quản lý Category</h1>
+        <a href="{% url 'add_category_app' %}" class="btn btn-primary mb-3">Thêm Category <i class="fa fa-plus"></i></a>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Category</th>
+                <th scope="col">Slug</th>
+                <th scope="col">Thao tác</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for category in categories %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ category.category_name }}</td>
+                    <td>{{ category.slug }}</td>
+                    <td>
+                        <a href="{% url 'edit_category' category.id %}" class="btn btn-info btn-sm">Sửa</a>
+                        <a href="{% url 'delete_category' category.id %}" class="btn btn-danger btn-sm">Xóa</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

@@ -33,7 +33,7 @@
 
     {% block link %} {% endblock %}
   </head>
-  <body>
+  <body style="background-color: #FAFAFA">
     {% if request.path == '/signin/' or request.path == '/signup/' or 'reset' in request.path %}
       {% block sign %} {% endblock %}
     {% else %}

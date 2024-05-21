@@ -4,10 +4,11 @@ from django.core.paginator import Paginator
 from django.db.models import F
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django.db import transaction
-from django.template.defaultfilters import slugify
-
+from django.db.models import Q
+from datetime import datetime
+from order.models import Order, OrderItem
 from product.models import ProductImage, ProductDetail, Brand, Product, Category
 from user.models import User
 from .forms import CreateUserForm, EditUserForm, ProductForm, ProductImageForm, ProductDetailForm, BrandForm, \
@@ -247,6 +248,24 @@ def update_product(request, product_id):
     })
 
 @user_passes_test(is_superuser_or_staff)
+def product_list(request):
+    products = Product.objects.all()
+
+    # Truyền danh sách sản phẩm vào template để hiển thị
+    return render(request, 'user/all_product.html', {'products': products})
+@user_passes_test(is_superuser_or_staff)
+def delete_product(request, product_id):
+    if request.method == 'POST':
+        try:
+            product = Product.objects.get(id=product_id)
+            product.delete()
+            messages.success(request, 'Sản phẩm đã được xóa thành công.')
+        except Product.DoesNotExist:
+            messages.error(request, 'Sản phẩm không tồn tại.')
+    return redirect('product_list')  # Redirect to the product list page
+
+# Brand
+@user_passes_test(is_superuser_or_staff)
 def app_brand_add(request):
     if request.method == 'POST':
         form = BrandForm(request.POST)
@@ -291,6 +310,13 @@ def delete_brand(request, brand_id):
         return redirect('brand_list')
     return render(request, 'user/delete_brand.html', {'brand': brand})
 
+
+
+# Category
+@user_passes_test(is_superuser_or_staff)
+def category_list(request):
+    categories = Category.objects.all()
+    return render(request, 'user/category_manage.html', {'categories': categories})
 @user_passes_test(is_superuser_or_staff)
 def add_category(request):
     if request.method == 'POST':
@@ -302,20 +328,81 @@ def add_category(request):
         form = CategoryForm()
     return render(request, 'app_category_add.html', {'form': form})
 
-
 @user_passes_test(is_superuser_or_staff)
-def product_list(request):
-    products = Product.objects.all()
-
-    # Truyền danh sách sản phẩm vào template để hiển thị
-    return render(request, 'user/all_product.html', {'products': products})
-@user_passes_test(is_superuser_or_staff)
-def delete_product(request, product_id):
+def add_category_app(request):
     if request.method == 'POST':
-        try:
-            product = Product.objects.get(id=product_id)
-            product.delete()
-            messages.success(request, 'Sản phẩm đã được xóa thành công.')
-        except Product.DoesNotExist:
-            messages.error(request, 'Sản phẩm không tồn tại.')
-    return redirect('product_list')  # Redirect to the product list page
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('category_list')
+    else:
+        form = CategoryForm()
+    return render(request, 'user/add_category_app.html', {'form': form})
+@user_passes_test(is_superuser_or_staff)
+def edit_category(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('category_list')
+    else:
+        form = CategoryForm(instance=category)
+    return render(request, 'user/edit_category.html', {'form': form})
+
+@user_passes_test(is_superuser_or_staff)
+def delete_category(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+    if request.method == 'POST':
+        category.delete()
+        return redirect('category_list')
+    return render(request, 'user/delete_category.html', {'category': category})
+
+#  Quản lý order
+@user_passes_test(is_superuser_or_staff)
+def order_list(request):
+    orders = Order.objects.all()
+    status_filter = request.GET.get('status')
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    if status_filter:
+        orders = orders.filter(status=status_filter)
+
+    if start_date:
+        start_date = datetime.strptime(start_date, '%Y-%m-%d')
+        orders = orders.filter(created_at__date__gte=start_date)
+
+    if end_date:
+        end_date = datetime.strptime(end_date, '%Y-%m-%d')
+        orders = orders.filter(created_at__date__lte=end_date)
+
+    context = {
+        'orders': orders,
+        'orderstatuses': Order._meta.get_field('status').choices,
+        'status_filter': status_filter,
+        'start_date': start_date.strftime('%Y-%m-%d') if start_date else '',
+        'end_date': end_date.strftime('%Y-%m-%d') if end_date else '',
+    }
+    return render(request, 'user/order_list.html', context)
+@user_passes_test(is_superuser_or_staff)
+def order_detail(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    order_items = OrderItem.objects.filter(order=order)
+    context = {
+        'order': order,
+        'order_items': order_items,
+        'orderstatuses': Order._meta.get_field('status').choices,
+    }
+    return render(request, 'user/order_detail.html', context)
+
+@csrf_exempt
+def update_order_status(request):
+    if request.method == 'POST':
+        order_id = request.POST.get('order_id')
+        status = request.POST.get('status')
+        order = get_object_or_404(Order, id=order_id)
+        order.status = status
+        order.save()
+        return JsonResponse({'success': True, 'status': order.get_status_display()})
+    return JsonResponse({'success': False})

@@ -1,0 +1,148 @@
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    line-height: 1.5rem;
+}
+
+body {
+    font-family: sans-serif;
+}
+
+img {
+    max-width: 100%;
+    margin: auto;
+}
+
+.cart-header {
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    height: 64px
+}
+
+.cart-header a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.user-name {
+    font-size: 12px;
+    margin: 0;
+}
+.name-title{
+    text-align: left;}
+.btn {
+    border-radius: 10px;
+    padding: 3px 5px;
+}
+
+.cart-count{
+    margin: 3px;
+}
+
+.btn-user {
+    border: 0;
+    background-color: #ffecec4a;
+}
+
+th {
+    border: 0
+}
+
+.sale-price, .regular-price, .total-price {
+    font-size: 12px
+}
+
+.sale-price {
+    color: red;
+    font-weight: 700
+}
+
+.total-price {
+    font-weight: 500;
+    font-size: 1rem;
+    /*margin-top: 25%; !* Set top margin *!*/
+    transform: translateY(-50%); /* Vertically center */
+}
+
+.regular-price {
+    text-decoration: line-through;
+    color: #ccc
+}
+
+.btn-outline-danger {
+    padding: 3px 6px;
+}
+
+.btn-delete-item {
+    padding-bottom:10px;
+    cursor: pointer
+}
+
+.total-cart-price {
+    color: red;
+    font-size: 16px;
+    font-weight: 800
+}
+
+.bottom {
+    height: 130px;
+    width: 100%;
+}
+
+.box-bottom {
+    background: #fff;
+    max-width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .1), 0 2px 6px 2px rgba(60, 64, 67, .15);
+    padding: 10px;
+}
+
+#btn-check-out, #btn-return {
+    padding: 6px 12px
+}
+
+.image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    border-radius: 5%;
+}
+
+
+
+.quantity{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+    }
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+td {
+  vertical-align: middle;
+}
+
+table {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .1), 0 2px 6px 2px rgba(60, 64, 67, .15);
+}
+

@@ -247,6 +247,24 @@ def update_product(request, product_id):
     })
 
 @user_passes_test(is_superuser_or_staff)
+def product_list(request):
+    products = Product.objects.all()
+
+    # Truyền danh sách sản phẩm vào template để hiển thị
+    return render(request, 'user/all_product.html', {'products': products})
+@user_passes_test(is_superuser_or_staff)
+def delete_product(request, product_id):
+    if request.method == 'POST':
+        try:
+            product = Product.objects.get(id=product_id)
+            product.delete()
+            messages.success(request, 'Sản phẩm đã được xóa thành công.')
+        except Product.DoesNotExist:
+            messages.error(request, 'Sản phẩm không tồn tại.')
+    return redirect('product_list')  # Redirect to the product list page
+
+# Brand
+@user_passes_test(is_superuser_or_staff)
 def app_brand_add(request):
     if request.method == 'POST':
         form = BrandForm(request.POST)
@@ -291,6 +309,13 @@ def delete_brand(request, brand_id):
         return redirect('brand_list')
     return render(request, 'user/delete_brand.html', {'brand': brand})
 
+
+
+# Category
+@user_passes_test(is_superuser_or_staff)
+def category_list(request):
+    categories = Category.objects.all()
+    return render(request, 'user/category_manage.html', {'categories': categories})
 @user_passes_test(is_superuser_or_staff)
 def add_category(request):
     if request.method == 'POST':
@@ -302,20 +327,33 @@ def add_category(request):
         form = CategoryForm()
     return render(request, 'app_category_add.html', {'form': form})
 
-
 @user_passes_test(is_superuser_or_staff)
-def product_list(request):
-    products = Product.objects.all()
-
-    # Truyền danh sách sản phẩm vào template để hiển thị
-    return render(request, 'user/all_product.html', {'products': products})
-@user_passes_test(is_superuser_or_staff)
-def delete_product(request, product_id):
+def add_category_app(request):
     if request.method == 'POST':
-        try:
-            product = Product.objects.get(id=product_id)
-            product.delete()
-            messages.success(request, 'Sản phẩm đã được xóa thành công.')
-        except Product.DoesNotExist:
-            messages.error(request, 'Sản phẩm không tồn tại.')
-    return redirect('product_list')  # Redirect to the product list page
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('category_list')
+    else:
+        form = CategoryForm()
+    return render(request, 'user/add_category_app.html', {'form': form})
+@user_passes_test(is_superuser_or_staff)
+def edit_category(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('category_list')
+    else:
+        form = CategoryForm(instance=category)
+    return render(request, 'user/edit_category.html', {'form': form})
+
+@user_passes_test(is_superuser_or_staff)
+def delete_category(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+    if request.method == 'POST':
+        category.delete()
+        return redirect('category_list')
+    return render(request, 'user/delete_category.html', {'category': category})
+

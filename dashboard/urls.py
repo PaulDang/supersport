@@ -34,4 +34,8 @@ urlpatterns = [
     path('dashboard/add-category/', views.add_category, name='add_category'), # add trong form upload product
     path('dashboard/product/update_category/<int:category_id>/', views.edit_category, name='edit_category'),
     path('dashboard/product/delete_category/<int:category_id>/', views.delete_category, name='delete_category'),
+    #Order
+    path('dashboard/orders/', views.order_list, name='order_list'),
+    path('dashboard/orders/<int:order_id>/', views.order_detail, name='order_detail'),
+    path('update_order_status/', views.update_order_status, name='update_order_status'),
 ]

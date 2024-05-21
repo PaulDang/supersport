@@ -52,9 +52,9 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{% url 'main' %}" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>Dashboard</p>
+                                <p>Trang chủ</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -65,7 +65,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{% url 'order_list' %}" class="nav-link">
                                 <i class="nav-icon fas fa-shopping-cart"></i>
                                 <p>Quản lý đơn hàng</p>
                             </a>

@@ -1,0 +1,115 @@
+{% extends "dashboard_template.html" %}
+{% load static %}
+{% load price_format %}
+
+{% block link %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static '/css/order-detail.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="container mt-4">
+        <h1 class="text-center">Chi tiết đơn hàng</h1>
+        <div class="row">
+            <div class="col-6">
+                <p><strong>ID:</strong> {{ order.id }}</p>
+                <p><strong>Khách hàng:</strong> {{ order.firstName }} {{ order.lastName }}</p>
+                <p><strong>Email:</strong> {{ order.email }}</p>
+                <p><strong>Số điện thoại:</strong> {{ order.phone }}</p>
+                <p><strong>Địa chỉ:</strong> {{ order.address }}</p>
+            </div>
+            <div class="col-6">
+
+                <p><strong>Tổng giá:</strong> <strong>{{ order.total_price | price_format }}</strong></p>
+                <p><strong>Ngày tạo:</strong> {{ order.created_at }}</p>
+                <div><strong>Trạng thái đơn hàng:</strong>
+                <form id="statusForm">
+                    <input type="hidden" name="order_id" value="{{ order.id }}">
+                    <select name="status" id="statusSelect" class="form-select m-2">
+                        {% for value, display in orderstatuses %}
+                            <option value="{{ value }}"
+                                    {% if value == order.status %}selected{% endif %}>{{ display }}</option>
+                        {% endfor %}
+                    </select>
+                        <button type="submit" class="btn btn-primary" style="background-color: #12283E">Cập nhật trạng thái</button>
+                </form>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="text-center">Sản phẩm trong đơn hàng</h2>
+
+        <div class="container">
+            <div class="cart mt-4" id="cart">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12 info-sp">
+                        <table class="table">
+                            <thead class="table-show show-cart-1 text-center">
+                            <td><strong>HÌNH ẢNH</strong></td>
+                            <td><strong>SẢN PHẨM</strong></td>
+                            <td><strong>GIÁ</strong></td>
+                            <td><strong>SỐ LƯỢNG</strong></td>
+                            <td><strong>THÀNH TIỀN</strong></td>
+                            </thead>
+                            <tbody class="table-show show-cart-1">
+                            {% for item in order_items %}
+                                <tr>
+                                    <td style="width: 20%">
+                                        <img class='image'
+                                             src='{{ item.product.images.first.image.url }}'>
+                                    </td>
+                                    <td class='text name-title' style="width: 30%">
+                                        <p>
+                                            <strong>{{ item.product.product_name }}</strong>
+                                        </p>
+                                        <p>Size : {{ item.size }}</p>
+
+                                    </td>
+                                    <td style="width: 15%">
+                                        <p class="sale-price">{{ item.product.discount_price | price_format }}</p>
+                                        <p class="regular-price">{{ item.product.price | price_format }}</p>
+                                    </td>
+                                    <td style="width: 15%">
+                                        <div class="col-12 d-flex justify-content-center m-2">
+                                            <strong>{{ item.quantity }}</strong>
+                                        </div>
+                                    </td>
+                                    <td class='text-btn' style="width: 20%">
+                                        <div class="col12">
+                                            <span class="total-price">{{ item.total_price | price_format }}</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        document.getElementById('statusForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+            fetch("{% url 'update_order_status' %}", {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Cập nhật trạng thái thành công: ' + data.status);
+                    } else {
+                        alert('Cập nhật trạng thái thất bại');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+{% endblock %}

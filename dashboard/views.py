@@ -4,10 +4,11 @@ from django.core.paginator import Paginator
 from django.db.models import F
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django.db import transaction
-from django.template.defaultfilters import slugify
-
+from django.db.models import Q
+from datetime import datetime
+from order.models import Order, OrderItem
 from product.models import ProductImage, ProductDetail, Brand, Product, Category
 from user.models import User
 from .forms import CreateUserForm, EditUserForm, ProductForm, ProductImageForm, ProductDetailForm, BrandForm, \
@@ -357,3 +358,51 @@ def delete_category(request, category_id):
         return redirect('category_list')
     return render(request, 'user/delete_category.html', {'category': category})
 
+#  Quản lý order
+@user_passes_test(is_superuser_or_staff)
+def order_list(request):
+    orders = Order.objects.all()
+    status_filter = request.GET.get('status')
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    if status_filter:
+        orders = orders.filter(status=status_filter)
+
+    if start_date:
+        start_date = datetime.strptime(start_date, '%Y-%m-%d')
+        orders = orders.filter(created_at__date__gte=start_date)
+
+    if end_date:
+        end_date = datetime.strptime(end_date, '%Y-%m-%d')
+        orders = orders.filter(created_at__date__lte=end_date)
+
+    context = {
+        'orders': orders,
+        'orderstatuses': Order._meta.get_field('status').choices,
+        'status_filter': status_filter,
+        'start_date': start_date.strftime('%Y-%m-%d') if start_date else '',
+        'end_date': end_date.strftime('%Y-%m-%d') if end_date else '',
+    }
+    return render(request, 'user/order_list.html', context)
+@user_passes_test(is_superuser_or_staff)
+def order_detail(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    order_items = OrderItem.objects.filter(order=order)
+    context = {
+        'order': order,
+        'order_items': order_items,
+        'orderstatuses': Order._meta.get_field('status').choices,
+    }
+    return render(request, 'user/order_detail.html', context)
+
+@csrf_exempt
+def update_order_status(request):
+    if request.method == 'POST':
+        order_id = request.POST.get('order_id')
+        status = request.POST.get('status')
+        order = get_object_or_404(Order, id=order_id)
+        order.status = status
+        order.save()
+        return JsonResponse({'success': True, 'status': order.get_status_display()})
+    return JsonResponse({'success': False})

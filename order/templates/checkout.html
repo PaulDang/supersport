@@ -83,7 +83,7 @@
                         <li class="d-flex align-items-center py-1">
                             <img src="{% static '/media/' %}{{item.product_detail.product.images.all.0.image}}" alt="{{item.product_detail.product.product_name}}" width="70px" class="p-1 me-2">
                             <span class="small me-auto">{{item.product_detail.product.product_name}} </br> SL: {{item.quantity}}, Size: {{item.product_detail.size}}</span>
-                            {% if item.product_detail.product.discount_price > 0 %}
+                            {% if item.product_detail.product.discount_price > 0 and item.product_detail.product.discount_price < item.product_detail.product.price %}
                                 <span class="b-item-price text-decoration-line-through small">{{item.product_detail.product.price|price_format}}</span>
                                 <span class="b-item-price">{{item.product_detail.product.discount_price|price_format}}</span>
                             {% else %}

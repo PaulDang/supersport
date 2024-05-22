@@ -11,12 +11,19 @@ from datetime import datetime
 from order.models import Order, OrderItem
 from product.models import ProductImage, ProductDetail, Brand, Product, Category
 from user.models import User
-from .forms import CreateUserForm, EditUserForm, ProductForm, ProductImageForm, ProductDetailForm, BrandForm, \
-    CategoryForm
+from .forms import (
+    CreateUserForm,
+    EditUserForm,
+    ProductForm,
+    BrandForm,
+    CategoryForm,
+)
 
 
 def is_superuser_or_staff(user):
     return user.is_superuser or user.is_staff
+
+
 def handle_errors(form, request):
     form_errors = list(form.errors.values())
     error_messages = [" ".join(errors) for errors in form_errors]
@@ -24,10 +31,9 @@ def handle_errors(form, request):
         messages.error(request, error_message)
 
 
-# Create your views here.
 @login_required(login_url="signin")
 @user_passes_test(is_superuser_or_staff)
-def dashboard(request):
+def statistic_user(request):
     users = User.objects.all()
 
     # Biểu đồ trạng thái người dùng
@@ -86,7 +92,17 @@ def dashboard(request):
 
     chart_data = {"chart_data": [status_chart_data, role_chart_data]}
 
-    return render(request=request, template_name="dashboard.html", context=chart_data)
+    return render(
+        request=request, template_name="statistic-user.html", context=chart_data
+    )
+
+
+# Create your views here.
+@login_required(login_url="signin")
+@user_passes_test(is_superuser_or_staff)
+def dashboard(request):
+    return product_list(request)
+
 
 @user_passes_test(is_superuser_or_staff)
 def user_dashboard(request):
@@ -103,6 +119,7 @@ def user_dashboard(request):
 
     context = {"users": users}
     return render(request, "user/user.html", context)
+
 
 @user_passes_test(is_superuser_or_staff)
 @login_required(login_url="signin")
@@ -135,6 +152,7 @@ def delete_user(request, user_id):
 
     return redirect("user_dashboard")
 
+
 @user_passes_test(is_superuser_or_staff)
 def create_user(request):
     if request.method == "POST":
@@ -151,51 +169,55 @@ def create_user(request):
     context = {"forms": CreateUserForm}
     return render(request, "user/create_form.html", context)
 
+
 def add_product(request):
-    if request.method == 'POST':
-        product_name = request.POST.get('product_name')
-        brand_id = request.POST.get('brand')
-        category_ids = request.POST.getlist('categories')
-        description = request.POST.get('description')
-        price = request.POST.get('price')
-        discount_price = request.POST.get('discount_price')
+    if request.method == "POST":
+        product_name = request.POST.get("product_name")
+        brand_id = request.POST.get("brand")
+        category_ids = request.POST.getlist("categories")
+        description = request.POST.get("description")
+        price = request.POST.get("price")
+        discount_price = request.POST.get("discount_price")
         brand = Brand.objects.get(id=brand_id)
         categories = Category.objects.filter(id__in=category_ids)
         print(category_ids)
-        product = Product(product_name=product_name, brand = brand, description=description,
-                          price=price, discount_price=discount_price, total_quantity=0)
+        product = Product(
+            product_name=product_name,
+            brand=brand,
+            description=description,
+            price=price,
+            discount_price=discount_price,
+            total_quantity=0,
+        )
         product.save()
         product.categories.set(categories)
 
-        for image_file in request.FILES.getlist('images'):
+        for image_file in request.FILES.getlist("images"):
             ProductImage.objects.create(product=product, image=image_file)
 
-        sizes = request.POST.getlist('sizes')
-        quantities = request.POST.getlist('quantities')
-
+        sizes = request.POST.getlist("sizes")
+        quantities = request.POST.getlist("quantities")
 
         for size, quantity in zip(sizes, quantities):
             ProductDetail.objects.create(product=product, size=size, quantity=quantity)
 
-        return  redirect('product_list')
+        return redirect("product_list")
     else:
         product_form = ProductForm()
-    return render(request, 'user/upload_product.html',{
-        'product_form': product_form
-    })
+    return render(request, "user/upload_product.html", {"product_form": product_form})
 
 
 def update_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
-    if request.method == 'POST':
+    if request.method == "POST":
         print(request.POST)
-        product_name = request.POST.get('product_name')
-        brand_id = request.POST.get('brand')
-        category_ids = request.POST.getlist('categories')
-        description = request.POST.get('description')
-        price = request.POST.get('price')
-        discount_price = request.POST.get('discount_price')
+        product_name = request.POST.get("product_name")
+        brand_id = request.POST.get("brand")
+        category_ids = request.POST.getlist("categories")
+        description = request.POST.get("description")
+        price = request.POST.get("price")
+        discount_price = request.POST.get("discount_price")
         brand = Brand.objects.get(id=brand_id)
         categories = Category.objects.filter(id__in=category_ids)
 
@@ -208,12 +230,12 @@ def update_product(request, product_id):
         product.categories.set(categories)
         product.save()
 
-        image_ids = request.POST.getlist('image_ids')
+        image_ids = request.POST.getlist("image_ids")
 
         for image_id in image_ids:
             # Kiểm tra xem có tệp mới được tải lên cho ảnh này không
-            if f'images_{image_id}' in request.FILES:
-                new_image_file = request.FILES[f'images_{image_id}']
+            if f"images_{image_id}" in request.FILES:
+                new_image_file = request.FILES[f"images_{image_id}"]
 
                 # Xử lý tệp mới ở đây, ví dụ: cập nhật ảnh trong database
                 image = get_object_or_404(ProductImage, id=image_id)
@@ -221,188 +243,222 @@ def update_product(request, product_id):
                 image.save()
 
             # Xử lý các tệp hình ảnh mới được tải lên
-        new_images = request.FILES.getlist('images')
+        new_images = request.FILES.getlist("images")
         for new_image_file in new_images:
             # Tạo một ProductImage mới và lưu vào cơ sở dữ liệu
             new_image = ProductImage(product=product, image=new_image_file)
             new_image.save()
 
         # Update product details
-        ProductDetail.objects.filter(product=product).delete()  # Delete existing product details
-        sizes = request.POST.getlist('sizes')
-        quantities = request.POST.getlist('quantities')
+        ProductDetail.objects.filter(
+            product=product
+        ).delete()  # Delete existing product details
+        sizes = request.POST.getlist("sizes")
+        quantities = request.POST.getlist("quantities")
         for size, quantity in zip(sizes, quantities):
             ProductDetail.objects.create(product=product, size=size, quantity=quantity)
 
-        messages.success(request, 'Sản phẩm đã được cập nhật thành công.')
-        return redirect('product_list')
+        messages.success(request, "Sản phẩm đã được cập nhật thành công.")
+        return redirect("product_list")
     else:
         product_form = ProductForm(instance=product)
         existing_images = ProductImage.objects.filter(product=product)
         existing_details = ProductDetail.objects.filter(product=product)
 
-    return render(request, 'user/update_product.html', {
-        'product_form': product_form,
-        'existing_images': existing_images,
-        'existing_details': existing_details,
-    })
+    return render(
+        request,
+        "user/update_product.html",
+        {
+            "product_form": product_form,
+            "existing_images": existing_images,
+            "existing_details": existing_details,
+        },
+    )
+
 
 @user_passes_test(is_superuser_or_staff)
 def product_list(request):
     products = Product.objects.all()
 
     # Truyền danh sách sản phẩm vào template để hiển thị
-    return render(request, 'user/all_product.html', {'products': products})
+    return render(request, "user/all_product.html", {"products": products})
+
+
 @user_passes_test(is_superuser_or_staff)
 def delete_product(request, product_id):
-    if request.method == 'POST':
+    if request.method == "POST":
         try:
             product = Product.objects.get(id=product_id)
             product.delete()
-            messages.success(request, 'Sản phẩm đã được xóa thành công.')
+            messages.success(request, "Sản phẩm đã được xóa thành công.")
         except Product.DoesNotExist:
-            messages.error(request, 'Sản phẩm không tồn tại.')
-    return redirect('product_list')  # Redirect to the product list page
+            messages.error(request, "Sản phẩm không tồn tại.")
+    return redirect("product_list")  # Redirect to the product list page
+
 
 # Brand
 @user_passes_test(is_superuser_or_staff)
 def app_brand_add(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = BrandForm(request.POST)
         if form.is_valid():
             brand = form.save()
-            return JsonResponse({'success': True, 'brand_id': brand.id, 'brand_name': brand.brand_name})
+            return JsonResponse(
+                {"success": True, "brand_id": brand.id, "brand_name": brand.brand_name}
+            )
     else:
         form = BrandForm()
 
-    return render(request, 'user/add_brand.html', {'form': form})
+    return render(request, "user/add_brand.html", {"form": form})
+
 
 @user_passes_test(is_superuser_or_staff)
 def brand_list(request):
     brands = Brand.objects.all()
-    return render(request, 'user/brand_manage.html', {'brands': brands})
+    return render(request, "user/brand_manage.html", {"brands": brands})
+
+
 @user_passes_test(is_superuser_or_staff)
 def add_brand(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = BrandForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('brand_list')
+            return redirect("brand_list")
     else:
         form = BrandForm()
-    return render(request, 'user/add_brand.html', {'form': form})
+    return render(request, "user/add_brand.html", {"form": form})
+
+
 @user_passes_test(is_superuser_or_staff)
 def edit_brand(request, brand_id):
     brand = get_object_or_404(Brand, id=brand_id)
-    if request.method == 'POST':
+    if request.method == "POST":
         form = BrandForm(request.POST, instance=brand)
         if form.is_valid():
             form.save()
-            return redirect('brand_list')
+            return redirect("brand_list")
     else:
         form = BrandForm(instance=brand)
-    return render(request, 'user/edit_brand.html', {'form': form})
+    return render(request, "user/edit_brand.html", {"form": form})
+
+
 @user_passes_test(is_superuser_or_staff)
 def delete_brand(request, brand_id):
     brand = get_object_or_404(Brand, id=brand_id)
-    if request.method == 'POST':
+    if request.method == "POST":
         brand.delete()
-        return redirect('brand_list')
-    return render(request, 'user/delete_brand.html', {'brand': brand})
-
+        return redirect("brand_list")
+    return render(request, "user/delete_brand.html", {"brand": brand})
 
 
 # Category
 @user_passes_test(is_superuser_or_staff)
 def category_list(request):
     categories = Category.objects.all()
-    return render(request, 'user/category_manage.html', {'categories': categories})
+    return render(request, "user/category_manage.html", {"categories": categories})
+
+
 @user_passes_test(is_superuser_or_staff)
 def add_category(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = CategoryForm(request.POST)
         if form.is_valid():
             category = form.save()
-            return JsonResponse({'success': True, 'category_id': category.id, 'category_name': category.category_name})
+            return JsonResponse(
+                {
+                    "success": True,
+                    "category_id": category.id,
+                    "category_name": category.category_name,
+                }
+            )
     else:
         form = CategoryForm()
-    return render(request, 'app_category_add.html', {'form': form})
+    return render(request, "app_category_add.html", {"form": form})
+
 
 @user_passes_test(is_superuser_or_staff)
 def add_category_app(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = CategoryForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('category_list')
+            return redirect("category_list")
     else:
         form = CategoryForm()
-    return render(request, 'user/add_category_app.html', {'form': form})
+    return render(request, "user/add_category_app.html", {"form": form})
+
+
 @user_passes_test(is_superuser_or_staff)
 def edit_category(request, category_id):
     category = get_object_or_404(Category, id=category_id)
-    if request.method == 'POST':
+    if request.method == "POST":
         form = CategoryForm(request.POST, instance=category)
         if form.is_valid():
             form.save()
-            return redirect('category_list')
+            return redirect("category_list")
     else:
         form = CategoryForm(instance=category)
-    return render(request, 'user/edit_category.html', {'form': form})
+    return render(request, "user/edit_category.html", {"form": form})
+
 
 @user_passes_test(is_superuser_or_staff)
 def delete_category(request, category_id):
     category = get_object_or_404(Category, id=category_id)
-    if request.method == 'POST':
+    if request.method == "POST":
         category.delete()
-        return redirect('category_list')
-    return render(request, 'user/delete_category.html', {'category': category})
+        return redirect("category_list")
+    return render(request, "user/delete_category.html", {"category": category})
+
 
 #  Quản lý order
 @user_passes_test(is_superuser_or_staff)
 def order_list(request):
     orders = Order.objects.all()
-    status_filter = request.GET.get('status')
-    start_date = request.GET.get('start_date')
-    end_date = request.GET.get('end_date')
+    status_filter = request.GET.get("status")
+    start_date = request.GET.get("start_date")
+    end_date = request.GET.get("end_date")
 
     if status_filter:
         orders = orders.filter(status=status_filter)
 
     if start_date:
-        start_date = datetime.strptime(start_date, '%Y-%m-%d')
+        start_date = datetime.strptime(start_date, "%Y-%m-%d")
         orders = orders.filter(created_at__date__gte=start_date)
 
     if end_date:
-        end_date = datetime.strptime(end_date, '%Y-%m-%d')
+        end_date = datetime.strptime(end_date, "%Y-%m-%d")
         orders = orders.filter(created_at__date__lte=end_date)
 
     context = {
-        'orders': orders,
-        'orderstatuses': Order._meta.get_field('status').choices,
-        'status_filter': status_filter,
-        'start_date': start_date.strftime('%Y-%m-%d') if start_date else '',
-        'end_date': end_date.strftime('%Y-%m-%d') if end_date else '',
+        "orders": orders,
+        "orderstatuses": Order._meta.get_field("status").choices,
+        "status_filter": status_filter,
+        "start_date": start_date.strftime("%Y-%m-%d") if start_date else "",
+        "end_date": end_date.strftime("%Y-%m-%d") if end_date else "",
     }
-    return render(request, 'user/order_list.html', context)
+    return render(request, "user/order_list.html", context)
+
+
 @user_passes_test(is_superuser_or_staff)
 def order_detail(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     order_items = OrderItem.objects.filter(order=order)
     context = {
-        'order': order,
-        'order_items': order_items,
-        'orderstatuses': Order._meta.get_field('status').choices,
+        "order": order,
+        "order_items": order_items,
+        "orderstatuses": Order._meta.get_field("status").choices,
     }
-    return render(request, 'user/order_detail.html', context)
+    return render(request, "user/order_detail.html", context)
+
 
 @csrf_exempt
 def update_order_status(request):
-    if request.method == 'POST':
-        order_id = request.POST.get('order_id')
-        status = request.POST.get('status')
+    if request.method == "POST":
+        order_id = request.POST.get("order_id")
+        status = request.POST.get("status")
         order = get_object_or_404(Order, id=order_id)
         order.status = status
         order.save()
-        return JsonResponse({'success': True, 'status': order.get_status_display()})
-    return JsonResponse({'success': False})
+        return JsonResponse({"success": True, "status": order.get_status_display()})
+    return JsonResponse({"success": False})

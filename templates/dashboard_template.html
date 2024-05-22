@@ -4,20 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
+
+    {% load static %}
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% block script %}{% endblock %}
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/overlayScrollbars/1.10.3/css/OverlayScrollbars.min.css" rel="stylesheet">
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    {% comment %} Setting AlertifyJS {% endcomment %}
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
 
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 
-    {% load static %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     {% block link %}{% endblock %}
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
@@ -45,7 +56,7 @@
 {#                        avatar#}
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">{{user.username}}</a>
+                        <a href="#" class="d-block">Xin chào, {{user.username}}</a>
                     </div>
                 </div>
 
@@ -71,9 +82,15 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{% url 'user_dashboard' %}" class="nav-link">
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>Quản lý người dùng</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'statistic_user' %}" class="nav-link">
+                                <i class="nav-icon fas fa-chart-pie"></i>
+                                <p>Thống kê người dùng</p>
                             </a>
                         </li>
 
@@ -98,7 +115,28 @@
             </section>
         </div>
     </div>
+        {% comment %} Setting AlertifyJS {% endcomment %}
+        <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
-    {% block script %}{% endblock %}
+        <script>
+        alertify.set('notifier','position', 'top-right');
+    
+        {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            alertify.error('{{message}}');
+            {% else %}
+            alertify.success('{{message}}');
+            {% endif %}
+        {% endfor %}
+    
+        </script>
+    
+        {% block script_search %}
+        <script defer src="{% static 'js/dashboard/search/search.js' %}"></script>
+        {% endblock %}
+
+        {% block script_user %}
+        <script defer src="{% static 'js/dashboard/user/user.js' %}"></script>
+        {% endblock %}
 </body>
 </html>

@@ -1,13 +1,8 @@
-{% include "page.html" %} 
+{% extends "dashboard_template.html" %} 
 {% load static %} 
 {% load crispy_forms_tags %} 
 {% load fontawesome_5 %}
 {% fontawesome_5_static %} 
-
-{% block script_user %}
-<script defer src="{% static 'js/dashboard/user/user.js' %}"></script>
-{% endblock %}
-
 
 {% block content %}
 
@@ -68,23 +63,23 @@
           <td>{{userRow.phone}}</td>
           <td>
             {% if userRow.is_active %}
-              <span class="badge rounded-pill text-bg-success">Yes</span>
+              <span style="color:blue;font-weight:bold">Yes</span>
             {% else %}
-              <span class="badge rounded-pill text-bg-secondary">No</span>
+              <span style="color:red;font-weight:bold">No</span>
             {% endif %}
           </td>
           <td>
             {% if userRow.is_staff %}
-              <span class="badge rounded-pill text-bg-success">Yes</span>
+              <span style="color:blue;font-weight:bold">Yes</span>
             {% else %}
-              <span class="badge rounded-pill text-bg-secondary">No</span>
+              <span style="color:red;font-weight:bold">No</span>
             {% endif %}
           </td>
           <td>
             {% if userRow.is_superuser %}
-              <span class="badge rounded-pill text-bg-success">Yes</span>
+              <span style="color:blue;font-weight:bold">Yes</span>
             {% else %}
-              <span class="badge rounded-pill text-bg-secondary">No</span>
+              <span style="color:red;font-weight:bold">No</span>
             {% endif %}
           </td>
           <td class="mr-auto">

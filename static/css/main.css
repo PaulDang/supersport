@@ -8,18 +8,10 @@ html {
     line-height: 1.5rem;
 }
 
-/*img {*/
-/*    height: 200px;*/
-/*    max-width: 100%;*/
-/*    margin: auto;*/
-/*    border-radius: 5%;*/
-/*}*/
-
 a {
     text-decoration: none;
     color: black;
 }
-
 
 a:hover {
     color: #a54fa8;

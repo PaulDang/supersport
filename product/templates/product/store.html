@@ -4,6 +4,16 @@
 
 {% block link %}
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+  <style>
+    .category-image {
+      width: 100%;
+      height: auto;
+    }
+    .category-link {
+      padding: 15px;
+    }
+  </style>
 {% endblock %}
 {% block content %}
 
@@ -152,6 +162,26 @@
         {% endif %}
       {% endif %}
 
+      <hr>
+      <br>
+
+      <div class="row justify-content-around">
+        <div class="col-6 col-md-5 d-flex justify-content-center category-link">
+          <a href="{% url 'male_products' %}">
+            <img src="{% static 'media/images/store/men.png' %}" class="category-image" alt="Men's Category">
+          </a>
+        </div>
+
+        <div class="col-6 col-md-5 d-flex justify-content-center category-link">
+          <a href="{% url 'female_products' %}">
+            <img src="{% static 'media/images/store/women.png' %}" class="category-image" alt="Women's Category">
+          </a>
+        </div>
+      </div>
+<!--      BRANDS-->
+      <div class="row mt-4">
+        <img src="{% static 'media/images/store/brands.png' %}" alt="Brands">
+      </div>
     </div>
   </div>
 

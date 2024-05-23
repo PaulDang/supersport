@@ -1,0 +1,17 @@
+.custom-carousel {
+    height: 50vh;
+}
+
+.custom-carousel .carousel-inner {
+    height: 100%;
+}
+
+.custom-carousel .carousel-item {
+    height: 100%;
+}
+
+.custom-carousel .carousel-item img {
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}

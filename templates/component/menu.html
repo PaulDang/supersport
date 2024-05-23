@@ -15,41 +15,30 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarMobile">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 justify-content-center" >
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 justify-content-center">
                 <li class="nav-item mx-2">
                     <div class="dropdown">
                         <a class="nav-link link-light text-black text-uppercase" href="#" data-bs-toggle="dropdown" aria-expanded="false">
                             Sản phẩm
                         </a>
                         <ul class="dropdown-menu w-100 mt-1">
-                            <li><a class="dropdown-item" href="#">Mới</a></li>
+                            <li><a class="dropdown-item" href="{% url 'new-arrival' %}">Mới</a></li>
                             <li><a class="dropdown-item" href="#">Nam</a></li>
                             <li><a class="dropdown-item" href="#">Nữ</a></li>
                         </ul>
-                   </div>
+                    </div>
                 </li>
                 <li class="nav-item mx-2">
-                    <a
-                            class="nav-link link-light text-black text-uppercase"
-                            href="/"
-                    >Sale</a
-                    >
+                    <a class="nav-link link-light text-black text-uppercase" href="/">Sale</a>
                 </li>
                 <li class="nav-item mx-2">
-                    <a
-                            class="nav-link link-light text-black text-uppercase"
-                            href={% url "aboutus" %}
-                    >Chúng tôi</a
-                    >
+                    <a class="nav-link link-light text-black text-uppercase" href="{% url 'aboutus' %}">Chúng tôi</a>
                 </li>
                 <li class="nav-item mx-2">
-                    <a
-                            class="nav-link link-light text-black text-uppercase"
-                            href={% url "contactus" %}
-                    >Liên hệ</a
-                    >
+                    <a class="nav-link link-light text-black text-uppercase" href="{% url 'contactus' %}">Liên hệ</a>
                 </li>
             </ul>
+
             <div class="d-flex align-items-center">
                 <form class='w-50 d-flex' action="/main/search/" onsubmit="return handleSearchProduct()">
                     <div class="input-group">

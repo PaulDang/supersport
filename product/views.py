@@ -50,6 +50,24 @@ class ProductManager:
         }
         return render(request, 'product/new-arrival.html', context)
 
+    def male_products(self, request):
+        nam_products = self.get_category_products('nam').order_by('-id')
+        page_number = request.GET.get('page', 1)
+        all_nam_products_obj = self.paginate_products(nam_products, page_number, per_page=12)
+        context = {
+            'all_nam_products_obj': all_nam_products_obj,
+        }
+        return render(request, 'product/for-men.html', context)
+
+    def female_products(self, request):
+        nu_products = self.get_category_products('nu').order_by('-id')
+        page_number = request.GET.get('page', 1)
+        all_nu_products_obj = self.paginate_products(nu_products, page_number, per_page=12)
+        context = {
+            'all_nu_products_obj': all_nu_products_obj,
+        }
+        return render(request, 'product/for-women.html', context)
+
 def store(request):
     product_manager = ProductManager()
     context = product_manager.get_context(request)
@@ -58,6 +76,15 @@ def store(request):
 def new_arrival(request):
     product_manager = ProductManager()
     return product_manager.new_arrival(request)
+
+def male_products(request):
+    product_manager = ProductManager()
+    return product_manager.male_products(request)
+
+def female_products(request):
+    product_manager = ProductManager()
+    return product_manager.female_products(request)
+
 
 def search_product(request):
     query = request.GET.get('q')

@@ -4,7 +4,7 @@ from cart.models import CartDetail
 from .models import Category, Product, Brand, ProductImage, ProductDetail
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
-from django.db.models import Sum
+from django.db.models import Sum, F
 from django.http import JsonResponse
 
 class ProductManager:
@@ -68,6 +68,15 @@ class ProductManager:
         }
         return render(request, 'product/for-women.html', context)
 
+    def sale(self, request):
+        sale_products = Product.objects.filter(discount_price__lt=F('price')).order_by('-id')
+        page_number = request.GET.get('page', 1)
+        sale_products_obj = self.paginate_products(sale_products, page_number, per_page=12)
+        context = {
+            'sale_products_obj': sale_products_obj,
+        }
+        return render(request, 'product/sale.html', context)
+
 def store(request):
     product_manager = ProductManager()
     context = product_manager.get_context(request)
@@ -85,6 +94,9 @@ def female_products(request):
     product_manager = ProductManager()
     return product_manager.female_products(request)
 
+def sale(request):
+    product_manager = ProductManager()
+    return product_manager.sale(request)
 
 def search_product(request):
     query = request.GET.get('q')

@@ -13,12 +13,12 @@
       {% include "product/herobanner.html" %}
     </div>
     <div class="container">
-      <div class="h5 text-center"> SẢN PHẨM CHO NAM</div>
+      <div class="h5 text-center"> SẢN PHẨM GIẢM GIÁ</div>
       <hr>
       <br>
-      {% if all_nam_products_obj %}
+      {% if sale_products_obj %}
         <div class="row products mt-1">
-          {% for product in all_nam_products_obj %}
+          {% for product in sale_products_obj %}
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 mb-4 ml-4 bg-white">
               <div class="nd-sp rounded">
                 <div class="nd-sp">
@@ -27,8 +27,11 @@
                       <img class="card-img-top" src="{{ product.images.first.image.url }}" alt="product-image">
                       <div class="card-body">
                         <h5 class="card-title brand_name">{{ product.brand.brand_name }}</h5>
-                        <p class="card-text product_name text-left mb-2">{{ product.product_name }}</p>
-                        <p class="price text-left mb-0">{{ product.discount_price | price_format }}</p>
+                        <p class="card-text product_name text-left mb-3">{{ product.product_name }}</p>
+                        <div class="d-flex justify-content-between">
+                          <p class="price mb-0">{{ product.discount_price | price_format }}</p>
+                          <p class="price mb-0"><del>{{ product.price | price_format }}</del></p>
+                        </div>
                       </div>
                     </div>
                   </a>
@@ -37,17 +40,17 @@
             </div>
           {% endfor %}
         </div>
-        {% if all_nam_products_obj.has_previous or all_nam_products_obj.has_next %}
+        {% if sale_products_obj.has_previous or sale_products_obj.has_next %}
           <div class="pagination justify-content-center">
             <span class="step-links">
-              {% if all_nam_products_obj.has_previous %}
-                <a href="?page={{ all_nam_products_obj.previous_page_number }}">&laquo;</a>
+              {% if sale_products_obj.has_previous %}
+                <a href="?page={{ sale_products_obj.previous_page_number }}">&laquo;</a>
               {% endif %}
               <span class="current">
-                Page {{ all_nam_products_obj.number }} of {{ all_nam_products_obj.paginator.num_pages }}
+                Page {{ sale_products_obj.number }} of {{ sale_products_obj.paginator.num_pages }}
               </span>
-              {% if all_nam_products_obj.has_next %}
-                <a href="?page={{ all_nam_products_obj.next_page_number }}">&raquo;</a>
+              {% if sale_products_obj.has_next %}
+                <a href="?page={{ sale_products_obj.next_page_number }}">&raquo;</a>
               {% endif %}
             </span>
           </div>

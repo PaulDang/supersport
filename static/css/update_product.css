@@ -117,3 +117,11 @@ button:hover {
     width: 100px; /* Độ rộng cố định cho các trường input */
 }
 
+.category-input {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+}
+.ml-2 {
+    margin-left: 8px; /* hoặc giá trị margin-left bạn mong muốn */
+}

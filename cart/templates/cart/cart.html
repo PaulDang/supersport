@@ -67,7 +67,10 @@ Cart
             </div>
             <div class="col-md-3 mb-4 mb-md-0">
               <span class="d-md-none fw-bold">Giá tiền: </span>
-              <span class="product-price">{{ product.product_detail.product.discount_price|price_format }}</span>
+              <span class="d-inline-block d-md-flex flex-md-column">              
+                <span class=""><del>{{ product.product_detail.product.price|price_format }}</del></span>
+                <span class="product-price fw-bold text-danger ">{{ product.product_detail.product.discount_price|price_format }}</span>
+              </span>
             </div>
             <div class="col-md-2 px-0 mb-4 mb-md-0">
               <div class="product-quantity input-group">
@@ -90,7 +93,7 @@ Cart
               <div class="d-flex justify-content-between">
                 <div class="d-flex align-items-center gap-2">
                   <span class="d-md-none fw-bold">Tổng tiền: </span>
-                  <span class="product-total-price">250.000 VNĐ</span>
+                  <span class="product-total-price fw-bold text-danger">250.000 VNĐ</span>
                 </div>
                 <button class="btn border-0 btn-delete-from-cart">
                   {% fa5_icon 'trash' 'fas' size='fa-2x' color='#fa5252'%}
@@ -106,14 +109,14 @@ Cart
         <div class="cart-total-product h-100">
           <div class="border-0 align-items-center text-center">
             <div class="card-body p-5">
-              <h5 class="card-title mb-5 text-uppercase fw-semibold">Giỏ hàng</h5>
+              <h5 class="h2 card-title mb-5 text-uppercase fw-semibold">Giỏ hàng</h5>
               <div class="d-flex justify-content-around gap-5 mb-4">
-                <div class="">Tổng tiền</div>
-                <div class="ms-auto me-0 products-sum-price">250.000 VNĐ</div>
+                <div class="fw-bold">Tổng tiền</div>
+                <div class="ms-auto me-0 products-sum-price fw-bold text-danger">250.000 VNĐ</div>
               </div>
               <div class="d-flex justify-content-around gap-5 mb-4">
-                <div class="">Thành tiền</div>
-                <div class="ms-auto me-0 products-total-price">250.000 VNĐ</div>
+                <div class="fw-bold">Thành tiền</div>
+                <div class="ms-auto me-0 products-total-price fw-bold text-danger">250.000 VNĐ</div>
               </div>
               <form id="check-out" action="{% url 'checkout' %}" method="POST">
                 {% csrf_token %}

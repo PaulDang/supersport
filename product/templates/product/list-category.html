@@ -3,40 +3,43 @@
 {% load price_format %}
 
 {% block link %}
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
 {% endblock %}
 {% block content %}
 
     <!-- All products section -->
 
-    <div class="album py-5 bg-white">
-        <div class="container">
+  <div class="album py-5 bg-white">
+    <div class="container">
 
-            <div class="h5 text-center"> {{ category.category_name|upper }}</div>
-            <hr>
-            <br>
+      <div class="h5 text-center"> {{ category.category_name|upper }}</div>
+      <hr>
+      <br>
 
-            <div class="row products mt-1">
-                {% for product in products %}
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 mb-4 ml-4 bg-white">
-                        <div class="nd-sp rounded">
-                            <div class="nd-sp">
-                                <a href="{{ product.get_absolute_url }}">
-                                    <div class="card">
-                                        <img class="card-img-top" src="{{ product.images.first.image.url }}" alt="product-image">
-                                        <div class="card-body">
-                                            <h5 class="card-title brand_name">{{ product.brand.brand_name }}</h5>
-                                            <p class="card-text product_name text-left mb-2">{{ product.product_name }}</p>
-                                            <p class="price text-left mb-0">{{ product.discount_price | price_format }}</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
+      <div class="row products mt-1">
+        {% for product in products %}
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 mb-4 ml-4 bg-white">
+            <div class="nd-sp rounded">
+              <div class="nd-sp">
+                <a href="{{ product.get_absolute_url }}">
+                  <div class="card">
+                    <img class="card-img-top" src="{{ product.images.first.image.url }}" alt="product-image">
+                    <div class="card-body">
+                      <h5 class="card-title brand_name">{{ product.brand.brand_name }}</h5>
+                      <p class="card-text product_name text-left mb-2">{{ product.product_name }}</p>
+                      <div class="d-flex justify-content-between">
+                        <p class="price mb-0 text-danger font-weight-bold" >{{ product.discount_price | price_format }}</p>
+                        <p class="price mb-0"><del>{{ product.price | price_format }}</del></p>
+                      </div>
                     </div>
-                {% endfor %}
+                  </div>
+                </a>
+              </div>
             </div>
-        </div>
+          </div>
+        {% endfor %}
+      </div>
     </div>
+  </div>
 
 {% endblock %}

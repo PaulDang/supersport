@@ -32,21 +32,34 @@
         <div class="row products mt-1">
           {% for product in nam_page_obj  %}
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 mb-4 ml-4 bg-white">
-              <div class="nd-sp rounded">
-                <div class="nd-sp">
-                  <a href="{{ product.get_absolute_url }}">
-                    <div class="card">
-                      <img class="card-img-top" src="{{ product.images.first.image.url }}" alt="product-image">
-                      <div class="card-body">
-                        <h5 class="card-title brand_name">{{ product.brand.brand_name }}</h5>
-                        <p class="card-text product_name text-left mb-2">{{ product.product_name }}</p>
-                        <p class="price text-left mb-0">{{ product.price | price_format }}</p>
+            <div class="nd-sp rounded">
+              <div class="nd-sp">
+                <a href="{{ product.get_absolute_url }}">
+                  <div class="card">
+                    <img class="card-img-top" src="{{ product.images.first.image.url }}" alt="product-image">
+                    <div class="card-body">
+                      <h5 class="card-title brand_name">{{ product.brand.brand_name }}</h5>
+                      <p class="card-text product_name text-left mb-2">{{ product.product_name }}</p>
+                      <div class="d-flex justify-content-between">
+                        <p class="price mb-0 text-danger font-weight-bold">
+                          {% if product.discount_price != product.price %}
+                            {{ product.discount_price | price_format }}
+                          {% endif %}
+                        </p>
+                        <p class="price mb-0">
+                          {% if product.discount_price != product.price %}
+                            <del>{{ product.price | price_format }}</del>
+                          {% else %}
+                            {{ product.price | price_format }}
+                          {% endif %}
+                        </p>
                       </div>
                     </div>
-                  </a>
-                </div>
+                  </div>
+                </a>
               </div>
             </div>
+          </div>
           {% endfor %}
         </div>
         {% if nam_page_obj.has_previous or nam_page_obj.has_next %}
@@ -76,21 +89,34 @@
         <div class="row products mt-1">
           {% for product in nu_page_obj %}
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 mb-4 ml-4 bg-white">
-              <div class="nd-sp rounded">
-                <div class="nd-sp">
-                  <a href="{{ product.get_absolute_url }}">
-                    <div class="card">
-                      <img class="card-img-top" src="{{ product.images.first.image.url }}" alt="product-image">
-                      <div class="card-body">
-                        <h5 class="card-title brand_name">{{ product.brand.brand_name }}</h5>
-                        <p class="card-text product_name text-left mb-2">{{ product.product_name }}</p>
-                        <p class="price text-left mb-0">{{ product.price | price_format }}</p>
+            <div class="nd-sp rounded">
+              <div class="nd-sp">
+                <a href="{{ product.get_absolute_url }}">
+                  <div class="card">
+                    <img class="card-img-top" src="{{ product.images.first.image.url }}" alt="product-image">
+                    <div class="card-body">
+                      <h5 class="card-title brand_name">{{ product.brand.brand_name }}</h5>
+                      <p class="card-text product_name text-left mb-2">{{ product.product_name }}</p>
+                      <div class="d-flex justify-content-between">
+                        <p class="price mb-0 text-danger font-weight-bold">
+                          {% if product.discount_price != product.price %}
+                            {{ product.discount_price | price_format }}
+                          {% endif %}
+                        </p>
+                        <p class="price mb-0">
+                          {% if product.discount_price != product.price %}
+                            <del>{{ product.price | price_format }}</del>
+                          {% else %}
+                            {{ product.price | price_format }}
+                          {% endif %}
+                        </p>
                       </div>
                     </div>
-                  </a>
-                </div>
+                  </div>
+                </a>
               </div>
             </div>
+          </div>
           {% endfor %}
         </div>
 
@@ -120,22 +146,35 @@
         <br>
         <div class="row products mt-1">
           {% for product in giay_page_obj %}
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 mb-4 ml-4 bg-white">
-              <div class="nd-sp rounded">
-                <div class="nd-sp">
-                  <a href="{{ product.get_absolute_url }}">
-                    <div class="card">
-                      <img class="card-img-top" src="{{ product.images.first.image.url }}" alt="product-image">
-                      <div class="card-body">
-                        <h5 class="card-title brand_name">{{ product.brand.brand_name }}</h5>
-                        <p class="card-text product_name text-left mb-2">{{ product.product_name }}</p>
-                        <p class="price text-left mb-0">{{ product.price | price_format }}</p>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 mb-4 ml-4 bg-white">
+            <div class="nd-sp rounded">
+              <div class="nd-sp">
+                <a href="{{ product.get_absolute_url }}">
+                  <div class="card">
+                    <img class="card-img-top" src="{{ product.images.first.image.url }}" alt="product-image">
+                    <div class="card-body">
+                      <h5 class="card-title brand_name">{{ product.brand.brand_name }}</h5>
+                      <p class="card-text product_name text-left mb-2">{{ product.product_name }}</p>
+                      <div class="d-flex justify-content-between">
+                        <p class="price mb-0 text-danger font-weight-bold">
+                          {% if product.discount_price != product.price %}
+                            {{ product.discount_price | price_format }}
+                          {% endif %}
+                        </p>
+                        <p class="price mb-0">
+                          {% if product.discount_price != product.price %}
+                            <del>{{ product.price | price_format }}</del>
+                          {% else %}
+                            {{ product.price | price_format }}
+                          {% endif %}
+                        </p>
                       </div>
                     </div>
-                  </a>
-                </div>
+                  </div>
+                </a>
               </div>
             </div>
+          </div>
           {% endfor %}
         </div>
 

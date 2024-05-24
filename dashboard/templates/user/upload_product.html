@@ -49,8 +49,14 @@
                     {{ product_form.description }}
                 </div>
                 <div class="container">
-                    {{ product_form.categories.label_tag }}<br>
-                    {{ product_form.categories }}
+                    <h2>Danh mục</h2>
+                    {% for category in categories %}
+                        <div class="category-input">
+                            <input type="checkbox" id="category_{{ category.id }}" name="categories"
+                                   value="{{ category.id }}" class="mt-3">
+                            <strong for="category_{{ category.id }}" class="ml-2 mr-5 mt-1">{{ category.category_name }}</strong>
+                        </div>
+                    {% endfor %}
                     <button type="button" class="add-btn" onclick="openModal('categoryModal')">Thêm Danh Mục Mới
                     </button>
                 </div>
@@ -58,12 +64,10 @@
 
             <div class="container">
                 <h2>Size</h2>
-                <div id="detail-fields" class="flex-container">
+                <div id="detail-fields" class="container">
                     <div class="detail-container">
                         <label>Size: </label>
                         <input type="text" name="sizes" placeholder="Size">
-                    </div>
-                    <div class="detail-container">
                         <label>Số lượng: </label>
                         <input type="number" name="quantities" placeholder="Quantity">
                     </div>
@@ -146,27 +150,16 @@
         function addDetailField() {
             const detailFields = document.getElementById('detail-fields');
 
-            // Create a new container div for each detail field
-            const newContainer = document.createElement('div');
-            newContainer.className = 'detail-container';
+            let newDetailFieldHTML = `
+                <div class="detail-container">
+                    <label>Size: </label>
+                    <input type="text" name="sizes" placeholder="Size">
+                    <label>Số lượng: </label>
+                    <input type="number" name="quantities" placeholder="Quantity">
+                </div>
+            `;
 
-            // Create input fields for size and quantity
-            const sizeField = document.createElement('input');
-            sizeField.type = 'text';
-            sizeField.name = 'sizes';
-            sizeField.placeholder = 'Size';
-
-            const quantityField = document.createElement('input');
-            quantityField.type = 'number';
-            quantityField.name = 'quantities';
-            quantityField.placeholder = 'Quantity';
-
-            // Append size and quantity fields to the container
-            newContainer.appendChild(sizeField);
-            newContainer.appendChild(quantityField);
-
-            // Append the container to the detail fields section
-            detailFields.appendChild(newContainer);
+            detailFields.insertAdjacentHTML('beforeend', newDetailFieldHTML);
         }
 
         // AJAX submission for adding brand

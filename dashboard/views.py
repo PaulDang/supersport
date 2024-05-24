@@ -207,7 +207,11 @@ def add_product(request):
         return redirect("product_list")
     else:
         product_form = ProductForm()
-    return render(request, "user/upload_product.html", {"product_form": product_form})
+    categories = Category.objects.all()
+    return render(request, "user/upload_product.html", {
+        "product_form": product_form,
+        'categories': categories
+    })
 
 
 def update_product(request, product_id):

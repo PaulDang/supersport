@@ -89,7 +89,7 @@ button:hover {
 }
 
 .detail-container {
-    display: inline-block;
+    display: block;
     margin-right: 10px; /* Khoảng cách giữa các trường */
 }
 

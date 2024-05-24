@@ -49,8 +49,14 @@
                     {{ product_form.description }}
                 </div>
                 <div class="container">
-                    {{ product_form.categories.label_tag }}<br>
-                    {{ product_form.categories }}
+                    <h2>Danh mục</h2>
+                    {% for category in categories %}
+                        <div class="category-input">
+                            <input type="checkbox" id="category_{{ category.id }}" name="categories"
+                                   value="{{ category.id }}" class="mt-3">
+                            <strong for="category_{{ category.id }}" class="ml-2 mr-5 mt-1">{{ category.category_name }}</strong>
+                        </div>
+                    {% endfor %}
                     <button type="button" class="add-btn" onclick="openModal('categoryModal')">Thêm Danh Mục Mới
                     </button>
                 </div>

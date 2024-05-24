@@ -6,10 +6,12 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from collections import defaultdict
 from django.db.models import Q
 from datetime import datetime
 from order.models import Order, OrderItem
 from product.models import ProductImage, ProductDetail, Brand, Product, Category
+from cart.models import CartDetail
 from user.models import User
 from .forms import (
     CreateUserForm,
@@ -250,15 +252,41 @@ def update_product(request, product_id):
             new_image = ProductImage(product=product, image=new_image_file)
             new_image.save()
 
+        # Store old cart detail
+        cart_details = CartDetail.objects.filter(
+            product_detail__product=product)
+
+        # Backup current product detail values in a dictionary
+        cart_detail_backup = defaultdict(list)
+        for cart_detail in cart_details:
+            cart_detail_backup[cart_detail.product_detail.size].append(
+                cart_detail)
+
         # Update product details
-        # ProductDetail.objects.filter(
-        #     product=product
-        # ).delete()  # Delete existing product details
+        ProductDetail.objects.filter(
+            product=product
+        ).delete()  # Delete existing product details
         sizes = request.POST.getlist("sizes")
         quantities = request.POST.getlist("quantities")
+
+        # Create new product details
         for size, quantity in zip(sizes, quantities):
             ProductDetail.objects.create(
                 product=product, size=size, quantity=quantity)
+
+        # Fetch new product details
+        new_product_details = ProductDetail.objects.filter(product=product)
+
+        # Create a mapping from size to new ProductDetail
+        new_product_detail_map = {pd.size: pd for pd in new_product_details}
+
+        # Update cart details to reference new product details
+        for size, cart_details in cart_detail_backup.items():
+            new_product_detail = new_product_detail_map.get(size)
+            if new_product_detail:
+                for cart_detail in cart_details:
+                    cart_detail.product_detail = new_product_detail
+                    cart_detail.save()
 
         messages.success(request, "Sản phẩm đã được cập nhật thành công.")
         return redirect("product_list")

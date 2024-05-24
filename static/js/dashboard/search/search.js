@@ -71,3 +71,19 @@ document.addEventListener('click', function(event) {
         searchModal.style.display = 'none';
     }
 });
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const searchIcon = document.getElementById('search-icon');
+    const searchInput = document.getElementById("search-product");
+
+    searchIcon.addEventListener('click', function() {
+        handleSearchProduct();
+    });
+
+    searchInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            handleSearchProduct();
+        }
+    });
+});

@@ -298,6 +298,8 @@ def update_product(request, product_id):
         product_form = ProductForm(instance=product)
         existing_images = ProductImage.objects.filter(product=product)
         existing_details = ProductDetail.objects.filter(product=product)
+        categories = Category.objects.all()
+        product_categories = product.categories.all()
 
     return render(
         request,
@@ -306,6 +308,8 @@ def update_product(request, product_id):
             "product_form": product_form,
             "existing_images": existing_images,
             "existing_details": existing_details,
+            "categories": categories,
+            "product_categories": product_categories
         },
     )
 

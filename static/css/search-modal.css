@@ -7,3 +7,9 @@
     min-height: 300px;
     max-width: 600px;
 }
+
+#inputGroup-sizing-default:hover .fas.fa-search {
+    color: #007bff;
+    cursor: pointer;
+    transform: scale(1.1);
+}

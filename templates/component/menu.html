@@ -63,7 +63,7 @@
                 {% if user.is_authenticated %}
                     <div class="dropdown">
                          <button class="btn dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span style='margin-right:10px'>{% fa5_icon 'user-minus' 'fas' %}</span> Xin chào, {{user.username}}
+                             <span style='margin-right:10px'>{% fa5_icon 'user-minus' 'fas' %}</span> <span>Xin chào, {{user.username}} </span>
                         </button>
                         <ul class="dropdown-menu w-100 mt-1">
                             <li><a class="dropdown-item" href={% url "user-info" %}>Tài khoản của tôi</a></li>
@@ -88,15 +88,6 @@
                 <div class="nav-item d-flex align-items-center cart-button">
                     <a class="btn btn-cart border-0" type="button" role="button" href="{% url 'cart' %}">
                         {% fa5_icon 'cart-plus' color='black' %}
-                        <div id="cart-qty" class="d-inline-flex">
-                            <div id="cart-qty" class="d-inline-flex">
-                                {% if cart|length > 0 %}
-                                    <p class="number_cart">{{ cart|length }}</p>
-                                {% else %}
-                                    <!-- Nếu giỏ hàng trống, không cần hiển thị gì cả -->
-                                {% endif %}
-                            </div>
-                        </div>
                     </a>
                 </div>
             </div>

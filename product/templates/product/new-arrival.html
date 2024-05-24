@@ -30,7 +30,8 @@
                       <img class="card-img-top" src="{{ product.images.first.image.url }}" alt="product-image">
                       <div class="card-body">
                         <h5 class="card-title brand_name">{{ product.brand.brand_name }}</h5>
-                        <p class="card-text product_name text-left mb-2">{{ product.product_name }}</p>
+                        <p class="card-text product_name text-left mb-2">{{ product.product_name }}
+                        </p>
                         <div class="d-flex justify-content-between">
                           <p class="price mb-0 text-danger font-weight-bold">
                             {% if product.discount_price != product.price %}
@@ -46,10 +47,11 @@
                           </p>
                         </div>
                       </div>
-                    </a>
-                  </div>
+                    </div>
+                  </a>
                 </div>
               </div>
+            </div>
           {% endfor %}
         </div>
         {% if all_products_obj.has_previous or all_products_obj.has_next %}

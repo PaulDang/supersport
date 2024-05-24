@@ -29,7 +29,20 @@
                       <div class="card-body">
                         <h5 class="card-title brand_name">{{ product.brand.brand_name }}</h5>
                         <p class="card-text product_name text-left mb-2">{{ product.product_name }}</p>
-                        <p class="price text-left mb-0">{{ product.discount_price | price_format }}</p>
+                        <div class="d-flex justify-content-between">
+                          <p class="price mb-0 text-danger font-weight-bold">
+                            {% if product.discount_price != product.price %}
+                              {{ product.discount_price | price_format }}
+                            {% endif %}
+                          </p>
+                          <p class="price mb-0">
+                            {% if product.discount_price != product.price %}
+                              <del>{{ product.price | price_format }}</del>
+                            {% else %}
+                              {{ product.price | price_format }}
+                            {% endif %}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </a>

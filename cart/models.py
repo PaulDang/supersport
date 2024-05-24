@@ -15,7 +15,7 @@ class Cart(models.Model):
 class CartDetail(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, null=True)
     product_detail = models.ForeignKey(
-        ProductDetail, on_delete=models.CASCADE, null=True)
+        ProductDetail, on_delete=models.SET_NULL, null=True)
     quantity = models.IntegerField(default=0)
 
     class Meta:

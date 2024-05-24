@@ -72,8 +72,16 @@
 
                                 <div class="col-4"> Giá</div>
 
-                                <div class="col-8 text-end"><span
-                                        class="h4 fw-semibold ">{{ product.discount_price | price_format }} </span></div>
+                                <div class="col-8 text-end">
+                                    <span class="d-flex flex-column"> 
+                                        {% if product.price != product.discount_price %}            
+                                            <span class=""><del>{{ product.price|price_format }}</del></span>
+                                            <span class="product-price fw-bold text-danger ">{{ product.discount_price|price_format }}</span>
+                                        {% else %}                                        
+                                            <span class="product-price fw-bold text-danger ">{{ product.price|price_format }}</span>
+                                        {% endif %}
+                                    </span>
+                                </div>
 
                             </div>
 

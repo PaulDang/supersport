@@ -36,9 +36,9 @@ const initializeTotalProductPrice = function () {
   const productPrices = document.querySelectorAll(".product-price");
   const totalPrice = [...productPrices].reduce(calculateTotalProductPrice, 0);
   const formattedTotalPrice = formatToVND(totalPrice);
-  const productSumPrice = document.querySelector(".products-sum-price");
+  // const productSumPrice = document.querySelector(".products-sum-price");
   const productTotalPrice = document.querySelector(".products-total-price");
-  productSumPrice.textContent = productTotalPrice.textContent =
+  productTotalPrice.textContent =
     formattedTotalPrice;
 };
 

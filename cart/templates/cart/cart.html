@@ -67,9 +67,13 @@ Cart
             </div>
             <div class="col-md-3 mb-4 mb-md-0">
               <span class="d-md-none fw-bold">Giá tiền: </span>
-              <span class="d-inline-block d-md-flex flex-md-column">              
-                <span class=""><del>{{ product.product_detail.product.price|price_format }}</del></span>
-                <span class="product-price fw-bold text-danger ">{{ product.product_detail.product.discount_price|price_format }}</span>
+              <span class="d-inline-block d-md-flex flex-md-column">
+                {% if product.product_detail.product.price != product.product_detail.product.discount_price %}
+                  <span class=""><del>{{ product.product_detail.product.price|price_format }}</del></span>
+                  <span class="product-price fw-bold text-danger ">{{ product.product_detail.product.discount_price|price_format }}</span>
+                {% else %}                  
+                  <span class="product-price fw-bold text-danger ">{{ product.product_detail.product.price|price_format }}</span>
+                {% endif %}
               </span>
             </div>
             <div class="col-md-2 px-0 mb-4 mb-md-0">

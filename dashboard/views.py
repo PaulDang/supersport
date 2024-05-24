@@ -199,7 +199,8 @@ def add_product(request):
         quantities = request.POST.getlist("quantities")
 
         for size, quantity in zip(sizes, quantities):
-            ProductDetail.objects.create(product=product, size=size, quantity=quantity)
+            ProductDetail.objects.create(
+                product=product, size=size, quantity=quantity)
 
         return redirect("product_list")
     else:
@@ -250,13 +251,14 @@ def update_product(request, product_id):
             new_image.save()
 
         # Update product details
-        ProductDetail.objects.filter(
-            product=product
-        ).delete()  # Delete existing product details
+        # ProductDetail.objects.filter(
+        #     product=product
+        # ).delete()  # Delete existing product details
         sizes = request.POST.getlist("sizes")
         quantities = request.POST.getlist("quantities")
         for size, quantity in zip(sizes, quantities):
-            ProductDetail.objects.create(product=product, size=size, quantity=quantity)
+            ProductDetail.objects.create(
+                product=product, size=size, quantity=quantity)
 
         messages.success(request, "Sản phẩm đã được cập nhật thành công.")
         return redirect("product_list")
@@ -304,7 +306,8 @@ def app_brand_add(request):
         if form.is_valid():
             brand = form.save()
             return JsonResponse(
-                {"success": True, "brand_id": brand.id, "brand_name": brand.brand_name}
+                {"success": True, "brand_id": brand.id,
+                    "brand_name": brand.brand_name}
             )
     else:
         form = BrandForm()

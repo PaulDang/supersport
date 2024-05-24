@@ -267,9 +267,6 @@ def update_product(request, product_id):
                 cart_detail)
 
         # Update product details
-        ProductDetail.objects.filter(
-            product=product
-        ).delete()  # Delete existing product details
         sizes = request.POST.getlist("sizes")
         quantities = request.POST.getlist("quantities")
 

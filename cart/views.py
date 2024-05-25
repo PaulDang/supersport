@@ -46,6 +46,10 @@ def cart_add(request):
     if (request.method == "POST"):
         try:
             current_user = request.user
+            if not current_user.is_authenticated:
+                raise CartDetailException(
+                    message="Xin mời đăng nhập để sử dụng chức năng này", status=422, account_required=True
+                )
             current_user_cart = Cart.objects.filter(user=current_user).first()
             if not current_user_cart:
                 raise CartDetailException(

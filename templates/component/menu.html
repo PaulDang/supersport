@@ -67,7 +67,7 @@
                         </button>
                         <ul class="dropdown-menu w-100 mt-1">
                             <li><a class="dropdown-item" href={% url "user-info" %}>Tài khoản của tôi</a></li>
-                            {% if user.is_superuser %}
+                            {% if user.is_superuser or user.is_staff %}
                                 <li><a class="dropdown-item" href={% url "dashboard" %}>Admin</a></li>
                             {% endif %}
                             <li><a class="dropdown-item" href={% url "signout" %}>Đăng xuất</a></li>

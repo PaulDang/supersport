@@ -188,9 +188,8 @@ class EditUserForm(forms.ModelForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         password = self.cleaned_data.get("password")
-        if password:
+        if password and commit:
             user.password = make_password(password, hasher="pbkdf2_sha256")
-        if commit:
             user.save()
         return user
 
@@ -198,18 +197,31 @@ class EditUserForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['product_name', 'brand', 'categories', 'description', 'price', 'discount_price','slug','total_quantity']
+        fields = [
+            "product_name",
+            "brand",
+            "categories",
+            "description",
+            "price",
+            "discount_price",
+            "slug",
+            "total_quantity",
+        ]
         widgets = {
-            'description': forms.Textarea(attrs={'rows': 4}),  # Better display for description
+            "description": forms.Textarea(
+                attrs={"rows": 4}
+            ),  # Better display for description
         }
 
     slug = forms.CharField(widget=forms.HiddenInput())
     total_quantity = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
 
     def clean_slug(self):
-        slug = self.cleaned_data['slug']
+        slug = self.cleaned_data["slug"]
         if not slug:  # Handle empty slug (likely on initial form display)
-            slug = self.instance.slug if self.instance else None  # Get from existing object or default
+            slug = (
+                self.instance.slug if self.instance else None
+            )  # Get from existing object or default
         return slug
 
     def save(self, commit=True):
@@ -217,7 +229,9 @@ class ProductForm(forms.ModelForm):
 
         # Calculate total quantity if details are provided
         total_quantity = 0
-        for size, quantity in zip(self.data.getlist('sizes'), self.data.getlist('quantities')):
+        for size, quantity in zip(
+            self.data.getlist("sizes"), self.data.getlist("quantities")
+        ):
             if size and quantity:
                 total_quantity += int(quantity)
         product.total_quantity = total_quantity
@@ -227,22 +241,26 @@ class ProductForm(forms.ModelForm):
             self.save_m2m()  # Save ManyToManyField (categories)
         return product
 
+
 class ProductImageForm(forms.ModelForm):
     class Meta:
         model = ProductImage
-        fields = ['image']
+        fields = ["image"]
+
 
 class ProductDetailForm(forms.ModelForm):
     class Meta:
         model = ProductDetail
-        fields = ['size', 'quantity']
+        fields = ["size", "quantity"]
+
 
 class BrandForm(forms.ModelForm):
     class Meta:
         model = Brand
-        fields = ['brand_name']
+        fields = ["brand_name"]
+
 
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ['category_name']
+        fields = ["category_name"]

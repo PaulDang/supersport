@@ -188,9 +188,16 @@ class EditUserForm(forms.ModelForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         password = self.cleaned_data.get("password")
-        if password and commit:
+        if password:
             user.password = make_password(password, hasher="pbkdf2_sha256")
+        else:
+            username = self.cleaned_data.get("username")
+            currentUser = User.objects.get(username=username)
+            user.password = currentUser.password
+
+        if commit:
             user.save()
+
         return user
 
 

@@ -67,14 +67,15 @@ def statistic_user(request):
     }
 
     for user in users:
-        if hasattr(user, "is_superuser") and user.is_superuser:
-            role = "Quản trị viên"
-        elif hasattr(user, "is_staff") and user.is_staff:
-            role = "Nhân viên"
-        else:
-            role = "Khách hàng"
+        is_superuser = hasattr(user, "is_superuser") and user.is_superuser
+        is_staff = hasattr(user, "is_staff") and user.is_staff
 
-        role_data[role] += 1
+        if is_superuser:
+            role_data["Quản trị viên"] += 1
+        if is_staff:
+            role_data["Nhân viên"] += 1
+        if not (is_superuser or is_staff):
+            role_data["Khách hàng"] += 1
 
     role_chart_data = {
         "labels": ["Quản trị viên", "Nhân viên", "Khách hàng"],

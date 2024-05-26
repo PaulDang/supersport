@@ -84,6 +84,7 @@
           </td>
           <td class="mr-auto">
             <div class="d-flex gap-4">
+              {% if userRow.username != user.username %}
               <a href='/dashboard/user/edit/{{userRow.userId}}' >
                 <button
                 type="button"
@@ -92,8 +93,7 @@
                   {% fa5_icon 'edit' %}
                 </button>
               </a>
-              
-              {% if userRow.username != user.username %}
+
                 <button
                   type="button"
                   class="btn btn-danger btn-trash"

@@ -132,6 +132,7 @@ def update_password(request):
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
+            messages.success(request, "Mật khẩu đã được cập nhật thành công!")
             
         handle_errors(form, request)
 

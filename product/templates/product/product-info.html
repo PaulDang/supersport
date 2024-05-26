@@ -199,11 +199,16 @@
                     alertify.success(json.message);
                 },
                 error: function (xhr, errmsg, err){
-                    alertify.error(xhr.responseJSON.message);
-                    if (!("remained_quantity" in xhr.responseJSON)) return;
+                    const responseJSON = xhr.responseJSON;
+                    if (responseJSON.hasOwnProperty("account_required")) {
+                        window.location.href = "/signin";
+                        return;
+                    }
+                    alertify.error(responseJSON.message);
+                    if (!("remained_quantity" in responseJSON)) return;
                     const product_quantity = $('.product-quantity input');
-                    product_quantity.val(`${xhr.responseJSON.remained_quantity}`);
-                    if (xhr.responseJSON.remained_quantity <= 0) {
+                    product_quantity.val(`${responseJSON.remained_quantity}`);
+                    if (responseJSON.remained_quantity <= 0) {
                         const currentElement = $(`.size-option[data-size=${selectedSize}]`);
                         currentElement.addClass("detail-disabled");
                         if (currentElement.hasClass("selected"))
